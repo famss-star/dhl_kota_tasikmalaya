@@ -10,22 +10,20 @@ export default function Navbar() {
 		name: "Profil",
 		href: "/profil",
 		submenu: [
-			{ name: "Tentang DLH", href: "/profil/tentang" },
-			{ name: "Tugas Pokok & Fungsi", href: "/profil/tugas" },
-			{ name: "Visi & Misi", href: "/profil/visi-misi" },
-			{ name: "Struktur Organisasi", href: "/profil/struktur" },
+			{ name: "Profil", href: "/profil" },
+			{ name: "Tentang DLH Kota Tasikmalaya", href: "/profil/tentang" },			
+			{ name: "Tugas Pokok & Fungsi", href: "/profil/tentang#tupoksi" },
+			{ name: "Visi & Misi", href: "/profil/tentang#visi" },
+			{ name: "Struktur Organisasi", href: "/profil/struktur-organisasi" },
 		],
 	},
 	{
 		name: "Bidang",
 		href: "/bidang",
 		submenu: [
-			{ name: "Tata Lingkungan", href: "/bidang/tata-lingkungan" },
-			{
-				name: "Pengendalian Pencemaran & Penataan Hukum",
-				href: "/bidang/pencemaran",
-			},
-			{ name: "Pengelolaan Sampah", href: "/bidang/sampah" },
+			{ name: "Bidang Tata Lingkungan", href: "/bidang/tata-lingkungan" },
+			{ name: "Bidang Pengendalian Pencemaran & Penataan Hukum", href: "/bidang/pencemaran" },
+			{ name: "Bidang Pengelolaan Sampah", href: "/bidang/sampah" },
 		],
 	},
 	{
@@ -33,9 +31,9 @@ export default function Navbar() {
 		href: "/pelayanan",
 		submenu: [
 			{ name: "Perizinan AMDAL", href: "/pelayanan/amdal" },
-			{ name: "IPLC", href: "/pelayanan/iplc" },
-			{ name: "SPPL", href: "/pelayanan/sppl" },
-			{ name: "UKL-UPL", href: "/pelayanan/ukl-upl" },
+			{ name: "Perizinan IPLC", href: "/pelayanan/iplc" },
+			{ name: "Perizinan SPPL", href: "/pelayanan/sppl" },
+			{ name: "Perizinan UKL-UPL", href: "/pelayanan/ukl-upl" },
 		],
 	},
 	{
@@ -45,6 +43,7 @@ export default function Navbar() {
 			{ name: "Peraturan Walikota", href: "/dokumen/peraturan" },
 			{ name: "SOP Instalasi Pengolahan Air Limbah", href: "/dokumen/sop-ipal" },
 			{ name: "SOP Pengendali Emisi", href: "/dokumen/sop-emisi" },
+			{ name: "Download File", href: "/file-download" },
 		],
 	},
 	{
@@ -53,7 +52,7 @@ export default function Navbar() {
 		submenu: [
 			{ name: "Berita & Artikel", href: "/informasi/berita" },
 			{ name: "Agenda Kegiatan", href: "/informasi/agenda" },
-			{ name: "Panduan Perizinan UMK", href: "/informasi/panduan-umk" },
+			{ name: "Panduan Perizinan Berusaha Untuk Usaha Mikro Dan Kecil (UMK	) Risiko Rendah Dan Badan Usaha", href: "/informasi/panduan-umk" },
 		],
 	},
 	{
@@ -230,13 +229,13 @@ export default function Navbar() {
 								</Link>
 							)}
 								{item.submenu && (
-									<ul className={`absolute left-0 top-full bg-green-800 text-white min-w-[180px] shadow-lg rounded z-10 py-2 mt-4 transition-all duration-300 ease-in-out ${openDropdown === item.name ? 'opacity-100 translate-y-2 pointer-events-auto visible' : 'opacity-0 -translate-y-2 pointer-events-none invisible'}`}>
+									<ul className={`absolute left-0 top-full bg-white/80 dark:bg-gray-800/90 backdrop-blur-xl text-gray-800 dark:text-white min-w-[180px] shadow-xl rounded-lg border border-gray-200/30 dark:border-gray-700/30 z-10 py-2 mt-4 transition-all duration-300 ease-in-out ${openDropdown === item.name ? 'opacity-100 translate-y-2 pointer-events-auto visible' : 'opacity-0 -translate-y-2 pointer-events-none invisible'}`}>
 										{item.submenu.map((sub) => (
 											<li key={sub.name}>
 												{sub.href ? (
 													<Link
 														href={sub.href}
-														className="block px-4 py-2 hover:bg-green-600 transition-colors"
+														className="block px-4 py-2 hover:bg-gray-100/70 dark:hover:bg-gray-700/70 rounded-md mx-1 transition-colors"
 														onClick={() => setOpenDropdown(null)}
 													>
 														{sub.name}
@@ -368,13 +367,13 @@ export default function Navbar() {
 								</Link>
 							)}
 							{item.submenu && openDropdown === item.name && (
-								<ul className="bg-green-900 rounded mt-2 transition-all duration-300 ease-in-out">
+								<ul className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-md text-gray-800 dark:text-white rounded-lg border border-gray-200/30 dark:border-gray-700/30 mt-2 shadow-xl transition-all duration-300 ease-in-out">
 									{item.submenu.map((sub) => (
 										<li key={sub.name}>
 											{sub.href ? (
 												<Link
 													href={sub.href}
-													className="block px-4 py-2 hover:bg-green-600"
+													className="block px-4 py-2 hover:bg-gray-100/70 dark:hover:bg-gray-700/70 rounded-md mx-1 transition-colors"
 													onClick={() => {
 														setOpenDropdown(null);
 														setMobileOpen(false);
