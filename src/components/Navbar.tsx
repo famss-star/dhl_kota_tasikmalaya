@@ -153,7 +153,7 @@ export default function Navbar() {
 			<nav className={`px-4 py-3 shadow sticky top-0 z-50 transition-all duration-300 ease-in-out ${
 				isScrolled 
 					? 'bg-green-700 text-white backdrop-blur-sm' 
-					: 'bg-white/50 dark:bg-black/50 backdrop-blur-md text-black dark:text-white border-b border-gray-200/30 dark:border-white/20'
+					: 'bg-white/50 dark:bg-black/50 backdrop-blur-md text-gray-800 dark:text-white border-b border-gray-200/30 dark:border-white/20'
 			}`} style={{ position: 'sticky', top: 0 }}>
 				<div className="container mx-auto flex items-center justify-between relative">
 					<Link href="/" className="flex items-center gap-2 group">

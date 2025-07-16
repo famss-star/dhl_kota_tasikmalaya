@@ -117,13 +117,13 @@ const StrukturOrganisasi: React.FC = () => {
               
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-6">
-                  <div className="border-l-4 border-sky-500 pl-4">
-                    <h3 className="text-xl font-semibold text-sky-600 mb-2">Bidang Tata Lingkungan</h3>
+                  <div className="border-l-4 border-purple-500 pl-4">
+                    <h3 className="text-xl font-semibold text-purple-600 mb-2">Bidang Tata Lingkungan</h3>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan penyusunan baku mutu lingkungan hidup, analisis mengenai dampak lingkungan, dan tata ruang berbasis lingkungan hidup.</p>
                   </div>
                   
-                  <div className="border-l-4 border-amber-500 pl-4">
-                    <h3 className="text-xl font-semibold text-amber-600 mb-2">Bidang Pengendalian Pencemaran</h3>
+                  <div className="border-l-4 border-red-500 pl-4">
+                    <h3 className="text-xl font-semibold text-red-600 mb-2">Bidang Pengendalian Pencemaran</h3>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan pencegahan dan penanggulangan pencemaran air, udara, tanah, serta pengelolaan bahan berbahaya dan beracun (B3).</p>
                   </div>
                 </div>
@@ -134,8 +134,8 @@ const StrukturOrganisasi: React.FC = () => {
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan pengurangan dan penanganan sampah, termasuk pengembangan teknologi ramah lingkungan dan pemberdayaan masyarakat.</p>
                   </div>
                   
-                  <div className="border-l-4 border-red-500 pl-4">
-                    <h3 className="text-xl font-semibold text-red-600 mb-2">Bidang Penataan & Penegakan</h3>
+                  <div className="border-l-4 border-indigo-500 pl-4">
+                    <h3 className="text-xl font-semibold text-indigo-600 mb-2">Bidang Penataan & Penegakan</h3>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan penataan hukum lingkungan, pengawasan, dan penegakan hukum terhadap pelanggaran lingkungan hidup.</p>
                   </div>
                 </div>
