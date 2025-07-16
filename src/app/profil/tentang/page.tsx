@@ -95,11 +95,11 @@ const TentangDLH: React.FC = () => {
           <section id="tupoksi" className="mb-12 scroll-mt-20">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700 target:ring-4 target:ring-purple-500/50 target:border-purple-500 target:scale-105 transition-all duration-700 ease-in-out">
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
-                Tugas Pokok dan Fungsi (TUPOKSI)
+                Tugas Pokok dan Fungsi
               </h2>
               
               <div className="mb-8">
-                <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">Tugas Pokok:</h3>
+                <h3 className="text-xl font-semibold text-blue-600 dark:text-blue-400 mb-4">Tugas Pokok:</h3>
                 <p className="text-gray-700 dark:text-gray-300 mb-4">
                   Melaksanakan urusan pemerintahan daerah di bidang lingkungan hidup berdasarkan 
                   asas otonomi dan tugas pembantuan.
