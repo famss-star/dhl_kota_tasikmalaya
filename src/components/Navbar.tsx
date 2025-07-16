@@ -21,6 +21,7 @@ export default function Navbar() {
 		name: "Bidang",
 		href: "/bidang",
 		submenu: [
+			{ name: "Bidang Umum", href: "/bidang" },
 			{ name: "Bidang Tata Lingkungan", href: "/bidang/tata-lingkungan" },
 			{ name: "Bidang Pengendalian Pencemaran & Penataan Hukum", href: "/bidang/pencemaran" },
 			{ name: "Bidang Pengelolaan Sampah", href: "/bidang/sampah" },
@@ -30,6 +31,7 @@ export default function Navbar() {
 		name: "Pelayanan",
 		href: "/pelayanan",
 		submenu: [
+			{ name: "Perizinan Umum", href: "/pelayanan" },			
 			{ name: "Perizinan AMDAL", href: "/pelayanan/amdal" },
 			{ name: "Perizinan IPLC", href: "/pelayanan/iplc" },
 			{ name: "Perizinan SPPL", href: "/pelayanan/sppl" },
@@ -40,6 +42,7 @@ export default function Navbar() {
 		name: "Dokumen",
 		href: "/dokumen",
 		submenu: [
+			{ name: "Dokumen Umum", href: "/dokumen" },
 			{ name: "Peraturan Walikota", href: "/dokumen/peraturan" },
 			{ name: "SOP Instalasi Pengolahan Air Limbah", href: "/dokumen/sop-ipal" },
 			{ name: "SOP Pengendali Emisi", href: "/dokumen/sop-emisi" },
@@ -50,24 +53,27 @@ export default function Navbar() {
 		name: "Informasi",
 		href: "/informasi",
 		submenu: [
+			{ name: "Informasi Umum", href: "/informasi" },
 			{ name: "Berita & Artikel", href: "/informasi/berita" },
 			{ name: "Agenda Kegiatan", href: "/informasi/agenda" },
-			{ name: "Panduan Perizinan Berusaha Untuk Usaha Mikro Dan Kecil (UMK	) Risiko Rendah Dan Badan Usaha", href: "/informasi/panduan-umk" },
+			{ name: "Panduan Perizinan Berusaha Untuk Usaha Mikro Dan Kecil (UMK) Risiko Rendah Dan Badan Usaha", href: "/informasi/panduan-umk" },
 		],
 	},
 	{
 		name: "Galeri",
 		href: "/galeri",
 		submenu: [
+			{ name: "Galeri Umum", href: "/galeri" },
 			{ name: "Galeri Foto", href: "/galeri/foto" },
 			{ name: "Galeri Video", href: "/galeri/video" },
 		],
 	},
 	{
-		name: "Kontak",
-		href: "#footer",
+		name: "Kontak", href: "#footer",
 	},
-	{ name: "Pengaduan", href: "/pengaduan" },
+	{ 
+		name: "Pengaduan", href: "/pengaduan" 
+	},
 	];
 
 	const [openDropdown, setOpenDropdown] = useState<string | null>(null);
