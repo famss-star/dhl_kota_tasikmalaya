@@ -1,4 +1,6 @@
 
+import Link from 'next/link';
+
 export default function Footer() {
   return (
     <footer className="bg-green-900 text-white pt-10 pb-4">
@@ -38,11 +40,11 @@ export default function Footer() {
         {/* Kolom 2: Link Internal */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="font-bold text-base mb-2">Link Internal</div>
-          <a href="/" className="hover:underline hover:text-green-300">Home</a>
-          <a href="/informasi/berita" className="hover:underline hover:text-green-300">Berita & Event</a>
-          <a href="/informasi/agenda" className="hover:underline hover:text-green-300">Agenda Penting</a>
-          <a href="/galeri/foto" className="hover:underline hover:text-green-300">Galeri Photo</a>
-          <a href="/galeri/video" className="hover:underline hover:text-green-300">Galeri Video</a>
+          <Link href="/" className="hover:underline hover:text-green-300">Home</Link>
+          <Link href="/informasi/berita" className="hover:underline hover:text-green-300">Berita & Event</Link>
+          <Link href="/informasi/agenda" className="hover:underline hover:text-green-300">Agenda Penting</Link>
+          <Link href="/galeri/foto" className="hover:underline hover:text-green-300">Galeri Photo</Link>
+          <Link href="/galeri/video" className="hover:underline hover:text-green-300">Galeri Video</Link>
           <a href="/file-download" className="hover:underline hover:text-green-300">File Download</a>
         </div>
         {/* Kolom 3: Lokasi Kantor (Maps) */}

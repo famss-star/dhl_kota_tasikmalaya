@@ -79,8 +79,10 @@ const monthNames = [
 const dayNames = ['Ming', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 
 export default function AgendaPage() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  // Set default date to current date (July 16, 2025)
+  const today = new Date(2025, 6, 16); // month is 0-indexed, so 6 = July
+  const [currentDate, setCurrentDate] = useState(today);
+  const [selectedDate, setSelectedDate] = useState(today);
 
   // Get current month and year
   const currentMonth = currentDate.getMonth();
@@ -130,9 +132,9 @@ export default function AgendaPage() {
     return agendaData[dateKey] && agendaData[dateKey].length > 0;
   };
 
-  // Check if date is today
+  // Check if date is today (July 16, 2025)
   const isToday = (day: number) => {
-    const today = new Date();
+    const today = new Date(2025, 6, 16); // July 16, 2025
     return today.getDate() === day && 
            today.getMonth() === currentMonth && 
            today.getFullYear() === currentYear;
@@ -148,14 +150,6 @@ export default function AgendaPage() {
   // Select date
   const selectDate = (day: number) => {
     setSelectedDate(new Date(currentYear, currentMonth, day));
-  };
-
-  // Get week number
-  const getWeekNumber = (day: number) => {
-    const date = new Date(currentYear, currentMonth, day);
-    const firstDayOfYear = new Date(currentYear, 0, 1);
-    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   };
 
   return (

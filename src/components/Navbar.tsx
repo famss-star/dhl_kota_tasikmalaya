@@ -134,10 +134,6 @@ export default function Navbar() {
 		}
 	};
 
-	const handleMobileMenuToggle = () => {
-		setMobileOpen((prev) => !prev);
-	};
-
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
 		if (searchQuery.trim()) {

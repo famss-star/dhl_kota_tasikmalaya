@@ -119,8 +119,8 @@ function Carousel() {
 }
 
 export default function Home() {
-	// State untuk navigasi kalender bulan agenda
-	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date());
+	// State untuk navigasi kalender bulan agenda - default ke Juli 2025
+	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date(2025, 6, 16)); // July 16, 2025
 	
 	const agendaMonthNames = [
 		'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
@@ -146,8 +146,22 @@ export default function Home() {
 	const generateAgendaDays = () => {
 		const firstDay = new Date(currentAgendaYear, currentAgendaMonth, 1);
 		const lastDay = new Date(currentAgendaYear, currentAgendaMonth + 1, 0);
+		const firstDayWeekday = firstDay.getDay(); // 0 = Sunday, 1 = Monday, etc.
 		const daysInMonth = lastDay.getDate();
-		return Array.from({ length: daysInMonth }, (_, i) => i + 1);
+		
+		const calendarDays = [];
+		
+		// Add empty cells for days before month starts
+		for (let i = 0; i < firstDayWeekday; i++) {
+			calendarDays.push(null);
+		}
+		
+		// Add days of the month
+		for (let day = 1; day <= daysInMonth; day++) {
+			calendarDays.push(day);
+		}
+		
+		return calendarDays;
 	};
 
 	// Sample agenda dates for different months
@@ -167,7 +181,6 @@ export default function Home() {
 	// Get agenda events for current month
 	const getAgendaEventsForMonth = (month: number, year: number) => {
 		const monthKey = `${year}-${(month + 1).toString().padStart(2, '0')}`;
-		const monthName = agendaMonthNames[month].substring(0, 3);
 		
 		const eventsByMonth: { [key: string]: Array<{ date: number, title: string, color: string }> } = {
 			'2025-07': [
@@ -204,6 +217,14 @@ export default function Home() {
 	const agendaDays = generateAgendaDays();
 	const agendaDatesWithEvents = getAgendaDatesForMonth(currentAgendaMonth, currentAgendaYear);
 	const agendaEvents = getAgendaEventsForMonth(currentAgendaMonth, currentAgendaYear);
+
+	// Check if date is today (July 16, 2025)
+	const isToday = (day: number) => {
+		const today = new Date(2025, 6, 16); // July 16, 2025
+		return today.getDate() === day && 
+			   today.getMonth() === currentAgendaMonth && 
+			   today.getFullYear() === currentAgendaYear;
+	};
 
 	return (
 		<div className="min-h-screen bg-white dark:bg-gray-900 pt-0 py-8 px-4">
@@ -754,17 +775,30 @@ export default function Home() {
 								))}
 								
 								{/* Tanggal */}
-								{agendaDays.map((date) => (
-									<div 
-										key={date} 
-										className={`text-center text-sm p-2 rounded cursor-pointer transition-colors ${
-											agendaDatesWithEvents.includes(date) 
-												? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 font-semibold hover:bg-green-200 dark:hover:bg-green-800' 
-												: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-										}`}
-										title={agendaDatesWithEvents.includes(date) ? 'Ada agenda pada tanggal ini' : ''}
-									>
-										{date}
+								{agendaDays.map((date, index) => (
+									<div key={index} className="aspect-square">
+										{date ? (
+											<div 
+												className={`w-full h-full flex items-center justify-center text-sm rounded cursor-pointer transition-colors ${
+													isToday(date)
+														? 'bg-blue-500 text-white font-bold shadow-lg'
+														: agendaDatesWithEvents.includes(date) 
+														? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300 font-semibold hover:bg-green-200 dark:hover:bg-green-800' 
+														: 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+												}`}
+												title={
+													isToday(date) 
+														? 'Hari ini' 
+														: agendaDatesWithEvents.includes(date) 
+														? 'Ada agenda pada tanggal ini' 
+														: ''
+												}
+											>
+												{date}
+											</div>
+										) : (
+											<div></div>
+										)}
 									</div>
 								))}
 							</div>
