@@ -192,7 +192,7 @@ export default function Profil() {
                     Bidang Kerja
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    4 bidang utama: Tata Lingkungan, Pencemaran, Sampah, dan Penegakan
+                    3 bidang utama: Tata Lingkungan, Pencemaran, dan Sampah
                   </p>
                   <span className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
                     Jelajahi Bidang →
@@ -212,7 +212,7 @@ export default function Profil() {
               
               <div className="grid md:grid-cols-4 gap-8 text-center">
                 <div>
-                  <div className="text-4xl font-bold mb-2">4</div>
+                  <div className="text-4xl font-bold mb-2">3</div>
                   <div className="text-lg opacity-90">Bidang Utama</div>
                 </div>
                 <div>
