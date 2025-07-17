@@ -8,7 +8,7 @@ export default function Informasi() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              📢 Informasi & Berita
+              Informasi & Berita
             </h1>
             <p className="text-xl md:text-2xl opacity-90">
               Berita terkini dan informasi penting DLH Kota Tasikmalaya

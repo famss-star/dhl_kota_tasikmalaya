@@ -6,7 +6,7 @@ export default function Pelayanan() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              🏛️ Pelayanan Publik
+              Pelayanan Publik
             </h1>
             <p className="text-xl md:text-2xl opacity-90">
               Layanan Dinas Lingkungan Hidup Kota Tasikmalaya

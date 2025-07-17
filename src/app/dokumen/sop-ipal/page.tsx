@@ -101,7 +101,7 @@ const SopIpalPage = () => {
               Tentang SOP IPAL
             </h2>
             <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-gray-700 dark:text-gray-300 indent-8">
                 Dokumen SOP IPAL ini berisi panduan lengkap mengenai pengoperasian, 
                 pemeliharaan, dan monitoring Instalasi Pengolahan Air Limbah. SOP ini 
                 disusun untuk memastikan pengelolaan air limbah yang efektif dan 

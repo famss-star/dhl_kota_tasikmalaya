@@ -92,7 +92,7 @@ const PanduanUMKPage = () => {
               Tentang Panduan UMK
             </h2>
             <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-gray-700 dark:text-gray-300 indent-8">
                 Panduan UMK ini disusun untuk membantu pemahaman dan implementasi 
                 Upaya Manajemen Keselamatan dalam pengelolaan lingkungan hidup. 
                 Dokumen ini mencakup aspek-aspek penting mulai dari konsep dasar, 

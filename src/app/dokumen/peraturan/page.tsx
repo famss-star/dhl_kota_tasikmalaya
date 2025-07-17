@@ -26,10 +26,10 @@ const DokumenPeraturanPage = () => {
       kategori: "Peraturan Pemerintah",
       items: [
         {
-          judul: "PP No. 22 Tahun 2021",
-          deskripsi: "Tentang Penyelenggaraan Perlindungan dan Pengelolaan Lingkungan Hidup",
-          link: "#",
-          tahun: "2021"
+          judul: "*Perwal Nomor 66 Tahun 2016",
+          deskripsi: "Tugas Pokok Dan Rincian Tugas Unit Dlh Kota Tasikmalaya",
+          link: "https://www.dlh.tasikmalayakota.go.id/download_file-1_f536_PERWAL_KOTA_TSM_TUPOKSI_DLH_NO.66_2016.pdf",
+          tahun: "2016"
         },
         {
           judul: "PP No. 81 Tahun 2012",
@@ -136,44 +136,6 @@ const DokumenPeraturanPage = () => {
             </div>
           </section>
         ))}
-
-        {/* Informasi Section */}
-        <section className="max-w-6xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-              Informasi Tambahan
-            </h2>
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Dokumen peraturan di atas merupakan rujukan utama dalam pengelolaan 
-                lingkungan hidup di Kota Tasikmalaya. Untuk informasi lebih lanjut atau 
-                konsultasi terkait peraturan, silakan hubungi:
-              </p>
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
-                    Kontak
-                  </h3>
-                  <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                    <p>Bidang Tata Lingkungan</p>
-                    <p>Email: regulasi@dhl-tasikmalaya.go.id</p>
-                    <p>Telepon: (0265) 123456 ext. 789</p>
-                  </div>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-3">
-                    Jam Layanan
-                  </h3>
-                  <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                    <p>Senin - Jumat</p>
-                    <p>08.00 - 16.00 WIB</p>
-                    <p>Kecuali hari libur nasional</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
   );

@@ -101,7 +101,7 @@ const SopEmisiPage = () => {
               Tentang SOP Pengujian Emisi
             </h2>
             <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300">
+              <p className="text-gray-700 dark:text-gray-300 indent-8">
                 Dokumen SOP ini menyediakan panduan komprehensif untuk melakukan 
                 pengujian emisi, baik untuk kendaraan bermotor maupun industri, 
                 serta pemantauan kualitas udara ambien. Prosedur ini disusun 

@@ -36,6 +36,12 @@ const PelayananUklUplPage = () => {
         </section>
 
         {/* u can delete from here */}
+        <section className="max-w-6xl mx-auto mb-12">
+          <h1 className="text-6xl font-bold text-gray-800 dark:text-white mb-8 text-center">
+            Dumy teks
+          </h1>
+        </section>
+
         {/* Informasi Umum Section */}
         <section className="max-w-6xl mx-auto mb-12">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
