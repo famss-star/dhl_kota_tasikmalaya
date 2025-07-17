@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Footer() {
   return (
     <footer className="bg-green-900 text-white pt-10 pb-4">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Kolom 1: Logo & Info */}
         <div className="flex flex-col items-center md:items-start gap-3">
           <img
@@ -60,6 +60,16 @@ export default function Footer() {
               <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.028-.967-.271-.099-.468-.149-.666.15-.198.297-.767.967-.94 1.166-.173.198-.347.223-.644.075-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.174.198-.298.298-.497.099-.198.05-.373-.025-.522-.075-.149-.666-1.611-.912-2.207-.242-.579-.487-.5-.666-.51-.173-.008-.373-.01-.572-.01-.198 0-.52.075-.792.373-.271.298-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.075.149.198 2.099 3.205 5.077 4.377.711.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.413-.075-.124-.271-.198-.568-.347z" /></svg>
             </a>
+            <a 
+              href="https://youtube.com/@dlhkotatasikmalaya" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              aria-label="YouTube" 
+              className="hover:text-green-300">
+              <svg width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+              </svg>
+            </a>
           </div>
         </div>
         {/* Kolom 2: Link Internal */}
@@ -72,18 +82,41 @@ export default function Footer() {
           <Link href="/galeri/video" className="hover:underline hover:text-green-300">Galeri Video</Link>
           <a href="/file-download" className="hover:underline hover:text-green-300">File Download</a>
         </div>
-        {/* Kolom 3: Lokasi Kantor (Maps) */}
+        {/* Kolom 3: Jam Operasional */}
+        <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="font-bold text-base mb-2">Jam Operasional</div>
+          <div className="text-sm">
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+              <div className="font-semibold">Senin - Kamis</div>
+              <div>08:00 - 16:00 WIB</div>
+              
+              <div className="font-semibold">Jumat</div>
+              <div>08:00 - 11:30 WIB</div>
+              
+              <div className="font-semibold">Sabtu & Minggu</div>
+              <div>Libur</div>
+              
+              <div className="font-semibold">Istirahat</div>
+              <div>12:00 - 13:00 WIB</div>
+            </div>
+            
+            <div className="mt-4 text-yellow-300">
+              <div>* Pengecualian untuk pelayanan darurat</div>
+            </div>
+          </div>
+        </div>
+        {/* Kolom 4: Lokasi Kantor (Maps) */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="font-bold text-base mb-2">Lokasi Kantor DLH Kota Tasikmalaya</div>
           <iframe
-src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10521.109421788646!2d108.22818805156746!3d-7.352903338909428!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f57799eeeb335%3A0xbc9b5d991117f749!2sKantor%20Dinas%20Lingkungan%20Hidup%20Kota%20Tasikmalaya!5e1!3m2!1sen!2sus!4v1752503640337!5m2!1sen!2sus"            width="100%"
+            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10521.109421788646!2d108.22818805156746!3d-7.352903338909428!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f57799eeeb335%3A0xbc9b5d991117f749!2sKantor%20Dinas%20Lingkungan%20Hidup%20Kota%20Tasikmalaya!5e1!3m2!1sen!2sus!4v1752503640337!5m2!1sen!2sus"            width="100%"
             height="75%"
             style={{ border: 0 }}
             allowFullScreen={true}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Lokasi DLH Kota Tasikmalaya"
-          ></iframe>
+            title="Lokasi DLH Kota Tasikmalaya">
+          </iframe>
         </div>
       </div>
       <div className="container mx-auto text-center text-xs mt-8 border-t border-green-800 pt-3">

@@ -5,14 +5,16 @@ export default function Bidang() {
     {
       id: 1,
       name: 'Bidang Tata Lingkungan',
-      description: 'Menangani penataan ruang dan pengendalian dampak lingkungan',
+      description: 'Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).',
       icon: '🌍',
       color: 'green',
       features: [
-        'Analisis Mengenai Dampak Lingkungan (AMDAL)',
-        'Penataan Ruang Terbuka Hijau',
-        'Monitoring Kualitas Lingkungan',
-        'Penyusunan Dokumen Lingkungan'
+        'Penyusunan dan penetapan RPPLH dan dokumen daya dukung dan daya tampung',
+        'Penyusunan Kajian Lingkungan Hidup Strategis (KLHS)',
+        'Pemeriksaan UKL-UPL dan fasilitasi penilaian AMDAL',
+        'Pengelolaan keanekaragaman hayati dan ruang terbuka hijau',
+        'Pengelolaan sarana prasarana keanekaragaman hayati dan RTH',
+        'Pengembangan kapasitas kelembagaan dan SDM'
       ]
     },
     {
@@ -40,19 +42,6 @@ export default function Bidang() {
         'Program 3R (Reduce, Reuse, Recycle)',
         'Bank Sampah dan Komposter'
       ]
-    },
-    {
-      id: 4,
-      name: 'Bidang Penegakan Hukum',
-      description: 'Melakukan pengawasan dan penegakan hukum lingkungan',
-      icon: '⚖️',
-      color: 'red',
-      features: [
-        'Pengawasan Perizinan Lingkungan',
-        'Penindakan Pelanggaran',
-        'Mediasi Sengketa Lingkungan',
-        'Penyidikan Tindak Pidana Lingkungan'
-      ]
     }
   ];
 
@@ -75,12 +64,6 @@ export default function Bidang() {
         text: 'text-teal-600 dark:text-teal-400',
         hover: 'hover:border-teal-300 dark:hover:border-teal-600',
         button: 'bg-teal-600 hover:bg-teal-700'
-      },
-      red: {
-        bg: 'bg-red-100 dark:bg-red-900',
-        text: 'text-red-600 dark:text-red-400',
-        hover: 'hover:border-red-300 dark:hover:border-red-600',
-        button: 'bg-red-600 hover:bg-red-700'
       }
     };
     return colorMap[color as keyof typeof colorMap];
@@ -113,7 +96,7 @@ export default function Bidang() {
                 Struktur Bidang DLH
               </h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 text-center max-w-4xl mx-auto">
-                Dinas Lingkungan Hidup Kota Tasikmalaya memiliki 4 bidang utama yang bekerja secara sinergis 
+                Dinas Lingkungan Hidup Kota Tasikmalaya memiliki 3 bidang utama yang bekerja secara sinergis 
                 untuk mewujudkan lingkungan hidup yang lestari, bersih, dan sehat.
               </p>
             </div>
@@ -121,7 +104,7 @@ export default function Bidang() {
 
           {/* Bidang Cards */}
           <section className="mb-12">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
               {bidangData.map((bidang) => {
                 const colors = getColorClasses(bidang.color);
                 return (
@@ -156,9 +139,16 @@ export default function Bidang() {
                     </div>
 
                     <div className="text-center">
-                      <button className={`${colors.button} text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
-                        Pelajari Lebih Lanjut
-                      </button>
+                      <Link href={
+                        bidang.name === 'Bidang Tata Lingkungan' ? '/bidang/tata-lingkungan'
+                        : bidang.name === 'Bidang Pengendalian Pencemaran' ? '/bidang/pencemaran'
+                        : bidang.name === 'Bidang Pengelolaan Sampah' ? '/bidang/sampah'
+                        : '#'
+                      }>
+                        <button className={`${colors.button} text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
+                          Pelajari Lebih Lanjut
+                        </button>
+                      </Link>
                     </div>
                   </div>
                 );
