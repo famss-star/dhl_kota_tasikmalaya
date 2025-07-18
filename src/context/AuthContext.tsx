@@ -48,7 +48,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           username,
           role: "admin",
         };
-        
         if (rememberMe) {
           localStorage.setItem("user", JSON.stringify(user));
         } else {
@@ -56,6 +55,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         setUser(user);
         localStorage.setItem("user", JSON.stringify(user));
+        // Set cookie 'user' agar bisa dibaca middleware (expires 7 hari jika rememberMe, session jika tidak)
+        document.cookie = `user=${encodeURIComponent(JSON.stringify(user))}; path=/;${rememberMe ? " max-age=604800;" : ""}`;
         return true;
       }
       return false;
@@ -68,6 +69,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    // Hapus cookie 'user' dengan set expired ke masa lalu
+    document.cookie = "user=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     router.push("/login");
   };
 
