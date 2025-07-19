@@ -1,6 +1,9 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 
 const TentangDLH: React.FC = () => {
+  const [showFullTupoksi, setShowFullTupoksi] = useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
@@ -89,13 +92,24 @@ const TentangDLH: React.FC = () => {
 
           {/* Tugas Pokok dan Fungsi (Tupoksi) */}
           <section id="tupoksi" className="mb-12 scroll-mt-20">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700 target:ring-4 target:ring-purple-500/50 target:border-purple-500 target:scale-105 transition-all duration-700 ease-in-out">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700">
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
                 Tugas Pokok dan Fungsi
               </h2>
+
               <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
-                <h3 className="text-xl font-semibold text-blue-600 dark:text-sky-500 mb-4">Tugas Pokok:</h3>
-                <p className="mb-4 indent-8">Dinas Lingkungan Hidup Daerah mempunyai tugas melaksanakan penyusunan dan pelaksanaan kebijakan daerah di bidang pengelolaan dan perlindungan lingkungan hidup daerah.</p>
+                  <h3 className="text-xl font-semibold text-blue-600 dark:text-sky-500 mb-4">Tugas Pokok:</h3>
+              </div>
+
+              <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
+                <p className="mb-4 indent-8">
+                  <span className="font-bold">Dinas Lingkungan Hidup Daerah</span> mempunyai tugas melaksanakan penyusunan dan pelaksanaan kebijakan daerah di bidang pengelolaan dan perlindungan lingkungan hidup daerah.
+                </p>
+              </div>
+
+              {/* Konten panjang yang bisa ditampilkan/disembunyikan */}
+              {showFullTupoksi && (
+              <div>
                 <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">Rincian Tugas Unit:</h3>
                 <h4 className="font-bold mt-6 mb-2">Kepala Dinas</h4>
                 <ul className="list-decimal ml-6 mb-4">
@@ -157,65 +171,16 @@ const TentangDLH: React.FC = () => {
                   <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya.</li>
                 </ul>
               </div>
-            </div>
-          </section>
+              )}
 
-          {/* Maklumat Pelayanan */}
-          <section className="mb-12">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
-                Maklumat Pelayanan
-              </h2>
-              <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 rounded-lg p-6 mb-6">
-                <p className="text-lg text-gray-700 dark:text-gray-300 text-center font-medium italic">
-                  "Dengan ini kami menyatakan sanggup menyelenggarakan pelayanan sesuai dengan standar pelayanan yang telah ditetapkan dan apabila tidak menepati janji ini, kami siap menerima sanksi sesuai dengan peraturan perundang-undangan yang berlaku"
-                </p>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-blue-600 dark:text-sky-500 mb-4">Komitmen Pelayanan:</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start">
-                      <span className="text-blue-500 dark:text-blue-400 mr-3">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Memberikan pelayanan yang cepat, tepat, dan akurat</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-blue-500 dark:text-blue-400 mr-3">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Melayani dengan sikap ramah, sopan, dan profesional</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-blue-500 dark:text-blue-400 mr-3">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Memberikan informasi yang jelas dan mudah dipahami</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-blue-500 dark:text-blue-400 mr-3">✓</span>
-                      <span className="text-gray-700 dark:text-gray-300">Menyelesaikan pelayanan sesuai waktu yang ditetapkan</span>
-                    </li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">Standar Pelayanan:</h3>
-                  <ul className="space-y-3">
-                    <li className="flex items-start">
-                      <span className="text-green-500 dark:text-green-400 mr-3">•</span>
-                      <span className="text-gray-700 dark:text-gray-300">Persyaratan pelayanan yang jelas dan tidak berbelit-belit</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 dark:text-green-400 mr-3">•</span>
-                      <span className="text-gray-700 dark:text-gray-300">Prosedur pelayanan yang sederhana dan mudah diikuti</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 dark:text-green-400 mr-3">•</span>
-                      <span className="text-gray-700 dark:text-gray-300">Waktu penyelesaian yang pasti dan dapat diprediksi</span>
-                    </li>
-                    <li className="flex items-start">
-                      <span className="text-green-500 dark:text-green-400 mr-3">•</span>
-                      <span className="text-gray-700 dark:text-gray-300">Biaya pelayanan yang transparan dan terjangkau</span>
-                    </li>
-                  </ul>
-                </div>
+              {/* Tombol expand/collapse */}
+              <div className="mt-6 text-center">
+                <button
+                  onClick={() => setShowFullTupoksi(!showFullTupoksi)}
+                  className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
+                >
+                  {showFullTupoksi ? 'Sembunyikan' : 'Lihat Selengkapnya'}
+                </button>
               </div>
             </div>
           </section>

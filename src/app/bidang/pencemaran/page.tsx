@@ -28,13 +28,11 @@ const BidangPencemaranPage = () => {
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
             <div className="prose dark:prose-invert max-w-none">
               <p className="text-gray-700 dark:text-gray-300 mb-6 indent-8">
-                Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis serta penyelenggaraan kebijakan di bidang pengendalian pencemaran dan/atau kerusakan lingkungan hidup serta pengawasan dan penyelesaian pengaduan masyarakat dalam bidang perlindungan dan pengelolaan lingkungan hidup.
+                <span className="font-bold">Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup</span> mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis serta penyelenggaraan kebijakan di bidang pengendalian pencemaran dan/atau kerusakan lingkungan hidup serta pengawasan dan penyelesaian pengaduan masyarakat dalam bidang perlindungan dan pengelolaan lingkungan hidup.
               </p>
               
               <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Rincian tugas Bidang Tata Lingkungan:</h3>
               <ul className="list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                <li>Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis serta penyelenggaraan kebijakan di bidang pengendalian pencemaran dan/atau kerusakan lingkungan hidup serta pengawasan dan penyelesaian pengaduan masyarakat dalam bidang perlindungan dan pengelolaan lingkungan hidup.</li>
-                <li>Rincian tugas Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup, sebagai berikut :</li>
                 <li>Menyelenggarakan penyusunan rencana program kerja dan target kinerja Bidang Pengendalian Pencemaran dan Penataan Lingkungan Hidup sesuai perjanjian kinerja;</li>
                 <li>Melaksanakan perumusan strategi pelaksanaan pencapaian target kinerja termasuk di dalamnya pembentukan tim kerja dan pelibatan jabatanjabatan yang diperlukan dalam pencapaian target kinerja;</li>
                 <li>Menyelenggarakan perumusan bahan kebijakan dan petunjuk teknis pengendalian pencemaran lingkungan yang meliputi pencegahan pencemaran dan/atau kerusakan lingkungan hidup, penanggulangan pencemaran dan/atau kerusakan lingkungan hidup dan pemulihan pencemaran dan/atau kerusakan lingkungan hidup;</li>

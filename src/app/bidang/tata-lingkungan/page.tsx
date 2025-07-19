@@ -28,7 +28,7 @@ const BidangTataLingkunganPage = () => {
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
             <div className="prose dark:prose-invert max-w-none">
               <p className="text-gray-700 dark:text-gray-300 mb-6 indent-8">
-                Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).
+                <span className="font-bold">Bidang Tata Lingkungan</span> mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).
               </p>
               
               <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Rincian tugas Bidang Tata Lingkungan:</h3>
