@@ -118,6 +118,7 @@ function Carousel() {
 	);
 }
 
+
 export default function Home() {
 	// State untuk navigasi kalender bulan agenda - default ke Juli 2025
 	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date(2025, 6, 16)); // July 16, 2025
@@ -226,6 +227,7 @@ export default function Home() {
 			   today.getFullYear() === currentAgendaYear;
 	};
 
+	
 	return (
 		<div className="min-h-screen bg-white dark:bg-gray-900 pt-0 py-8 px-4">
 			<Carousel />
@@ -311,92 +313,109 @@ export default function Home() {
 							</div>
 							
 							{/* Kolom Kanan (1/3 width) */}
-							<div className="space-y-6">
-								{/* Baris 1 - Berita Terbaru/Terpopuler */}
-								<div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+							<div className="flex flex-col gap-4 h-full min-h-[400px]" style={{height:'100%'}}>
+								{/* 50%: List Artikel */}
+								<div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 flex-1 flex flex-col justify-between min-h-0" style={{height:'50%'}}>
+								<div>
 									<div className="flex items-center justify-between mb-3">
-										<h3 className="font-semibold text-gray-800 dark:text-white text-sm">Terbaru</h3>
-										<button className="text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">Terpopuler</button>
+										<h3 className="font-semibold text-gray-800 dark:text-white text-sm">Artikel</h3>
 									</div>
-									<div className="group cursor-pointer">
-										<div className="bg-gray-200 dark:bg-gray-600 rounded-lg aspect-[16/9] mb-2 relative overflow-hidden">
-											<div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-											<div className="absolute bottom-1 left-1">
-												<span className="text-xs text-white bg-red-600 px-1.5 py-0.5 rounded text-[10px]">Breaking</span>
-											</div>
-										</div>
-										<h4 className="font-medium text-sm text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
-											Kota Tasikmalaya Raih Penghargaan Adipura 2025
-										</h4>
-										<p className="text-xs text-gray-600 dark:text-gray-400 mt-1">16 Juli 2025</p>
-									</div>
-								</div>
-								
-								{/* Baris 2 - List Berita */}
-								<div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-									<h3 className="font-semibold text-gray-800 dark:text-white text-sm mb-3">Berita Lainnya</h3>
-									<div className="space-y-3">
-										{/* List Item 1 */}
+									<div className="space-y-3 overflow-y-auto max-h-40 md:max-h-48 lg:max-h-56 xl:max-h-60">
+										{/* Artikel 1 */}
 										<div className="group cursor-pointer flex gap-3">
 											<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
 												<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-blue-600"></div>
 											</div>
 											<div className="flex-1 min-w-0">
 												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
-													Monitoring Kualitas Air Sungai Citanduy
+													Pentingnya Edukasi Lingkungan Sejak Dini
 												</h4>
-												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">11 Juli 2025</p>
+												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">15 Juli 2025</p>
 											</div>
 										</div>
-										
-										{/* List Item 2 */}
+										{/* Artikel 2 */}
 										<div className="group cursor-pointer flex gap-3">
 											<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
 												<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-pink-600"></div>
 											</div>
 											<div className="flex-1 min-w-0">
 												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
-													Program Bank Sampah Kelurahan Sukabungah
+													Inovasi Pengelolaan Sampah Berbasis Komunitas
 												</h4>
-												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">10 Juli 2025</p>
+												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">13 Juli 2025</p>
 											</div>
 										</div>
-										
-										{/* List Item 3 */}
+										{/* Artikel 3 */}
 										<div className="group cursor-pointer flex gap-3">
 											<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
 												<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-600 to-orange-600"></div>
 											</div>
 											<div className="flex-1 min-w-0">
 												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
-													Pemeriksaan Dokumen Lingkungan Industri
+													Peran Komunitas dalam Pelestarian Lingkungan
 												</h4>
-												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">9 Juli 2025</p>
-											</div>
-										</div>
-										
-										{/* List Item 4 */}
-										<div className="group cursor-pointer flex gap-3">
-											<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
-												<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-teal-600 to-cyan-600"></div>
-											</div>
-											<div className="flex-1 min-w-0">
-												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
-													Edukasi Pengolahan Limbah Rumah Tangga
-												</h4>
-												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">8 Juli 2025</p>
+												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">12 Juli 2025</p>
 											</div>
 										</div>
 									</div>
-									<Link href="/informasi/berita" className="block text-center text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium mt-3 pt-2 border-t border-gray-200 dark:border-gray-600">
-										Lihat Semua Berita
-									</Link>
+								</div>
+								<Link href="/informasi/artikel" className="block text-center text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium mt-3 pt-2 border-t border-gray-200 dark:border-gray-600">
+									Lihat Semua Artikel
+								</Link>
+								</div>
+								{/* 50%: List Berita */}
+								<div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 flex-1 flex flex-col justify-between min-h-0" style={{height:'50%'}}>
+								<div>
+									<h3 className="font-semibold text-gray-800 dark:text-white text-sm mb-3">Berita</h3>
+									<div className="space-y-3 overflow-y-auto max-h-40 md:max-h-48 lg:max-h-56 xl:max-h-60">
+									{/* List Item 1 */}
+									<div className="group cursor-pointer flex gap-3">
+										<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
+										<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-green-600 to-blue-600"></div>
+										</div>
+										<div className="flex-1 min-w-0">
+										<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
+											Monitoring Kualitas Air Sungai Citanduy
+										</h4>
+										<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">11 Juli 2025</p>
+										</div>
+									</div>
+									{/* List Item 2 */}
+									<div className="group cursor-pointer flex gap-3">
+										<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
+										<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 to-pink-600"></div>
+										</div>
+										<div className="flex-1 min-w-0">
+										<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
+											Program Bank Sampah Kelurahan Sukabungah
+										</h4>
+										<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">10 Juli 2025</p>
+										</div>
+									</div>
+									{/* List Item 3 */}
+									<div className="group cursor-pointer flex gap-3">
+										<div className="w-16 h-12 bg-gray-200 dark:bg-gray-600 rounded flex-shrink-0 relative overflow-hidden">
+										<div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-600 to-orange-600"></div>
+										</div>
+										<div className="flex-1 min-w-0">
+										<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
+											Pemeriksaan Dokumen Lingkungan Industri
+										</h4>
+										<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">9 Juli 2025</p>
+										</div>
+									</div>
+									</div>
+								</div>
+								<Link href="/informasi/berita" className="block text-center text-xs text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium mt-3 pt-2 border-t border-gray-200 dark:border-gray-600">
+									Lihat Semua Berita
+								</Link>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
 
 			{/* Layanan Terpopuler Section */}
 			<div className="max-w-6xl mx-auto px-4 mb-16">
@@ -420,7 +439,7 @@ export default function Home() {
 								</div>
 								<div className="bg-white/20 rounded-full p-3">
 									<svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
 									</svg>
 								</div>
 							</div>
@@ -532,9 +551,9 @@ export default function Home() {
 							<Link href="/pelayanan/sppl" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
 								<div className="flex items-center">
 									<div className="bg-teal-100 dark:bg-teal-900/50 rounded-lg p-2 mr-3">
-										<svg className="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-										</svg>
+<svg className="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+	<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+</svg>
 									</div>
 									<div>
 										<p className="font-medium text-gray-800 dark:text-white">SPPL</p>
@@ -738,7 +757,7 @@ export default function Home() {
 							<div className="flex items-center justify-between">
 								<h3 className="text-lg font-bold text-white flex items-center">
 									<svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2v-5a1 1 0 011-1h2a1 1 0 011 1v5a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
 									</svg>
 									{agendaMonthNames[currentAgendaMonth]} {currentAgendaYear}
 								</h3>
@@ -814,36 +833,23 @@ export default function Home() {
 										{agendaEvents.map((event, index) => (
 											<div key={index} className="flex items-center text-sm">
 												<div className={`w-2 h-2 rounded-full mr-2 flex-shrink-0 ${
-													event.color === 'green' ? 'bg-green-500' :
-													event.color === 'blue' ? 'bg-blue-500' :
-													event.color === 'purple' ? 'bg-purple-500' : 'bg-gray-500'
+													event.color === 'green' ? 'bg-green-600' :
+													event.color === 'blue' ? 'bg-blue-600' :
+													event.color === 'purple' ? 'bg-purple-600' :
+													'bg-gray-400'
 												}`}></div>
-												<span className="text-gray-600 dark:text-gray-400 text-xs mr-2">
-													{event.date} {agendaMonthNames[currentAgendaMonth].substring(0, 3)}
-												</span>
-												<span className="text-gray-800 dark:text-white">{event.title}</span>
+												<div className="flex-1 min-w-0">
+													<p className="font-medium text-gray-800 dark:text-white truncate">{event.title}</p>
+													<p className="text-xs text-gray-500 dark:text-gray-400">{event.date}</p>
+												</div>
 											</div>
 										))}
 									</div>
 								) : (
-									<div className="text-center py-4">
-										<div className="text-gray-400 text-sm">
-											📅 Tidak ada kegiatan untuk bulan ini
-										</div>
-									</div>
+									<p className="text-center text-gray-500 dark:text-gray-400 text-sm py-4">
+										Tidak ada agenda kegiatan untuk bulan ini.
+									</p>
 								)}
-
-								{/* Summary */}
-								<div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3 mt-4">
-									<div className="text-center">
-										<p className="text-2xl font-bold text-green-600 dark:text-green-400">
-											{agendaEvents.length}
-										</p>
-										<p className="text-xs text-gray-600 dark:text-gray-400">
-											Total Kegiatan {agendaMonthNames[currentAgendaMonth]}
-										</p>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
