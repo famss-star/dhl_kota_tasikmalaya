@@ -323,19 +323,16 @@ export default function Navbar() {
 				  </Link>
 				)}
 				{openDropdown === item.name && item.submenu && (
-				  <div
-					className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-gray-800 dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out"
-					style={{
-					  // Menempel tepat di bawah navbar
-					  // top: 'calc(100% + 1px)' sudah cukup jika navbar sticky di top:0
-					}}
-					onMouseLeave={scheduleCloseMenu}
-					onMouseEnter={cancelCloseMenu}
-				  >
-					<div className="container mx-auto px-8">
-					  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-						{/* Kolom kiri: highlight/preview */}
-			<div className="mb-6 md:mb-0">
+		  <div
+			className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-gray-800 dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out"
+			style={{}}
+			onMouseLeave={scheduleCloseMenu}
+			onMouseEnter={cancelCloseMenu}
+		  >
+			<div className="container mx-auto px-8">
+			  <div className="flex flex-col md:flex-row gap-8 items-start">
+				{/* Kolom kiri: highlight/preview */}
+		<div className="mb-6 md:mb-0 md:w-1/4">
 			  {/* Animasi transisi judul dan deskripsi Profil */}
 			  {item.name === "Profil" && openDropdown === "Profil" ? (
 				<>
@@ -414,9 +411,9 @@ export default function Navbar() {
 			  )}
 
 			</div>
-						{/* Kolom kanan: submenu dinamis */}
-			{item.name === "Profil" ? (
-			  <div className="grid grid-cols-2 gap-6">
+			{/* Kolom kanan: submenu dinamis */}
+		{item.name === "Profil" ? (
+		  <div className="grid grid-cols-2 gap-6 md:w-3/4">
 				{/* Kolom 1: Profil */}
 				<div>
 				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Profil</div>
@@ -458,8 +455,8 @@ export default function Navbar() {
 				  </div>
 				</div>
 			  </div>
-			) : item.name === "Layanan Publik" ? (
-			  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+		) : item.name === "Layanan Publik" ? (
+		  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4">
 				{/* Kolom 1: Perizinan */}
 				<div>
 				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
@@ -501,8 +498,8 @@ export default function Navbar() {
 				  </div>
 				</div>
 			  </div>
-			) : item.name === "Informasi & Dokumen" ? (
-			  <div className="grid grid-cols-3 gap-6">
+		) : item.name === "Informasi & Dokumen" ? (
+		  <div className="grid grid-cols-3 gap-6 md:w-3/4">
 				{/* Kolom 1: Informasi */}
 				<div>
 				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Informasi</div>
@@ -564,8 +561,8 @@ export default function Navbar() {
 				  </div>
 				</div>
 			  </div>
-			) : (
-			  <div className="flex flex-col gap-2">
+		) : (
+		  <div className="flex flex-col gap-2 md:w-3/4">
 				{item.submenu.map((sub) => (
 				  <div key={sub.name}>
 					{sub.href ? (

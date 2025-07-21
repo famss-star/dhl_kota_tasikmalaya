@@ -7,6 +7,12 @@ const nextConfig = {
       "www.dlh.tasikmalayakota.go.id",
       "images.unsplash.com"
     ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'via.placeholder.com',
+      },
+    ],
   },
 };
 

@@ -2,7 +2,6 @@
 import React from "react";
 import Carousel from "@/components/Carousel";
 import BeritaSection from "@/components/BeritaSection";
-import BannerCarousel from "@/components/BannerCarousel";
 import LayananSection from "@/components/LayananSection";
 import AgendaSection from "@/components/AgendaSection";
 
@@ -11,7 +10,6 @@ export default function Home() {
 		<div className="min-h-screen bg-white dark:bg-gray-900 pt-0 py-8 px-4">
 			<Carousel />
 			<BeritaSection />
-			<BannerCarousel />
 			<LayananSection />
 			<AgendaSection />
 		</div>

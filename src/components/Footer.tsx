@@ -13,9 +13,21 @@ export default function Footer() {
             className="h-auto w-auto object-contain mb-2"
           />
           <div className="font-bold text-lg">DLH Kota Tasikmalaya</div>
-          <div className="text-sm">Jl. Ir. H. Juanda No. 277, Tasikmalaya</div>
-          <div className="text-sm">Telp: <a href="tel:(0265)330382" className="hover:underline hover:text-green-300">(0265) 330382</a></div>
-          <div className="text-sm">Email: <a href="mailto:dlh@tasikmalayakota.go.id" className="hover:underline hover:text-green-300">dlh@tasikmalayakota.go.id</a></div>
+          <div className="text-sm flex items-center gap-2">
+            {/* Icon Lokasi */}
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" className="inline-block"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+            Jl. Ir. H. Juanda No. 277, Tasikmalaya
+          </div>
+          <div className="text-sm flex items-center gap-2">
+            {/* Icon Telepon */}
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" className="inline-block"><path d="M6.62 10.79a15.053 15.053 0 0 0 6.59 6.59l2.2-2.2a1 1 0 0 1 1.11-.21c1.21.49 2.53.76 3.88.76a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.07 21 3 13.93 3 5a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.35.27 2.67.76 3.88a1 1 0 0 1-.21 1.11l-2.2 2.2z"/></svg>
+            Telp: <a href="tel:(0265)330382" className="hover:underline hover:text-green-300">(0265) 330382</a>
+          </div>
+          <div className="text-sm flex items-center gap-2">
+            {/* Icon Email */}
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" className="inline-block"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2v.01L12 13 4 6.01V6h16zM4 20v-9.99l8 6.99 8-6.99V20H4z"/></svg>
+            Email: <a href="mailto:dlh@tasikmalayakota.go.id" className="hover:underline hover:text-green-300">dlh@tasikmalayakota.go.id</a>
+          </div>
           <div className="flex gap-3 mt-2">
             <a 
               href="https://instagram.com/dlhkotatasikmalaya" 
@@ -102,7 +114,7 @@ export default function Footer() {
               <div>08:00 - 11:30 WIB</div>
               
               <div className="font-semibold">Sabtu & Minggu</div>
-              <div>Libur</div>
+              <div className='text-red-500 font-bold text-center'>Libur</div>
               
               <div className="font-semibold">Istirahat</div>
               <div>12:00 - 13:00 WIB</div>
