@@ -1,8 +1,18 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const TentangDLH: React.FC = () => {
   const [showFullTupoksi, setShowFullTupoksi] = useState(false);
+  const [height, setHeight] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showFullTupoksi && contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    } else {
+      setHeight(0);
+    }
+  }, [showFullTupoksi]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -54,7 +64,7 @@ const TentangDLH: React.FC = () => {
                 </h2>
                 <div className="text-center max-w-xl">
                   <p className="text-lg text-gray-700 dark:text-gray-300 italic font-medium leading-relaxed">
-                    "KOTA TASIKMALAYA YANG RELIGIUS, MAJU DAN MADANI"
+                    "TASIKMALAYA SEBAGAI KOTA INDUSTRI, JASA DAN PERDAGANGAN YANG RELIGIUS, INOVATIF, MAJU DAN BERKELANJUTAN"
                   </p>
                 </div>
               </div>
@@ -67,23 +77,23 @@ const TentangDLH: React.FC = () => {
                 <ul className="space-y-3">
                   <li className="flex items-start">
                     <span className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full min-w-[2rem] min-h-[2rem] flex items-center justify-center text-base font-bold mr-3 mt-0.5">1</span>
-                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Tata Nilai Kehidupan Masyarakat Yang religius dan Berkearifan Lokal;</span>
+                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Sumber Daya Manusia Yang Berkualitas Dan Kehidupan Sosial Masyarakat Yang Religius Dan Berbudaya</span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full min-w-[2rem] min-h-[2rem] flex items-center justify-center text-base font-bold mr-3 mt-0.5">2</span>
-                    <span className="text-gray-700 dark:text-gray-300">Mengurangi Tingkat Kemiskinan dan Meningkatkan Daya Beli Masyarakat;</span>
+                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Ekonomi Daerah Yang Berkeadilan, Kuat Dan Berdaya Saing Berbasis Industri, Jasa Dan Perdagangan</span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full min-w-[2rem] min-h-[2rem] flex items-center justify-center text-base font-bold mr-3 mt-0.5">3</span>
-                    <span className="text-gray-700 dark:text-gray-300">Memantapkan Inprastruktur Dasar Perkotaan Guna Mendorong Pertumbuhan dan Pemerataan Pembangunan Yang Berwawasan Lingkungan;</span>
+                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Tata Kelola Pemerintahan Yang Baik Dan Bersih</span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full min-w-[2rem] min-h-[2rem] flex items-center justify-center text-base font-bold mr-3 mt-0.5">4</span>
-                    <span className="text-gray-700 dark:text-gray-300">Memenuhi Kebutuhan Pelayanan Dasar Masyarakat Untuk Meningkatkan Sumber Daya Manusia;</span>
+                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Infrastruktur Daerah Yang Berkualitas Dan Merata</span>
                   </li>
                   <li className="flex items-start">
                     <span className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full min-w-[2rem] min-h-[2rem] flex items-center justify-center text-base font-bold mr-3 mt-0.5">5</span>
-                    <span className="text-gray-700 dark:text-gray-300">Meningkatkan tata Kelola Pemerintahan Yang Baik dan Bersih</span>
+                    <span className="text-gray-700 dark:text-gray-300">Mewujudkan Pembangunan Yang Berkelanjutan</span>
                   </li>
                 </ul>
               </div>
@@ -107,71 +117,83 @@ const TentangDLH: React.FC = () => {
                 </p>
               </div>
 
-              {/* Konten panjang yang bisa ditampilkan/disembunyikan */}
-              {showFullTupoksi && (
-              <div>
-                <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">Rincian Tugas Unit:</h3>
-                <h4 className="font-bold mt-6 mb-2">Kepala Dinas</h4>
-                <ul className="list-decimal ml-6 mb-4">
-                  <li>Menyelenggarakan penyusunan rencana program kerja Dinas;</li>
-                  <li>Merumuskan dan menetapkan rencana strategis dan program kerja Dinas untuk mendukung visi dan misi Daerah;</li>
-                  <li>Merumuskan kebijakan pengelolaan lingkungan hidup Daerah;</li>
-                  <li>Menyelenggarakan pembinaan dan pengendalian penyelenggaraan kebijakan pengelolaan lingkungan hidup;</li>
-                  <li>Menyelenggarakan pengoordinasian pelaksanaan kegiatan Dinas meliputi perencanaan lingkungan hidup, pengendalian pencemaran dan kerusakan lingkungan hidup, pengelolaan keanekaragaman hayati, pengendalian bahan dan limbah berbahaya dan beracun, pembinaaan dan pengawasan terhadap izin bidang lingkungan, penanganan pengaduan lingkungan hidup, peningkatan pendidikan, pelatihan dan penyuluhan lingkungan hidup, penghargaan lingkungan hidup untuk masyarakat serta pengelolaan persampahan;</li>
-                  <li>Menyelenggarakan pembinaan dan mengarahkan semua kegiatan Unit;</li>
-                  <li>Melaksanakan koordinasi dengan organisasi perangkat daerah atau unit kerja lain yang terkait untuk kelancaran pelaksanaan tugas Dinas;</li>
-                  <li>Memberikan saran dan pertimbangan kepada Walikota dalam penyelenggaraan tugas pembangunan dan tugas umum pemerintahan di bidang lingkungan hidup;</li>
-                  <li>Melaksanakan monitoring, evaluasi dan pelaporan hasil pelaksanaan tugas kepada Wali Kota melalui Sekretaris Daerah; dan</li>
-                  <li>Melaksanakan tugas kedinasan lain yang diberikan oleh Wali Kota sesuai dengan bidang tugasnya.</li>
-                </ul>
-                <h4 className="font-bold mt-6 mb-2">Sekretariat</h4>
-                <p className="mb-2 indent-8">Sekretariat mempunyai tugas pokok memberikan pelayanan administratif, koordinasi dan pengendalian dalam pelaksanaan kegiatan kesekretariatan yang meliputi perencanaan, pengelolaan kepegawaian, pengelolaan keuangan dan barang milik daerah, penataan organisasi dan administrasi umum.</p>
-                <ul className="list-decimal ml-6 mb-4">
-                  <li>Menyelenggarakan penyusunan rencana program kerja dan target kinerja Sekretariat sesuai perjanjian kinerja;</li>
-                  <li>Melaksanakan perumusan strategi pelaksanaan pencapaian target kinerja termasuk di dalamnya pembentukan tim kerja dan pelibatan jabatan-jabatan yang diperlukan dalam pencapaian target kinerja;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan penyusunan perencanaan serta penganggaran Dinas;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi dan pembinaan kepegawaian;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi keuangan pada Dinas;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi barang milik daerah pada Dinas;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi umum meliputi ketatausahaan dan kerumahtanggaan Dinas;</li>
-                  <li>Menyelenggarakan penataan organisasi meliputi pembinaan dan pengembangan kelembagaan, pelayanan publik dan ketatalaksanaan, peningkatan kinerja serta reformasi birokrasi di lingkungan Dinas;</li>
-                  <li>Mengoordinasikan penyiapan rancangan peraturan dan ketentuan lainnya di bidang lingkungan hidup;</li>
-                  <li>Menyelenggarakan pengelolaan data statistik di bidang lingkungan hidup;</li>
-                  <li>Menyelenggarakan dan mengoordinasikan penyusunan evaluasi dan pelaporan kinerja Dinas;</li>
-                  <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sekretariat;</li>
-                  <li>Melaksanakan pembinaan kinerja jabatan pengawas, jabatan fungsional dan jabatan pelaksana yang ditempatkan di Sekretariat;</li>
-                  <li>Melaksanakan penyediaan sarana dan prasarana, tata kelola serta sumber daya dalam rangka pencapaian target kinerja oleh jabatan pengawas, jabatan fungsional dan jabatan pelaksana yang berada di bawahnya;</li>
-                  <li>Melaksanakan koordinasi dengan unit kerja terkait; dan</li>
-                  <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya.</li>
-                </ul>
-                <h4 className="font-bold mt-6 mb-2">Sub Bagian Umum dan Kepegawaian</h4>
-                <p className="mb-2 indent-8">Sub Bagian Umum dan Kepegawaian mempunyai tugas pokok melaksanakan pengelolaan urusan umum, pengelolaan administrasi kepegawaian, pengelolaan barang milik daerah serta pengelolaan kelembagaan, ketatalaksanaan, pelayanan publik dan reformasi birokrasi di lingkup Dinas.</p>
-                <ul className="list-decimal ml-6 mb-4">
-                  <li>Melaksanakan penyusunan rencana kerja Sub Bagian Umum dan Kepegawaian;</li>
-                  <li>Melaksanakan kegiatan ketatausahaan di lingkungan Dinas;</li>
-                  <li>Melaksanakan pengelolaan perlengkapan dan kerumahtanggaan Dinas;</li>
-                  <li>Melaksanakan pengelolaan barang milik daerah di lingkungan Dinas;</li>
-                  <li>Melaksanakan pengelolaan administrasi dan pembinaan kepegawaian di lingkungan Dinas;</li>
-                  <li>Melaksanakan pengelolaan dan penyiapan bahan pembinaan kelembagaan, ketatalaksanaan dan pelayanan publik di lingkungan Dinas;</li>
-                  <li>Melaksanakan pengelolaan reformasi birokrasi di lingkungan Dinas;</li>
-                  <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sub Bagian Umum dan Kepegawaian;</li>
-                  <li>Melaksanakan koordinasi dengan unit kerja terkait; dan</li>
-                  <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya</li>
-                </ul>
-                <h4 className="font-bold mt-6 mb-2">Sub Bagian Keuangan</h4>
-                <p className="mb-2 indent-8">Sub Bagian Keuangan mempunyai tugas pokok melaksanakan pengelolaan administrasi keuangan di lingkup Dinas.</p>
-                <ul className="list-decimal ml-6 mb-4">
-                  <li>Melaksanakan penyusunan rencana kerja Sub Bagian Keuangan;</li>
-                  <li>Melaksanakan penatausahaan dan pengujian/verifikasi keuangan Dinas;</li>
-                  <li>Melaksanakan pembinaan penatausahaan keuangan di lingkungan Dinas;</li>
-                  <li>Melaksanakan akuntansi dan penyusunan laporan keuangan Dinas;</li>
-                  <li>Melaksanakan pengelolaan dan penyiapan bahan tanggapan pemeriksaan;</li>
-                  <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sub Bagian Keuangan;</li>
-                  <li>Melaksanakan koordinasi dengan Unit kerja terkait; dan</li>
-                  <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya.</li>
-                </ul>
+
+              {/* Konten panjang dengan transisi animasi slide */}
+              <div
+                style={{
+                  height: height,
+                  overflow: 'hidden',
+                  transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                }}
+                aria-hidden={!showFullTupoksi}
+              >
+                <div ref={contentRef} className={showFullTupoksi ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity duration-300'}>
+                  {showFullTupoksi && (
+                    <>
+                      <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-4">Rincian Tugas Unit:</h3>
+                      <h4 className="font-bold mt-6 mb-2">Kepala Dinas</h4>
+                      <ul className="list-decimal ml-6 mb-4">
+                        <li>Menyelenggarakan penyusunan rencana program kerja Dinas;</li>
+                        <li>Merumuskan dan menetapkan rencana strategis dan program kerja Dinas untuk mendukung visi dan misi Daerah;</li>
+                        <li>Merumuskan kebijakan pengelolaan lingkungan hidup Daerah;</li>
+                        <li>Menyelenggarakan pembinaan dan pengendalian penyelenggaraan kebijakan pengelolaan lingkungan hidup;</li>
+                        <li>Menyelenggarakan pengoordinasian pelaksanaan kegiatan Dinas meliputi perencanaan lingkungan hidup, pengendalian pencemaran dan kerusakan lingkungan hidup, pengelolaan keanekaragaman hayati, pengendalian bahan dan limbah berbahaya dan beracun, pembinaaan dan pengawasan terhadap izin bidang lingkungan, penanganan pengaduan lingkungan hidup, peningkatan pendidikan, pelatihan dan penyuluhan lingkungan hidup, penghargaan lingkungan hidup untuk masyarakat serta pengelolaan persampahan;</li>
+                        <li>Menyelenggarakan pembinaan dan mengarahkan semua kegiatan Unit;</li>
+                        <li>Melaksanakan koordinasi dengan organisasi perangkat daerah atau unit kerja lain yang terkait untuk kelancaran pelaksanaan tugas Dinas;</li>
+                        <li>Memberikan saran dan pertimbangan kepada Walikota dalam penyelenggaraan tugas pembangunan dan tugas umum pemerintahan di bidang lingkungan hidup;</li>
+                        <li>Melaksanakan monitoring, evaluasi dan pelaporan hasil pelaksanaan tugas kepada Wali Kota melalui Sekretaris Daerah; dan</li>
+                        <li>Melaksanakan tugas kedinasan lain yang diberikan oleh Wali Kota sesuai dengan bidang tugasnya.</li>
+                      </ul>
+                      <h4 className="font-bold mt-6 mb-2">Sekretariat</h4>
+                      <p className="mb-2 indent-8">Sekretariat mempunyai tugas pokok memberikan pelayanan administratif, koordinasi dan pengendalian dalam pelaksanaan kegiatan kesekretariatan yang meliputi perencanaan, pengelolaan kepegawaian, pengelolaan keuangan dan barang milik daerah, penataan organisasi dan administrasi umum.</p>
+                      <ul className="list-decimal ml-6 mb-4">
+                        <li>Menyelenggarakan penyusunan rencana program kerja dan target kinerja Sekretariat sesuai perjanjian kinerja;</li>
+                        <li>Melaksanakan perumusan strategi pelaksanaan pencapaian target kinerja termasuk di dalamnya pembentukan tim kerja dan pelibatan jabatan-jabatan yang diperlukan dalam pencapaian target kinerja;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan penyusunan perencanaan serta penganggaran Dinas;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi dan pembinaan kepegawaian;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi keuangan pada Dinas;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi barang milik daerah pada Dinas;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan pengelolaan administrasi umum meliputi ketatausahaan dan kerumahtanggaan Dinas;</li>
+                        <li>Menyelenggarakan penataan organisasi meliputi pembinaan dan pengembangan kelembagaan, pelayanan publik dan ketatalaksanaan, peningkatan kinerja serta reformasi birokrasi di lingkungan Dinas;</li>
+                        <li>Mengoordinasikan penyiapan rancangan peraturan dan ketentuan lainnya di bidang lingkungan hidup;</li>
+                        <li>Menyelenggarakan pengelolaan data statistik di bidang lingkungan hidup;</li>
+                        <li>Menyelenggarakan dan mengoordinasikan penyusunan evaluasi dan pelaporan kinerja Dinas;</li>
+                        <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sekretariat;</li>
+                        <li>Melaksanakan pembinaan kinerja jabatan pengawas, jabatan fungsional dan jabatan pelaksana yang ditempatkan di Sekretariat;</li>
+                        <li>Melaksanakan penyediaan sarana dan prasarana, tata kelola serta sumber daya dalam rangka pencapaian target kinerja oleh jabatan pengawas, jabatan fungsional dan jabatan pelaksana yang berada di bawahnya;</li>
+                        <li>Melaksanakan koordinasi dengan unit kerja terkait; dan</li>
+                        <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya.</li>
+                      </ul>
+                      <h4 className="font-bold mt-6 mb-2">Sub Bagian Umum dan Kepegawaian</h4>
+                      <p className="mb-2 indent-8">Sub Bagian Umum dan Kepegawaian mempunyai tugas pokok melaksanakan pengelolaan urusan umum, pengelolaan administrasi kepegawaian, pengelolaan barang milik daerah serta pengelolaan kelembagaan, ketatalaksanaan, pelayanan publik dan reformasi birokrasi di lingkup Dinas.</p>
+                      <ul className="list-decimal ml-6 mb-4">
+                        <li>Melaksanakan penyusunan rencana kerja Sub Bagian Umum dan Kepegawaian;</li>
+                        <li>Melaksanakan kegiatan ketatausahaan di lingkungan Dinas;</li>
+                        <li>Melaksanakan pengelolaan perlengkapan dan kerumahtanggaan Dinas;</li>
+                        <li>Melaksanakan pengelolaan barang milik daerah di lingkungan Dinas;</li>
+                        <li>Melaksanakan pengelolaan administrasi dan pembinaan kepegawaian di lingkungan Dinas;</li>
+                        <li>Melaksanakan pengelolaan dan penyiapan bahan pembinaan kelembagaan, ketatalaksanaan dan pelayanan publik di lingkungan Dinas;</li>
+                        <li>Melaksanakan pengelolaan reformasi birokrasi di lingkungan Dinas;</li>
+                        <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sub Bagian Umum dan Kepegawaian;</li>
+                        <li>Melaksanakan koordinasi dengan unit kerja terkait; dan</li>
+                        <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya</li>
+                      </ul>
+                      <h4 className="font-bold mt-6 mb-2">Sub Bagian Keuangan</h4>
+                      <p className="mb-2 indent-8">Sub Bagian Keuangan mempunyai tugas pokok melaksanakan pengelolaan administrasi keuangan di lingkup Dinas.</p>
+                      <ul className="list-decimal ml-6 mb-4">
+                        <li>Melaksanakan penyusunan rencana kerja Sub Bagian Keuangan;</li>
+                        <li>Melaksanakan penatausahaan dan pengujian/verifikasi keuangan Dinas;</li>
+                        <li>Melaksanakan pembinaan penatausahaan keuangan di lingkungan Dinas;</li>
+                        <li>Melaksanakan akuntansi dan penyusunan laporan keuangan Dinas;</li>
+                        <li>Melaksanakan pengelolaan dan penyiapan bahan tanggapan pemeriksaan;</li>
+                        <li>Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Sub Bagian Keuangan;</li>
+                        <li>Melaksanakan koordinasi dengan Unit kerja terkait; dan</li>
+                        <li>Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya.</li>
+                      </ul>
+                    </>
+                  )}
+                </div>
               </div>
-              )}
 
               {/* Tombol expand/collapse */}
               <div className="mt-6 text-center">

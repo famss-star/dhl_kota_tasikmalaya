@@ -45,18 +45,12 @@ export default function  () {
         >
           {images.map((img, idx) => (
             <div key={img.src} className="relative w-full h-full flex-shrink-0" style={{ width: `${100 / images.length}%` }}>
-              {img.href ? (
-                <Link href={img.href} className="block w-full h-full">
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    fill
-                    sizes="100vw"
-                    className="object-cover w-full h-full rounded-xl"
-                    priority={idx === 0}
-                  />
-                </Link>
-              ) : (
+              <div
+                className={img.href ? "cursor-pointer w-full h-full" : "w-full h-full"}
+                onClick={() => {
+                  if (img.href) window.location.href = img.href;
+                }}
+              >
                 <Image
                   src={img.src}
                   alt={img.alt}
@@ -65,7 +59,7 @@ export default function  () {
                   className="object-cover w-full h-full rounded-xl"
                   priority={idx === 0}
                 />
-              )}
+              </div>
             </div>
           ))}
         </div>

@@ -13,11 +13,9 @@ export default function Footer() {
             className="h-auto w-auto object-contain mb-2"
           />
           <div className="font-bold text-lg">DLH Kota Tasikmalaya</div>
-          <div className="text-xs mb-2">Dinas Lingkungan Hidup Kota Tasikmalaya</div>
           <div className="text-sm">Jl. Ir. H. Juanda No. 277, Tasikmalaya</div>
-          <div className="text-sm">Telp: (0265) 330382</div>
-          <div className="text-sm">Email: <a href="mailto:dlh@tasikmalayakota.go.id" className="underline hover:text-green-300">dlh@tasikmalayakota.go.id</a></div>
-          <div className="text-sm">Website: <a href="https://dlh.tasikmalayakota.go.id" className="underline hover:text-green-300" target="_blank" rel="noopener noreferrer">dlh.tasikmalayakota.go.id</a></div>
+          <div className="text-sm">Telp: <a href="tel:(0265)330382" className="hover:underline hover:text-green-300">(0265) 330382</a></div>
+          <div className="text-sm">Email: <a href="mailto:dlh@tasikmalayakota.go.id" className="hover:underline hover:text-green-300">dlh@tasikmalayakota.go.id</a></div>
           <div className="flex gap-3 mt-2">
             <a 
               href="https://instagram.com/dlhkotatasikmalaya" 
@@ -73,7 +71,7 @@ export default function Footer() {
           </div>
         </div>
         {/* Kolom 2: Link Internal */}
-        <div className="flex flex-col items-center md:items-start gap-2">
+        <div className="flex flex-col items-center md:items-start pl-5 gap-2">
           <div className="font-bold text-base mb-2">Link Internal</div>
           <Link href="/" className="hover:underline hover:text-green-300">Home</Link>
           <Link href="/informasi/berita" className="hover:underline hover:text-green-300">Berita & Event</Link>
@@ -82,7 +80,17 @@ export default function Footer() {
           <Link href="/galeri/video" className="hover:underline hover:text-green-300">Galeri Video</Link>
           <a href="/file-download" className="hover:underline hover:text-green-300">File Download</a>
         </div>
-        {/* Kolom 3: Jam Operasional */}
+
+        {/* Kolom 3: Link Terkait */}
+        <div className="flex flex-col items-center md:items-start gap-2">
+          <div className="font-bold text-base mb-2">Link Terkait</div>
+          <a href="https://tasikmalayakota.go.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-green-300">Pemerintah Kota Tasikmalaya</a>
+          <a href="https://jdih.tasikmalayakota.go.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-green-300">JDIH Kota Tasikmalaya</a>
+          <a href="https://lpse.tasikmalayakota.go.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-green-300">LPSE Kota Tasikmalaya</a>
+          <a href="https://bapenda.tasikmalayakota.go.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-green-300">Bapenda Kota Tasikmalaya</a>
+          <a href="https://dishub.tasikmalayakota.go.id" target="_blank" rel="noopener noreferrer" className="hover:underline hover:text-green-300">Dishub Kota Tasikmalaya</a>
+        </div>
+        {/* Kolom 4: Jam Operasional */}
         <div className="flex flex-col items-center md:items-start gap-2">
           <div className="font-bold text-base mb-2">Jam Operasional</div>
           <div className="text-sm">
@@ -105,22 +113,9 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        {/* Kolom 4: Lokasi Kantor (Maps) */}
-        <div className="flex flex-col items-center md:items-start gap-2">
-          <div className="font-bold text-base mb-2">Lokasi Kantor DLH Kota Tasikmalaya</div>
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d10521.109421788646!2d108.22818805156746!3d-7.352903338909428!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f57799eeeb335%3A0xbc9b5d991117f749!2sKantor%20Dinas%20Lingkungan%20Hidup%20Kota%20Tasikmalaya!5e1!3m2!1sen!2sus!4v1752503640337!5m2!1sen!2sus"            width="100%"
-            height="75%"
-            style={{ border: 0 }}
-            allowFullScreen={true}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            title="Lokasi DLH Kota Tasikmalaya">
-          </iframe>
-        </div>
       </div>
       <div className="container mx-auto text-center text-xs mt-8 border-t border-green-800 pt-3">
-        Copyright ©2017 Dinas Lingkungan Hidup - Pemerintah Kota Tasikmalaya - www.dlh.tasikmalayakota.go.id. All Rights Reserved
+        Copyright ©2025 Dinas Lingkungan Hidup - Pemerintah Kota Tasikmalaya - www.dlh.tasikmalayakota.go.id. All Rights Reserved
       </div>
     </footer>
   );

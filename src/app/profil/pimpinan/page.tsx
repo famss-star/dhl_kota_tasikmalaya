@@ -55,28 +55,7 @@ const ProfilPimpinan: React.FC = () => {
                           Kepala Dinas Lingkungan Hidup Kota Tasikmalaya
                         </p>
                       </div>
-                      
-                      <div className="grid md:grid-cols-2 gap-6">
-                        <div>
-                          <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Data Pribadi:</h4>
-                          <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                            <li><span className="font-medium">NIP:</span> [NIP]</li>
-                            <li><span className="font-medium">Pangkat/Golongan:</span> [Pangkat/Gol]</li>
-                            <li><span className="font-medium">Pendidikan:</span> [Pendidikan Terakhir]</li>
-                            <li><span className="font-medium">Jabatan:</span> Kepala Dinas</li>
-                          </ul>
-                        </div>
-                        
-                        <div>
-                          <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Kontak:</h4>
-                          <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                            <li><span className="font-medium">Email:</span> kadis@dlh.tasikmalayakota.go.id</li>
-                            <li><span className="font-medium">Telp:</span> (0265) xxx-xxxx</li>
-                            <li><span className="font-medium">Ext:</span> xxx</li>
-                          </ul>
-                        </div>
-                      </div>
-                      
+                                            
                       <div>
                         <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Riwayat Jabatan:</h4>
                         <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -129,22 +108,6 @@ const ProfilPimpinan: React.FC = () => {
                         </p>
                       </div>
                       
-                      <div className="grid md:grid-cols-2 gap-4">
-                        <div>
-                          <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                            <li><span className="font-medium">NIP:</span> [NIP]</li>
-                            <li><span className="font-medium">Pangkat/Gol:</span> [Pangkat/Gol]</li>
-                            <li><span className="font-medium">Pendidikan:</span> [Pendidikan]</li>
-                          </ul>
-                        </div>
-                        <div>
-                          <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                            <li><span className="font-medium">Email:</span> sekretaris@dlh.tasikmalayakota.go.id</li>
-                            <li><span className="font-medium">Telp:</span> (0265) xxx-xxxx</li>
-                            <li><span className="font-medium">Ext:</span> xxx</li>
-                          </ul>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -173,10 +136,6 @@ const ProfilPimpinan: React.FC = () => {
                       <p className="text-purple-600 dark:text-purple-400 font-semibold">Kabid Tata Lingkungan</p>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <p><span className="font-medium">NIP:</span> [NIP]</p>
-                    <p><span className="font-medium">Email:</span> tatalingkungan@dlh.tasikmalayakota.go.id</p>
-                  </div>
                 </div>
 
                 {/* Kabid Pengendalian Pencemaran */}
@@ -191,10 +150,6 @@ const ProfilPimpinan: React.FC = () => {
                       <h3 className="text-lg font-bold text-gray-800 dark:text-white">[Nama Kabid]</h3>
                       <p className="text-red-600 dark:text-red-400 font-semibold">Kabid Pengendalian Pencemaran</p>
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <p><span className="font-medium">NIP:</span> [NIP]</p>
-                    <p><span className="font-medium">Email:</span> pencemaran@dlh.tasikmalayakota.go.id</p>
                   </div>
                 </div>
 
@@ -211,10 +166,6 @@ const ProfilPimpinan: React.FC = () => {
                       <p className="text-teal-600 dark:text-teal-400 font-semibold">Kabid Pengelolaan Sampah</p>
                     </div>
                   </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <p><span className="font-medium">NIP:</span> [NIP]</p>
-                    <p><span className="font-medium">Email:</span> sampah@dlh.tasikmalayakota.go.id</p>
-                  </div>
                 </div>
 
                 {/* Kabid Penataan & Penegakan */}
@@ -229,10 +180,6 @@ const ProfilPimpinan: React.FC = () => {
                       <h3 className="text-lg font-bold text-gray-800 dark:text-white">[Nama Kabid]</h3>
                       <p className="text-indigo-600 dark:text-indigo-400 font-semibold">Kabid Penataan & Penegakan</p>
                     </div>
-                  </div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">
-                    <p><span className="font-medium">NIP:</span> [NIP]</p>
-                    <p><span className="font-medium">Email:</span> penegakan@dlh.tasikmalayakota.go.id</p>
                   </div>
                 </div>
               </div>

@@ -33,8 +33,8 @@ export default function BeritaSection() {
 											<span className="text-xs text-white bg-green-600 px-2 py-1 rounded">Kategori</span>
 										</div>
 									</div>
-									<h3 className="font-medium text-gray-800 dark:text-white group-hover:text-green-600 transition-colors line-clamp-2">
-										{title}
+									<h3 className="font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors line-clamp-2">
+									{title}
 									</h3>
 									<p className="text-sm text-gray-600 dark:text-gray-400 mt-1">15 Juli 2025</p>
 								</div>
@@ -51,8 +51,8 @@ export default function BeritaSection() {
 										<div key={idx} className="group cursor-pointer flex gap-3">
 											<div className="w-16 h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
 											<div className="flex-1">
-												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 transition line-clamp-2">
-													{title}
+												<h4 className="text-xs font-medium text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition line-clamp-2">
+												{title}
 												</h4>
 												<p className="text-xs text-gray-500 dark:text-gray-400 mt-1">13 Juli 2025</p>
 											</div>

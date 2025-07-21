@@ -45,8 +45,8 @@ export default function Profil() {
                 Tentang Kami
               </h2>
               <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Dinas Lingkungan Hidup Kota Tasikmalaya merupakan unsur pelaksana urusan 
-                pemerintahan di bidang lingkungan hidup yang berkomitmen memberikan pelayanan 
+                <span className='font-semibold'>Dinas Lingkungan Hidup Kota Tasikmalaya</span> merupakan unsur pelaksana urusan
+                pemerintahan di bidang lingkungan hidup yang berkomitmen memberikan pelayanan
                 terbaik kepada masyarakat.
               </p>
             </div>
@@ -63,8 +63,7 @@ export default function Profil() {
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors duration-300">Visi</h3>
                   <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
-                    Lingkungan hidup yang lestari, bersih, dan sehat untuk mendukung 
-                    Kota Tasikmalaya yang maju dan berkelanjutan
+                    Tasikmalaya sebagai kota industri, jasa dan perdagangan yang religius, inovatif, maju dan berkelanjutan
                   </p>
                 </div>
               </Link>
@@ -79,7 +78,7 @@ export default function Profil() {
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Misi</h3>
                   <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
-                    4 misi utama dalam pengendalian pencemaran, kesadaran masyarakat, 
+                    <span className='font-semibold'>DUMMY </span>4 misi utama dalam pengendalian pencemaran, kesadaran masyarakat, 
                     pengelolaan sampah, dan peningkatan kapasitas aparatur
                   </p>
                 </div>
@@ -132,10 +131,10 @@ export default function Profil() {
                     Tentang DLH
                   </h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Visi, misi, TUPOKSI, dan maklumat pelayanan DLH Kota Tasikmalaya
+                    Visi, Misi, TUPOKSI, dan maklumat pelayanan DLH Kota Tasikmalaya
                   </p>
                   <span className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                    Selengkapnya →
+                    Selengkapnya
                   </span>
                 </div>
               </Link>
@@ -155,7 +154,7 @@ export default function Profil() {
                     Bagan organisasi lengkap dan deskripsi tugas setiap bidang
                   </p>
                   <span className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                    Lihat Struktur →
+                    Lihat Struktur
                   </span>
                 </div>
               </Link>
@@ -175,7 +174,7 @@ export default function Profil() {
                     Profil kepala dinas, sekretaris, dan para kepala bidang
                   </p>
                   <span className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                    Lihat Profil →
+                    Lihat Profil
                   </span>
                 </div>
               </Link>
@@ -195,7 +194,7 @@ export default function Profil() {
                     3 bidang utama: Tata Lingkungan, Pencemaran, dan Sampah
                   </p>
                   <span className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                    Jelajahi Bidang →
+                    Jelajahi Bidang
                   </span>
                 </div>
               </Link>

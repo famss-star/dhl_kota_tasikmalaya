@@ -55,6 +55,47 @@ export default function Navbar() {
   // --- STATE ---
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [submenuHighlight, setSubmenuHighlight] = useState<string | null>(null);
+
+  // Set default highlight for Layanan Publik & Informasi & Dokumen
+  useEffect(() => {
+	if (openDropdown === "Layanan Publik") {
+	  setSubmenuHighlight("Perizinan Umum");
+	} else if (openDropdown === "Informasi & Dokumen") {
+	  setSubmenuHighlight("Informasi Umum");
+	} else if (openDropdown === "Profil") {
+	  setSubmenuHighlight(null); // Profil handled by its own effect
+	} else {
+	  setSubmenuHighlight(null);
+	}
+  }, [openDropdown]);
+
+  // Untuk animasi transisi highlight preview Profil
+  const [profilAnimKey, setProfilAnimKey] = useState(0);
+  const [profilCurrent, setProfilCurrent] = useState<{title: string, desc: string}>({title: "Profil", desc: profilHighlight("Profil")});
+  useEffect(() => {
+	if (openDropdown === "Profil") {
+	  const title = submenuHighlight || "Profil";
+	  const desc = profilHighlight(title);
+	  setProfilCurrent({title, desc});
+	  setProfilAnimKey(prev => prev + 1); // trigger animasi
+	}
+  }, [submenuHighlight, openDropdown]);
+
+  // Untuk animasi transisi highlight preview Layanan Publik
+  const [layananAnimKey, setLayananAnimKey] = useState(0);
+  useEffect(() => {
+	if (openDropdown === "Layanan Publik") {
+	  setLayananAnimKey(prev => prev + 1);
+	}
+  }, [submenuHighlight, openDropdown]);
+
+  // Untuk animasi transisi highlight preview Informasi & Dokumen
+  const [infoAnimKey, setInfoAnimKey] = useState(0);
+  useEffect(() => {
+	if (openDropdown === "Informasi & Dokumen") {
+	  setInfoAnimKey(prev => prev + 1);
+	}
+  }, [submenuHighlight, openDropdown]);
   const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
 	const [mobileOpen, setMobileOpen] = useState(false);
 	const [theme, setTheme] = useState<string>("light");
@@ -124,6 +165,31 @@ export default function Navbar() {
 	if (name.includes("Galeri")) return "Galeri foto dan video kegiatan DLH Kota Tasikmalaya.";
 	if (name.includes("Download")) return "Download file dan dokumen lingkungan hidup.";
 	return name;
+  }
+
+  function profilHighlight(name: string) {
+	switch (name) {
+	  case "Profil":
+		return "Profil singkat Dinas Lingkungan Hidup Kota Tasikmalaya.";
+	  case "Tentang DLH Kota Tasikmalaya":
+		return "Informasi tentang DLH Kota Tasikmalaya, visi, misi, dan sejarah.";
+	  case "Tugas Pokok & Fungsi":
+		return "Penjelasan tugas pokok dan fungsi DLH Kota Tasikmalaya.";
+	  case "Visi & Misi":
+		return "Visi dan misi DLH Kota Tasikmalaya.";
+	  case "Struktur Organisasi":
+		return "Struktur organisasi DLH Kota Tasikmalaya.";
+	  case "Bidang Umum":
+		return "Bidang Umum: Mengelola administrasi dan tata usaha DLH.";
+	  case "Bidang Tata Lingkungan":
+		return "Bidang Tata Lingkungan: Mengelola tata lingkungan hidup di Kota Tasikmalaya.";
+	  case "Bidang Pengendalian Pencemaran & Penataan Hukum":
+		return "Bidang Pengendalian Pencemaran & Penataan Hukum: Mengendalikan pencemaran dan penataan hukum lingkungan.";
+	  case "Bidang Pengelolaan Sampah":
+		return "Bidang Pengelolaan Sampah: Mengelola persampahan dan limbah di Kota Tasikmalaya.";
+	  default:
+		return "Dinas Lingkungan Hidup Kota Tasikmalaya merupakan unsur pelaksana urusan pemerintahan di bidang lingkungan hidup yang berkomitmen memberikan pelayanan terbaik kepada masyarakat.";
+	}
   }
 
   // --- DROPDOWN LOGIC ---
@@ -269,32 +335,85 @@ export default function Navbar() {
 					<div className="container mx-auto px-8">
 					  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
 						{/* Kolom kiri: highlight/preview */}
-						<div className="mb-6 md:mb-0">
-						  <div className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300">
-							{item.name === "Profil" && submenuHighlight && submenuHighlight.startsWith("Bidang") ? "Bidang" :
-							  item.name === "Layanan Publik" && submenuHighlight ? submenuHighlight :
-							  item.name === "Informasi & Dokumen" && submenuHighlight ? submenuHighlight :
-							  item.name}
-						  </div>
-						  <div className="text-gray-600 dark:text-gray-300 text-base min-h-[60px]">
-							{item.name === "Profil" && (
-							  submenuHighlight && submenuHighlight.startsWith("Bidang") ?
-								"Bidang pada DLH Kota Tasikmalaya terdiri dari beberapa bidang utama yang menjalankan tugas pokok dan fungsi sesuai urusan lingkungan hidup." :
-								"Dinas Lingkungan Hidup Kota Tasikmalaya merupakan unsur pelaksana urusan pemerintahan di bidang lingkungan hidup yang berkomitmen memberikan pelayanan terbaik kepada masyarakat."
-							)}
-							{item.name === "Layanan Publik" && (
-							  submenuHighlight ?
-								layananPublikHighlight(submenuHighlight) :
-								"Layanan perizinan, pengaduan, dan kontak publik DLH Kota Tasikmalaya."
-							)}
-							{item.name === "Informasi & Dokumen" && (
-							  submenuHighlight ?
-								informasiDokumenHighlight(submenuHighlight) :
-								"Akses informasi, dokumen, dan galeri kegiatan DLH Kota Tasikmalaya."
-							)}
-							{item.name === "Beranda" && "Kembali ke halaman utama DLH Kota Tasikmalaya."}
-						  </div>
-						</div>
+			<div className="mb-6 md:mb-0">
+			  {/* Animasi transisi judul dan deskripsi Profil */}
+			  {item.name === "Profil" && openDropdown === "Profil" ? (
+				<>
+				  <div
+					key={profilAnimKey}
+					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{profilCurrent.title}
+				  </div>
+				  <div
+					key={profilAnimKey + 1000}
+					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{profilCurrent.desc}
+				  </div>
+				</>
+			  ) : item.name === "Layanan Publik" && openDropdown === "Layanan Publik" ? (
+				<>
+				  <div
+					key={"layanan-title-" + layananAnimKey}
+					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{submenuHighlight || "Layanan Publik"}
+				  </div>
+				  <div
+					key={"layanan-desc-" + layananAnimKey}
+					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{submenuHighlight
+					  ? layananPublikHighlight(submenuHighlight)
+					  : "Layanan perizinan, pengaduan, dan kontak publik DLH Kota Tasikmalaya."}
+				  </div>
+				</>
+			  ) : item.name === "Informasi & Dokumen" && openDropdown === "Informasi & Dokumen" ? (
+				<>
+				  <div
+					key={"info-title-" + infoAnimKey}
+					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{submenuHighlight || "Informasi & Dokumen"}
+				  </div>
+				  <div
+					key={"info-desc-" + infoAnimKey}
+					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{submenuHighlight
+					  ? informasiDokumenHighlight(submenuHighlight)
+					  : "Akses informasi, dokumen, dan galeri kegiatan DLH Kota Tasikmalaya."}
+				  </div>
+				</>
+			  ) : (
+				<>
+				  <div
+					key={item.name + "-title-" + (submenuHighlight || "default")}
+					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{item.name}
+				  </div>
+				  <div
+					key={item.name + "-desc-" + (submenuHighlight || "default")}
+					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+					style={{willChange: 'opacity, transform'}}
+				  >
+					{item.name === "Beranda"
+					  ? "Kembali ke halaman utama DLH Kota Tasikmalaya."
+					  : null}
+				  </div>
+				</>
+			  )}
+
+			</div>
 						{/* Kolom kanan: submenu dinamis */}
 			{item.name === "Profil" ? (
 			  <div className="grid grid-cols-2 gap-6">
@@ -302,36 +421,40 @@ export default function Navbar() {
 				<div>
 				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Profil</div>
 				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight("Profil")}
-						onFocus={() => setSubmenuHighlight("Profil")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
+				{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub) => (
+				  <Link
+					key={sub.name}
+					href={sub.href}
+					className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+					onClick={() => setOpenDropdown(null)}
+					onMouseEnter={() => setSubmenuHighlight(sub.name)}
+					onFocus={() => setSubmenuHighlight(sub.name)}
+					onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+					onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+				  >
+					{sub.name}
+				  </Link>
+				))}
 				  </div>
 				</div>
 				{/* Kolom 2: Bidang */}
 				<div>
 				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Bidang</div>
 				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight("Bidang")}
-						onFocus={() => setSubmenuHighlight("Bidang")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
+				{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub) => (
+				  <Link
+					key={sub.name}
+					href={sub.href}
+					className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+					onClick={() => setOpenDropdown(null)}
+					onMouseEnter={() => setSubmenuHighlight(sub.name)}
+					onFocus={() => setSubmenuHighlight(sub.name)}
+					onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+					onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+				  >
+					{sub.name}
+				  </Link>
+				))}
 				  </div>
 				</div>
 			  </div>
@@ -349,6 +472,8 @@ export default function Navbar() {
 						onClick={() => setOpenDropdown(null)}
 						onMouseEnter={() => setSubmenuHighlight(sub.name)}
 						onFocus={() => setSubmenuHighlight(sub.name)}
+						onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
+						onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 					  >
 						{sub.name}
 					  </Link>
@@ -367,6 +492,8 @@ export default function Navbar() {
 						onClick={() => setOpenDropdown(null)}
 						onMouseEnter={() => setSubmenuHighlight(sub.name)}
 						onFocus={() => setSubmenuHighlight(sub.name)}
+						onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
+						onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 					  >
 						{sub.name}
 					  </Link>
@@ -388,6 +515,8 @@ export default function Navbar() {
 						onClick={() => setOpenDropdown(null)}
 						onMouseEnter={() => setSubmenuHighlight(sub.name)}
 						onFocus={() => setSubmenuHighlight(sub.name)}
+						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+						onBlur={() => setSubmenuHighlight("Informasi Umum")}
 					  >
 						{sub.name}
 					  </Link>
@@ -406,6 +535,8 @@ export default function Navbar() {
 						onClick={() => setOpenDropdown(null)}
 						onMouseEnter={() => setSubmenuHighlight(sub.name)}
 						onFocus={() => setSubmenuHighlight(sub.name)}
+						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+						onBlur={() => setSubmenuHighlight("Informasi Umum")}
 					  >
 						{sub.name}
 					  </Link>
@@ -424,6 +555,8 @@ export default function Navbar() {
 						onClick={() => setOpenDropdown(null)}
 						onMouseEnter={() => setSubmenuHighlight(sub.name)}
 						onFocus={() => setSubmenuHighlight(sub.name)}
+						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+						onBlur={() => setSubmenuHighlight("Informasi Umum")}
 					  >
 						{sub.name}
 					  </Link>

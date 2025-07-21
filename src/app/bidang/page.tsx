@@ -110,9 +110,9 @@ export default function Bidang() {
                 return (
                   <div 
                     key={bidang.id}
-                    className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 ${colors.hover} transition duration-300 transform hover:scale-105`}
+                    className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 ${colors.hover} transition duration-300 transform hover:scale-105 flex flex-col`}
                   >
-                    <div className="text-center mb-6">
+                    <div className="text-center mb-6 flex-1">
                       <div className={`${colors.bg} ${colors.text} rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl`}>
                         {bidang.icon}
                       </div>
@@ -123,29 +123,14 @@ export default function Bidang() {
                         {bidang.description}
                       </p>
                     </div>
-
-                    <div className="mb-6">
-                      <h4 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-                        Tugas & Fungsi:
-                      </h4>
-                      <ul className="space-y-2">
-                        {bidang.features.map((feature, index) => (
-                          <li key={index} className="flex items-start">
-                            <span className={`${colors.text} mr-3 mt-1`}>•</span>
-                            <span className="text-gray-700 dark:text-gray-300">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-
-                    <div className="text-center">
+                    <div className="text-center mt-auto">
                       <Link href={
                         bidang.name === 'Bidang Tata Lingkungan' ? '/bidang/tata-lingkungan'
                         : bidang.name === 'Bidang Pengendalian Pencemaran' ? '/bidang/pencemaran'
                         : bidang.name === 'Bidang Pengelolaan Sampah' ? '/bidang/sampah'
                         : '#'
                       }>
-                        <button className={`${colors.button} text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
+                        <button className={`${colors.button} items-end text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
                           Pelajari Lebih Lanjut
                         </button>
                       </Link>
@@ -191,7 +176,7 @@ export default function Bidang() {
               <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
                 Jelajahi Lebih Lanjut
               </h2>
-              <div className="grid md:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 gap-6">
                 <Link href="/profil/struktur-organisasi" className="group">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
                     <div className="text-3xl mb-3">📊</div>
@@ -208,13 +193,6 @@ export default function Bidang() {
                   </div>
                 </Link>
                 
-                <Link href="/kontak" className="group">
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
-                    <div className="text-3xl mb-3">📞</div>
-                    <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Hubungi Kami</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">Informasi kontak lengkap</p>
-                  </div>
-                </Link>
               </div>
             </div>
           </section>
