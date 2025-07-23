@@ -3,8 +3,8 @@ import React from "react";
 import Link from "next/link";
 
 export default function BeritaSection() {
-	return (
-		<div className="relative -mt-16 mb-16 z-10">
+ return (
+ <div className="relative mb-16 z-10">
 			<div className="max-w-6xl mx-auto px-4">
 				<div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 p-6">
 					<div className="flex items-center justify-between mb-4">

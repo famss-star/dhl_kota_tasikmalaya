@@ -248,11 +248,14 @@ export default function Navbar() {
 				isScrolled 
 					? 'bg-green-700 text-white backdrop-blur-sm' 
 					: 'bg-white/50 dark:bg-black/50 backdrop-blur-md text-gray-800 dark:text-white border-b border-gray-200/30 dark:border-white/20'
-			}`} style={{ position: 'sticky', top: 0 }}>
+				}`} style={{ position: 'sticky', top: 0 }}>
 				<div className="container mx-auto flex items-center justify-between relative min-w-0">
 					{/* Kiri: Logo */}
 					<div className="flex items-center min-w-0">
-						<Link href="/" className="flex items-center gap-2 group min-w-0">
+						<Link 
+							href="/" 
+							className="flex items-center gap-2 group min-w-0"
+							>
 							<img
 								src="https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png"
 								alt="DLH Kota Tasikmalaya"
@@ -288,302 +291,300 @@ export default function Navbar() {
 									className="relative group"
 									onMouseEnter={() => item.submenu && openMenu(item.name)}
 								>
-				{item.submenu ? (
-				  <button
-					className="px-2 py-1 rounded flex items-center gap-1 cursor-pointer"
-					onClick={() => openDropdown === item.name ? closeMenu() : openMenu(item.name)}
-					aria-haspopup="true"
-					aria-expanded={openDropdown === item.name}
-				  >
-					<span className="hover:font-bold transition-all">
-					  {item.name}
-					</span>
-					<svg
-					  className={`ml-1 w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : 'rotate-0'}`}
-					  fill="none"
-					  viewBox="0 0 24 24"
-					  stroke="currentColor"
-					>
-					  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-					</svg>
-				  </button>
-				) : (
-				  <Link
-					href={item.href}
-					className="px-2 py-1 rounded hover:font-bold transition-all flex items-center"
-					onClick={item.name === "Kontak" ? (e) => {
-					  e.preventDefault();
-					  const footer = document.querySelector("footer");
-					  if (footer) {
-						footer.scrollIntoView({ behavior: "smooth" });
-					  }
-					} : undefined}
-				  >
-					{item.name}
-				  </Link>
-				)}
-				{openDropdown === item.name && item.submenu && (
-		  <div
-			className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-gray-800 dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out"
-			style={{}}
-			onMouseLeave={scheduleCloseMenu}
-			onMouseEnter={cancelCloseMenu}
-		  >
-			<div className="container mx-auto px-8">
-			  <div className="flex flex-col md:flex-row gap-8 items-start">
-				{/* Kolom kiri: highlight/preview */}
-		<div className="mb-6 md:mb-0 md:w-1/4">
-			  {/* Animasi transisi judul dan deskripsi Profil */}
-			  {item.name === "Profil" && openDropdown === "Profil" ? (
-				<>
-				  <div
-					key={profilAnimKey}
-					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{profilCurrent.title}
-				  </div>
-				  <div
-					key={profilAnimKey + 1000}
-					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{profilCurrent.desc}
-				  </div>
-				</>
-			  ) : item.name === "Layanan Publik" && openDropdown === "Layanan Publik" ? (
-				<>
-				  <div
-					key={"layanan-title-" + layananAnimKey}
-					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{submenuHighlight || "Layanan Publik"}
-				  </div>
-				  <div
-					key={"layanan-desc-" + layananAnimKey}
-					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{submenuHighlight
-					  ? layananPublikHighlight(submenuHighlight)
-					  : "Layanan perizinan, pengaduan, dan kontak publik DLH Kota Tasikmalaya."}
-				  </div>
-				</>
-			  ) : item.name === "Informasi & Dokumen" && openDropdown === "Informasi & Dokumen" ? (
-				<>
-				  <div
-					key={"info-title-" + infoAnimKey}
-					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{submenuHighlight || "Informasi & Dokumen"}
-				  </div>
-				  <div
-					key={"info-desc-" + infoAnimKey}
-					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{submenuHighlight
-					  ? informasiDokumenHighlight(submenuHighlight)
-					  : "Akses informasi, dokumen, dan galeri kegiatan DLH Kota Tasikmalaya."}
-				  </div>
-				</>
-			  ) : (
-				<>
-				  <div
-					key={item.name + "-title-" + (submenuHighlight || "default")}
-					className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{item.name}
-				  </div>
-				  <div
-					key={item.name + "-desc-" + (submenuHighlight || "default")}
-					className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-					style={{willChange: 'opacity, transform'}}
-				  >
-					{item.name === "Beranda"
-					  ? "Kembali ke halaman utama DLH Kota Tasikmalaya."
-					  : null}
-				  </div>
-				</>
-			  )}
+									{item.submenu ? (
+										<button
+											className="px-2 py-1 rounded flex items-center gap-1 cursor-pointer"
+											onClick={() => openDropdown === item.name ? closeMenu() : openMenu(item.name)}
+											aria-haspopup="true"
+											aria-expanded={openDropdown === item.name}
+										>
+											<span className="transition-all">
+												{item.name}
+											</span>
+											<svg
+												className={`ml-1 w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : 'rotate-0'}`}
+												fill="none"
+												viewBox="0 0 24 24"
+												stroke="currentColor"
+											>
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+											</svg>
+										</button>
+									) : (
+										<Link
+											href={item.href}
+											className="px-2 py-1 rounded transition-all flex items-center"
+											onClick={item.name === "Kontak" ? (e) => {
+											e.preventDefault();
+											const footer = document.querySelector("footer");
+											if (footer) {
+												footer.scrollIntoView({ behavior: "smooth" });
+											}
+											} : undefined}
+										>
+											{item.name}
+										</Link>
+									)}
+									{openDropdown === item.name && item.submenu && (
+										<div
+											className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-gray-800 dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out"
+											style={{}}
+											onMouseLeave={scheduleCloseMenu}
+											onMouseEnter={cancelCloseMenu}
+										>
+											<div className="container mx-auto px-8">
+												<div className="flex flex-col md:flex-row gap-8 items-start">
+													{/* Kolom kiri: highlight/preview */}
+													<div className="mb-6 md:mb-0 md:w-1/4">
+														{/* Animasi transisi judul dan deskripsi Profil */}
+														{item.name === "Profil" && openDropdown === "Profil" ? (
+															<>
+																<div
+																	key={profilAnimKey}
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{profilCurrent.title}
+																</div>
+																<div
+																	key={profilAnimKey + 1000}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{profilCurrent.desc}
+																</div>
+															</>
+														) : item.name === "Layanan Publik" && openDropdown === "Layanan Publik" ? (
+															<>
+																<div
+																	key={"layanan-title-" + layananAnimKey}
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{submenuHighlight || "Layanan Publik"}
+																</div>
+																<div
+																	key={"layanan-desc-" + layananAnimKey}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{submenuHighlight
+																	? layananPublikHighlight(submenuHighlight)
+																	: "Layanan perizinan, pengaduan, dan kontak publik DLH Kota Tasikmalaya."}
+																</div>
+															</>
+														) : item.name === "Informasi & Dokumen" && openDropdown === "Informasi & Dokumen" ? (
+															<>
+																<div
+																	key={"info-title-" + infoAnimKey}
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{submenuHighlight || "Informasi & Dokumen"}
+																</div>
+																<div
+																	key={"info-desc-" + infoAnimKey}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
+																	style={{willChange: 'opacity, transform'}}
+																>
+																	{submenuHighlight
+																	? informasiDokumenHighlight(submenuHighlight)
+																	: "Akses informasi, dokumen, dan galeri kegiatan DLH Kota Tasikmalaya."}
+																</div>
+															</>
+														) : (
+															<>
+																<div
+																	key={item.name + "-title-" + (submenuHighlight || "default")}
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300"
+																>
+																	{item.name}
+																</div>
+																<div
+																	key={item.name + "-desc-" + (submenuHighlight || "default")}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px]"
+																>
+																	{item.name === "Beranda"
+																	? "Kembali ke halaman utama DLH Kota Tasikmalaya."
+																	: null}
+																</div>
+															</>
+														)}
 
-			</div>
-			{/* Kolom kanan: submenu dinamis */}
-		{item.name === "Profil" ? (
-		  <div className="grid grid-cols-2 gap-6 md:w-3/4">
-				{/* Kolom 1: Profil */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Profil</div>
-				  <div className="flex flex-col gap-2">
-				{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub) => (
-				  <Link
-					key={sub.name}
-					href={sub.href}
-					className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-					onClick={() => setOpenDropdown(null)}
-					onMouseEnter={() => setSubmenuHighlight(sub.name)}
-					onFocus={() => setSubmenuHighlight(sub.name)}
-					onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
-					onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
-				  >
-					{sub.name}
-				  </Link>
-				))}
-				  </div>
-				</div>
-				{/* Kolom 2: Bidang */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Bidang</div>
-				  <div className="flex flex-col gap-2">
-				{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub) => (
-				  <Link
-					key={sub.name}
-					href={sub.href}
-					className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-					onClick={() => setOpenDropdown(null)}
-					onMouseEnter={() => setSubmenuHighlight(sub.name)}
-					onFocus={() => setSubmenuHighlight(sub.name)}
-					onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
-					onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
-				  >
-					{sub.name}
-				  </Link>
-				))}
-				  </div>
-				</div>
-			  </div>
-		) : item.name === "Layanan Publik" ? (
-		  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4">
-				{/* Kolom 1: Perizinan */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
-				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight(sub.name)}
-						onFocus={() => setSubmenuHighlight(sub.name)}
-						onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
-						onBlur={() => setSubmenuHighlight("Perizinan Umum")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
-				  </div>
-				</div>
-				{/* Kolom 2: Layanan Publik Lainnya */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Layanan Lainnya</div>
-				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => !sub.name.includes("Perizinan")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight(sub.name)}
-						onFocus={() => setSubmenuHighlight(sub.name)}
-						onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
-						onBlur={() => setSubmenuHighlight("Perizinan Umum")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
-				  </div>
-				</div>
-			  </div>
-		) : item.name === "Informasi & Dokumen" ? (
-		  <div className="grid grid-cols-3 gap-6 md:w-3/4">
-				{/* Kolom 1: Informasi */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Informasi</div>
-				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => sub.name.includes("Informasi") || sub.name.includes("Berita") || sub.name.includes("Agenda") || sub.name.includes("Panduan")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight(sub.name)}
-						onFocus={() => setSubmenuHighlight(sub.name)}
-						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
-						onBlur={() => setSubmenuHighlight("Informasi Umum")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
-				  </div>
-				</div>
-				{/* Kolom 2: Dokumen */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Dokumen</div>
-				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => sub.name.includes("Dokumen") || sub.name.includes("Peraturan") || sub.name.includes("SOP")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight(sub.name)}
-						onFocus={() => setSubmenuHighlight(sub.name)}
-						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
-						onBlur={() => setSubmenuHighlight("Informasi Umum")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
-				  </div>
-				</div>
-				{/* Kolom 3: Galeri */}
-				<div>
-				  <div className="font-semibold text-green-700 dark:text-green-300 mb-2">Galeri</div>
-				  <div className="flex flex-col gap-2">
-					{item.submenu.filter(sub => sub.name.includes("Galeri") || sub.name.includes("Download")).map((sub) => (
-					  <Link
-						key={sub.name}
-						href={sub.href}
-						className="block px-4 py-2 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-						onMouseEnter={() => setSubmenuHighlight(sub.name)}
-						onFocus={() => setSubmenuHighlight(sub.name)}
-						onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
-						onBlur={() => setSubmenuHighlight("Informasi Umum")}
-					  >
-						{sub.name}
-					  </Link>
-					))}
-				  </div>
-				</div>
-			  </div>
-		) : (
-		  <div className="flex flex-col gap-2 md:w-3/4">
-				{item.submenu.map((sub) => (
-				  <div key={sub.name}>
-					{sub.href ? (
-					  <Link
-						href={sub.href}
-						className="block px-4 py-3 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
-						onClick={() => setOpenDropdown(null)}
-					  >
-						{sub.name}
-					  </Link>
-					) : null}
-				  </div>
-				))}
-			  </div>
-			)}
-					  </div>
-					</div>
-				  </div>
-				)}
-			  </li>
-			))}
+													</div>
+													{/* Kolom kanan: submenu dinamis */}
+													{item.name === "Profil" ? (
+														<div className="grid grid-cols-2 gap-6 md:w-3/4">
+															{/* Kolom 1: Profil */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Profil</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+															{/* Kolom 2: Bidang */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Bidang</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+														</div>
+													) : item.name === "Layanan Publik" ? (
+														<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4">
+															{/* Kolom 1: Perizinan */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
+																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+															{/* Kolom 2: Layanan Publik Lainnya */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Layanan Lainnya</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => !sub.name.includes("Perizinan")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
+																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+														</div>
+													) : item.name === "Informasi & Dokumen" ? (
+														<div className="grid grid-cols-3 gap-6 md:w-3/4">
+															{/* Kolom 1: Informasi */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Informasi</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.includes("Informasi") || sub.name.includes("Berita") || sub.name.includes("Agenda") || sub.name.includes("Panduan")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+															{/* Kolom 2: Dokumen */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Dokumen</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.includes("Dokumen") || sub.name.includes("Peraturan") || sub.name.includes("SOP")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+															{/* Kolom 3: Galeri */}
+															<div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Galeri</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.includes("Galeri") || sub.name.includes("Download")).map((sub) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
+																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
+																		>
+																			{sub.name}
+																		</Link>
+																	))}
+																</div>
+															</div>
+														</div>
+													) : (
+														<div className="flex flex-col gap-2 md:w-3/4">
+															{item.submenu.map((sub) => (
+																<div key={sub.name}>
+																	{sub.href ? (
+																		<Link
+																			href={sub.href}
+																			className="block px-4 py-3 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			onClick={() => setOpenDropdown(null)}
+																		>
+																			{sub.name}
+																		</Link>
+																	) : null}
+																</div>
+															))}
+														</div>
+													)}
+												</div>
+											</div>
+										</div>
+									)}
+								</li>
+							))}
 						</ul>
 					</div>
 
@@ -597,7 +598,7 @@ export default function Navbar() {
 									placeholder="Cari informasi..."
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-64 px-4 py-2 pr-10 text-gray-800 bg-white/90 backdrop-blur-sm border border-white/30 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
+									className="w-64 px-4 py-2 pr-10 text-gray-800 bg-white/90 backdrop-blur-sm border border-gray/30 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
 								/>
 								<button
 									type="submit"
@@ -628,7 +629,7 @@ export default function Navbar() {
 								</svg>
 							</button>
 							<select
-								className="bg-gray-200/50 dark:bg-green-900 text-gray-800 dark:text-white rounded px-2 py-1 focus:outline-none"
+								className="bg-gray-200/50 dark:bg-green-900 text-gray-800 dark:text-white rounded-full px-4 py-1 focus:outline-none"
 								aria-label="Pilih bahasa"
 								value={language}
 								onChange={handleLanguageChange}
