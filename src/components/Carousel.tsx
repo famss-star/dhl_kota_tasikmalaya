@@ -96,7 +96,6 @@ export default function Carousel() {
 			onMounted={(_splide) => {
 			  setCurrent(_splide.index);
 			  setSplideIndex(_splide.index);
-			} onMounted={(_splide: SplideType) => {
 			}}
 		  >
 			{bannerImages.map((banner, idx) => (
