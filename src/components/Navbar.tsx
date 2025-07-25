@@ -53,6 +53,7 @@ export default function Navbar() {
   ];
 
   // --- STATE ---
+  const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [submenuHighlight, setSubmenuHighlight] = useState<string | null>(null);
 
@@ -628,15 +629,37 @@ export default function Navbar() {
 									<circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
 								</svg>
 							</button>
-							<select
-								className="bg-gray-200/50 dark:bg-green-900 text-gray-800 dark:text-white rounded-full px-4 py-1 focus:outline-none"
+							<div className="relative">
+								<button
+								className="flex items-center gap-2 bg-gray-200/50 dark:bg-green-900 text-gray-800 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-colors"
 								aria-label="Pilih bahasa"
-								value={language}
-								onChange={handleLanguageChange}
-							>
-								<option value="id">ID</option>
-								<option value="en">EN</option>
-							</select>
+								onClick={() => setShowLangDropdown((prev) => !prev)}
+								type="button"
+								>
+								<span className="text-xl">
+									{language === "id" ? "🇮🇩" : "🇬🇧"}
+								</span>
+								<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+								</svg>
+								</button>
+								{showLangDropdown && (
+								<div className="absolute right-0 mt-2 w-32 bg-white dark:bg-green-900 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700">
+									<button
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-colors ${language === "id" ? "font-bold" : ""}`}
+									onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
+									>
+									<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
+									</button>
+									<button
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-colors ${language === "en" ? "font-bold" : ""}`}
+									onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
+									>
+									<span className="text-xl">🇬🇧</span> <span>English</span>
+									</button>
+								</div>
+								)}
+							</div>
 						</div>
 					</div>
 				</div>

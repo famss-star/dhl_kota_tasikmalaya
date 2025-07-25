@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import StatisticsSection, { StatisticsItem } from "@/components/StatisticsSection";
 
 export default function Bidang() {
   const bidangData = [
@@ -43,6 +44,13 @@ export default function Bidang() {
         'Bank Sampah dan Komposter'
       ]
     }
+  ];
+
+  const items: StatisticsItem[] = [
+    { value: "95%", label: "Pelayanan Perizinan" },
+    { value: "100+", label: "Pengawasan Rutin" },
+    { value: "80%", label: "Cakupan Sampah" },
+    { value: "50+", label: "Penegakan Hukum" },
   ];
 
   const getColorClasses = (color: string) => {
@@ -143,31 +151,11 @@ export default function Bidang() {
 
           {/* Statistics */}
           <section className="mb-12">
-            <div className="bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl text-white p-8">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold mb-4">Pencapaian Kinerja 2025</h2>
-                <p className="text-xl opacity-90">Komitmen nyata untuk lingkungan berkelanjutan</p>
-              </div>
-              
-              <div className="grid md:grid-cols-4 gap-8 text-center">
-                <div>
-                  <div className="text-4xl font-bold mb-2">95%</div>
-                  <div className="text-lg opacity-90">Pelayanan Perizinan</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold mb-2">100+</div>
-                  <div className="text-lg opacity-90">Pengawasan Rutin</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold mb-2">80%</div>
-                  <div className="text-lg opacity-90">Cakupan Sampah</div>
-                </div>
-                <div>
-                  <div className="text-4xl font-bold mb-2">50+</div>
-                  <div className="text-lg opacity-90">Penegakan Hukum</div>
-                </div>
-              </div>
-            </div>
+            <StatisticsSection
+              title="Pencapaian Kinerja 2025"
+              subtitle="Komitmen nyata untuk lingkungan berkelanjutan"
+              items={items}
+            />
           </section>
 
           {/* Navigation */}
