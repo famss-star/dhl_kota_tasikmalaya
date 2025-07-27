@@ -1,5 +1,7 @@
 
+
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Footer() {
   return (
@@ -7,10 +9,13 @@ export default function Footer() {
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Kolom 1: Logo & Info */}
         <div className="flex flex-col items-center md:items-start gap-3">
-          <img
+          <Image
             src="https://www.dlh.tasikmalayakota.go.id/images/logo-white-footer.png"
             alt="DLH Kota Tasikmalaya"
+            width={120}
+            height={60}
             className="h-auto w-auto object-contain mb-2"
+            priority
           />
           {/* <div className="font-bold text-lg">DLH Kota Tasikmalaya</div> */}
           <div className="text-sm flex items-center gap-2">

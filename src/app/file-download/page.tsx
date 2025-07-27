@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function FileDownload() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -51,12 +52,12 @@ export default function FileDownload() {
               </div>
             </div>
 
-            <a 
-              href="/" 
+            <Link
+              href="/"
               className="inline-block bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
             >
               Kembali ke Beranda
-            </a>
+            </Link>
           </div>
 
         </div>

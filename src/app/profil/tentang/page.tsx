@@ -64,7 +64,7 @@ const TentangDLH: React.FC = () => {
                 </h2>
                 <div className="text-center max-w-xl">
                   <p className="text-lg text-gray-700 dark:text-gray-300 italic font-medium leading-relaxed">
-                    "TASIKMALAYA SEBAGAI KOTA INDUSTRI, JASA DAN PERDAGANGAN YANG RELIGIUS, INOVATIF, MAJU DAN BERKELANJUTAN"
+                    &quot;TASIKMALAYA SEBAGAI KOTA INDUSTRI, JASA DAN PERDAGANGAN YANG RELIGIUS, INOVATIF, MAJU DAN BERKELANJUTAN&quot;
                   </p>
                 </div>
               </div>

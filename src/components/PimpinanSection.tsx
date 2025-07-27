@@ -9,7 +9,7 @@ export default function PimpinanSection() {
           <div className="md:basis-3/4 basis-full text-left">
             <h2 className="text-2xl md:text-3xl font-bold mb-4 text-green-800 dark:text-green-300">Sambutan Kepala Dinas</h2>
             <p className="text-gray-700 dark:text-gray-200 text-base md:text-lg mb-4">
-              "Selamat datang di portal Dinas Lingkungan Hidup Kota Tasikmalaya. Kami berkomitmen untuk mewujudkan lingkungan yang bersih, sehat, dan lestari melalui kolaborasi dengan masyarakat. Mari bersama menjaga dan mencintai lingkungan demi masa depan yang lebih baik."
+              &quot;Selamat datang di portal Dinas Lingkungan Hidup Kota Tasikmalaya. Kami berkomitmen untuk mewujudkan lingkungan yang bersih, sehat, dan lestari melalui kolaborasi dengan masyarakat. Mari bersama menjaga dan mencintai lingkungan demi masa depan yang lebih baik.&quot;
             </p>
             <div className="font-semibold text-green-700 dark:text-green-200">Drs. Nama Pimpinan</div>
             <div className="text-sm text-gray-500 dark:text-gray-400">Kepala Dinas Lingkungan Hidup</div>

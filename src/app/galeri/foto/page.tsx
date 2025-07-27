@@ -149,10 +149,12 @@ const PhotoGalleryPage = () => {
               onClick={() => setSelectedPhoto(photo)}
             >
               <div className="relative aspect-square">
-                <img
+                <Image
                   src={photo.image}
                   alt={photo.title}
                   className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                  width={500}
+                  height={500}
                 />
                 <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <svg
@@ -203,10 +205,12 @@ const PhotoGalleryPage = () => {
                 </svg>
               </button>
               <div className="relative aspect-[4/3]">
-                <img
+                <Image
                   src={selectedPhoto.image}
                   alt={selectedPhoto.title}
                   className="w-full h-full object-contain"
+                  width={800}
+                  height={600}
                 />
               </div>
               <div className="p-6">

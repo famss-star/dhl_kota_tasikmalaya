@@ -2,7 +2,6 @@
 
 import { notFound } from "next/navigation";
 import React from "react";
-// @ts-ignore
 import { use } from "react";
 
 // Dummy data, should be replaced with real data source
@@ -63,7 +62,6 @@ function slugify(text: string) {
 
 const PeraturanDetailPage = ({ params }: { params: Promise<{ slug: string }> }) => {
   // Next.js App Router: params is now a Promise, must use React.use()
-  // @ts-ignore
   const { slug } = use(params);
   const peraturan = peraturanList.find(
     (item) => slugify(item.judul) === slug

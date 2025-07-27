@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Navbar() {
@@ -98,7 +99,6 @@ export default function Navbar() {
 	}
   }, [submenuHighlight, openDropdown]);
   const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
-	const [mobileOpen, setMobileOpen] = useState(false);
 	const [theme, setTheme] = useState<string>("light");
 	const [language, setLanguage] = useState<string>("id");
 	const [isScrolled, setIsScrolled] = useState(false);
@@ -114,13 +114,6 @@ export default function Navbar() {
 		window.addEventListener('scroll', handleScroll);
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, []);
-	const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const value = e.target.value;
-		setLanguage(value);
-		if (typeof window !== "undefined") {
-			localStorage.setItem("lang", value);
-		}
-	};
 
 	useEffect(() => {
 		// Sync theme from localStorage
@@ -257,10 +250,13 @@ export default function Navbar() {
 							href="/" 
 							className="flex items-center gap-2 group min-w-0"
 							>
-							<img
+							<Image
 								src="https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png"
 								alt="DLH Kota Tasikmalaya"
+								width={60}
+								height={60}
 								className="h-[60px] w-[60px] object-contain transition-transform duration-300 ease-in-out group-hover:scale-110"
+								priority
 							/>
 							<span className="font-bold text-lg sr-only">DLH Kota Tasikmalaya</span>
 						</Link>
@@ -271,7 +267,7 @@ export default function Navbar() {
 						{/* Burger menu button */}
 						<button
 							className="xl:hidden block text-gray-800 dark:text-white focus:outline-none ml-auto"
-							onClick={() => setMobileOpen((prev) => !prev)}
+							// onClick dihapus karena mobileOpen sudah tidak ada
 							aria-label="Toggle menu"
 						>
 							<svg width="32" height="32" fill="none" viewBox="0 0 24 24">

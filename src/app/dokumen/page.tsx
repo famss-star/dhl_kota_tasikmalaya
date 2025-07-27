@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Dokumen() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -25,14 +26,14 @@ export default function Dokumen() {
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
               Halaman dokumen dan publikasi sedang dalam tahap pengembangan. 
-              Fitur download dokumen akan segera tersedia.
+              Fitur download dokumen akan segera tersedia.{" "}
             </p>
-            <a 
-              href="/" 
+            <Link
+              href="/"
               className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
             >
               Kembali ke Beranda
-            </a>
+            </Link>
           </div>
         </div>
       </div>

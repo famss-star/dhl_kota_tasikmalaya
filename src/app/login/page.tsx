@@ -51,7 +51,7 @@ export default function LoginPage() {
       } else {
         setErrors({ submit: "Username atau password salah" });
       }
-    } catch (err) {
+    } catch {
       setErrors({ submit: "Terjadi kesalahan. Silakan coba lagi." });
     } finally {
       setIsLoading(false);

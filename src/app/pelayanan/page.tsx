@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Pelayanan() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -24,15 +26,15 @@ export default function Pelayanan() {
               Halaman Dalam Pengembangan
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              Halaman pelayanan publik sedang dalam tahap pengembangan. 
+              Halaman pelayanan publik sedang dalam tahap pengembangan.{" "}
               Silakan kembali lagi nanti untuk informasi layanan lengkap.
             </p>
-            <a 
-              href="/" 
+            <Link
+              href="/"
               className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
             >
               Kembali ke Beranda
-            </a>
+            </Link>
           </div>
         </div>
       </div>

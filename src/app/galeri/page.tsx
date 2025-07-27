@@ -59,7 +59,7 @@ const categories = ['Semua', 'Penghijauan', 'Edukasi', 'Pembersihan', 'Pelatihan
 
 export default function Galeri() {
   const [selectedCategory, setSelectedCategory] = useState('Semua');
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<(typeof galleryItems)[0] | null>(null);
 
   const filteredItems = selectedCategory === 'Semua' 
     ? galleryItems 
