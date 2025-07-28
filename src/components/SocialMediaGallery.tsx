@@ -1,4 +1,5 @@
 import React from "react";
+import TikTokPlaylistEmbed from "./TikTokPlaylistEmbed"; // sesuaikan path
 
 interface SocialMediaCardProps {
   platform: "youtube" | "tiktok" | "instagram";
@@ -33,7 +34,16 @@ const SocialMediaGallery: React.FC<SocialMediaGalleryProps> = ({ cards }) => {
   return (
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 py-8">
       {cards.map((card, idx) => {
+        if (card.platform === "tiktok" && card.url.includes("/playlist/")) {
+          return (
+            <div key={idx} className="w-full">
+              <TikTokPlaylistEmbed url={card.url} />
+            </div>
+          );
+        }
+
         const embedUrl = getEmbedUrl(card.platform, card.url);
+
         return (
           <div key={idx} className="w-full">
             <iframe
@@ -52,4 +62,3 @@ const SocialMediaGallery: React.FC<SocialMediaGalleryProps> = ({ cards }) => {
 };
 
 export default SocialMediaGallery;
-// ...existing code...
