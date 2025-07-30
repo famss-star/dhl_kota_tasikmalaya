@@ -1,4 +1,5 @@
-import React from 'react';
+
+import { User, Briefcase, Factory, Building2, Settings, Trash2, Trees } from 'lucide-react';
 
 const StrukturOrganisasi: React.FC = () => {
   return (
@@ -28,49 +29,59 @@ const StrukturOrganisasi: React.FC = () => {
                 Bagan Struktur Organisasi
               </h2>
               
+
               {/* Kepala Dinas */}
               <div className="flex justify-center mb-8">
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg p-6 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg p-6 text-center shadow-lg flex flex-col items-center">
+                  <User size={36} className="mb-2 text-white bg-blue-700 rounded-full p-1" />
                   <h3 className="text-xl font-bold mb-2">KEPALA DINAS</h3>
                   <p className="text-sm opacity-90">Dinas Lingkungan Hidup</p>
                 </div>
               </div>
 
+
               {/* Sekretaris */}
               <div className="flex justify-center mb-8">
-                <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Briefcase size={28} className="mb-1 text-white bg-green-700 rounded-full p-0.5" />
                   <h3 className="text-lg font-bold mb-1">SEKRETARIS</h3>
                 </div>
               </div>
 
+
               {/* Sub Bagian */}
               <div className="grid md:grid-cols-3 gap-4 mb-12">
-                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Settings size={22} className="mb-1 text-yellow-100 bg-yellow-600 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-1">Sub Bagian</h4>
                   <p className="text-sm">Perencanaan & Keuangan</p>
                 </div>
-                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Settings size={22} className="mb-1 text-yellow-100 bg-yellow-600 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-1">Sub Bagian</h4>
                   <p className="text-sm">Umum & Kepegawaian</p>
                 </div>
-                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Settings size={22} className="mb-1 text-yellow-100 bg-yellow-600 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-1">Sub Bagian</h4>
                   <p className="text-sm">Evaluasi & Pelaporan</p>
                 </div>
               </div>
 
+
               {/* Bidang-Bidang */}
-              <div className="grid md:grid-cols-4 gap-4">
-                <div className="bg-gradient-to-r from-purple-600 to-purple-700 text-white rounded-lg p-4 text-center shadow-lg">
+              <div className="grid md:grid-cols-3 gap-4">
+                <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Trees size={26} className="mb-1 text-green-200 bg-green-700 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-2">BIDANG</h4>
                   <p className="text-sm mb-2">Tata Lingkungan</p>
                   <div className="text-xs space-y-1">
-                    <div className="bg-purple-800 bg-opacity-50 rounded p-1">Seksi Tata Ruang</div>
-                    <div className="bg-purple-800 bg-opacity-50 rounded p-1">Seksi AMDAL</div>
+                    <div className="bg-green-800 bg-opacity-50 rounded p-1">Seksi Tata Ruang</div>
+                    <div className="bg-green-800 bg-opacity-50 rounded p-1">Seksi AMDAL</div>
                   </div>
                 </div>
-                
-                <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Factory size={26} className="mb-1 text-red-200 bg-red-700 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-2">BIDANG</h4>
                   <p className="text-sm mb-2">Pengendalian Pencemaran</p>
                   <div className="text-xs space-y-1">
@@ -78,8 +89,8 @@ const StrukturOrganisasi: React.FC = () => {
                     <div className="bg-red-800 bg-opacity-50 rounded p-1">Seksi Udara & B3</div>
                   </div>
                 </div>
-                
-                <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Trash2 size={26} className="mb-1 text-teal-100 bg-teal-700 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-2">BIDANG</h4>
                   <p className="text-sm mb-2">Pengelolaan Sampah</p>
                   <div className="text-xs space-y-1">
@@ -87,20 +98,13 @@ const StrukturOrganisasi: React.FC = () => {
                     <div className="bg-teal-800 bg-opacity-50 rounded p-1">Seksi Penanganan</div>
                   </div>
                 </div>
-                
-                <div className="bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-lg p-4 text-center shadow-lg">
-                  <h4 className="font-semibold mb-2">BIDANG</h4>
-                  <p className="text-sm mb-2">Penataan & Penegakan</p>
-                  <div className="text-xs space-y-1">
-                    <div className="bg-indigo-800 bg-opacity-50 rounded p-1">Seksi Penataan</div>
-                    <div className="bg-indigo-800 bg-opacity-50 rounded p-1">Seksi Penegakan</div>
-                  </div>
-                </div>
               </div>
+
 
               {/* UPT */}
               <div className="mt-8 flex justify-center">
-                <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg p-4 text-center shadow-lg">
+                <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
+                  <Building2 size={26} className="mb-1 text-orange-100 bg-orange-700 rounded-full p-0.5" />
                   <h4 className="font-semibold mb-1">UPT</h4>
                   <p className="text-sm">Unit Pelaksana Teknis</p>
                 </div>
@@ -115,29 +119,34 @@ const StrukturOrganisasi: React.FC = () => {
                 Deskripsi Tugas Masing-Masing Bidang
               </h2>
               
-              <div className="grid md:grid-cols-2 gap-8">
+              <div className="grid md:grid-cols-1 gap-8">
                 <div className="space-y-6">
-                  <div className="border-l-4 border-sky-500 pl-4">
-                    <h3 className="text-xl font-semibold text-sky-600 mb-2">Bidang Tata Lingkungan</h3>
+                  <div className="border-l-4 border-green-500 pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trees size={22} className="text-green-600" />
+                      <h3 className="text-xl font-semibold text-green-600">Bidang Tata Lingkungan</h3>
+                    </div>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan penyusunan baku mutu lingkungan hidup, analisis mengenai dampak lingkungan, dan tata ruang berbasis lingkungan hidup.</p>
                   </div>
                   
-                  <div className="border-l-4 border-amber-500 pl-4">
-                    <h3 className="text-xl font-semibold text-amber-600 mb-2">Bidang Pengendalian Pencemaran</h3>
+                  <div className="border-l-4 border-red-500 pl-4">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Factory size={22} className="text-red-500" />
+                      <h3 className="text-xl font-semibold text-red-600">Bidang Pengendalian Pencemaran</h3>
+                    </div>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan pencegahan dan penanggulangan pencemaran air, udara, tanah, serta pengelolaan bahan berbahaya dan beracun (B3).</p>
                   </div>
                 </div>
                 
                 <div className="space-y-6">
                   <div className="border-l-4 border-teal-500 pl-4">
-                    <h3 className="text-xl font-semibold text-teal-600 mb-2">Bidang Pengelolaan Sampah</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Trash2 size={22} className="text-teal-600" />
+                      <h3 className="text-xl font-semibold text-teal-600">Bidang Pengelolaan Sampah</h3>
+                    </div>
                     <p className="text-gray-700 dark:text-gray-300">Melaksanakan pengurangan dan penanganan sampah, termasuk pengembangan teknologi ramah lingkungan dan pemberdayaan masyarakat.</p>
                   </div>
-                  
-                  <div className="border-l-4 border-red-500 pl-4">
-                    <h3 className="text-xl font-semibold text-red-600 mb-2">Bidang Penataan & Penegakan</h3>
-                    <p className="text-gray-700 dark:text-gray-300">Melaksanakan penataan hukum lingkungan, pengawasan, dan penegakan hukum terhadap pelanggaran lingkungan hidup.</p>
-                  </div>
+
                 </div>
               </div>
             </div>

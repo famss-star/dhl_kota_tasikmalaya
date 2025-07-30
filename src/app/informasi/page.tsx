@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { CalendarDays, Newspaper, FileText, BarChart2, Megaphone } from 'lucide-react';
 
 export default function Informasi() {
   return (
@@ -23,11 +24,11 @@ export default function Informasi() {
           
           {/* Available Features */}
           <section className="mb-12">
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-3 gap-8">
               <Link href="/informasi/agenda" className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105">
-                  <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 text-2xl">
-                    📅
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                  <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <CalendarDays className="w-8 h-8" />
                   </div>
                   <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-green-600 dark:group-hover:text-green-400">
                     Agenda Kegiatan
@@ -35,30 +36,51 @@ export default function Informasi() {
                   <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
                     Lihat jadwal kegiatan dan acara DLH Kota Tasikmalaya
                   </p>
-                  <div className="text-center">
+                  <div className="text-center mt-auto">
                     <span className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                      Lihat Agenda →
+                      Lihat Agenda
                     </span>
                   </div>
                 </div>
               </Link>
 
-              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-                <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6 text-2xl">
-                  📰
+              <Link href="/informasi/berita" className="group">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <Newspaper className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                    Berita Terbaru
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
+                    Update berita dan informasi lingkungan hidup terkini
+                  </p>
+                  <div className="text-center mt-auto">
+                    <span className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                      Lihat Berita
+                    </span>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
-                  Berita Terbaru
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                  Update berita dan informasi lingkungan hidup terkini
-                </p>
-                <div className="text-center">
-                  <span className="inline-block bg-gray-400 text-white font-semibold py-2 px-6 rounded-lg">
-                    Segera Hadir
-                  </span>
+              </Link>
+
+              <Link href="/informasi/artikel" className="group">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                  <div className="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <FileText className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-yellow-600 dark:group-hover:text-yellow-400">
+                    Artikel
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
+                    Artikel edukatif tentang lingkungan hidup
+                  </p>
+                  <div className="text-center mt-auto">
+                    <span className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                      Lihat Artikel
+                    </span>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </section>
 
@@ -70,19 +92,17 @@ export default function Informasi() {
               </h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <div className="text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-3xl mb-3">📝</div>
+                  <FileText className="w-8 h-8 mx-auto mb-3 text-gray-500 dark:text-gray-300" />
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Artikel & Blog</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">Artikel edukatif tentang lingkungan hidup</p>
                 </div>
-                
                 <div className="text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-3xl mb-3">📊</div>
+                  <BarChart2 className="w-8 h-8 mx-auto mb-3 text-blue-500 dark:text-blue-400" />
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Data & Statistik</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">Data lingkungan hidup Kota Tasikmalaya</p>
                 </div>
-                
                 <div className="text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <div className="text-3xl mb-3">📢</div>
+                  <Megaphone className="w-8 h-8 mx-auto mb-3 text-amber-500 dark:text-amber-400" />
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Pengumuman</h3>
                   <p className="text-gray-600 dark:text-gray-300 text-sm">Pengumuman resmi dan pemberitahuan penting</p>
                 </div>

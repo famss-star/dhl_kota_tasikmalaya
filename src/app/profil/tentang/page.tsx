@@ -1,5 +1,7 @@
+
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
+import { Users, Landmark, Network } from 'lucide-react';
 
 const TentangDLH: React.FC = () => {
   const [showFullTupoksi, setShowFullTupoksi] = useState(false);
@@ -37,7 +39,7 @@ const TentangDLH: React.FC = () => {
           {/* Tentang Kami */}
           <section className="mb-12">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
+              <h2 className="text-3xl text-center font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
                 Tentang Kami
               </h2>
               <div className="prose prose-lg max-w-none text-gray-700 dark:text-gray-300">
@@ -103,7 +105,7 @@ const TentangDLH: React.FC = () => {
           {/* Tugas Pokok dan Fungsi (Tupoksi) */}
           <section id="tupoksi" className="mb-12 scroll-mt-20">
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
+              <h2 className="text-3xl text-center font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
                 Tugas Pokok dan Fungsi
               </h2>
 
@@ -210,7 +212,9 @@ const TentangDLH: React.FC = () => {
           {/* Navigation Links */}
           <section>
             <div className="grid md:grid-cols-3 gap-6">
+              {/* Struktur Organisasi */}
               <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 rounded-lg p-8 text-center border border-gray-200 dark:border-gray-700 flex flex-col">
+                <Network size={40} className="mx-auto mb-3 text-green-600 dark:text-green-400" />
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
                   Struktur Organisasi
                 </h2>
@@ -224,8 +228,9 @@ const TentangDLH: React.FC = () => {
                   Lihat Struktur Organisasi
                 </a>
               </div>
-              
+              {/* Profil Pimpinan */}
               <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg p-8 text-center border border-gray-200 dark:border-gray-700 flex flex-col">
+                <Landmark size={40} className="mx-auto mb-3 text-blue-600 dark:text-blue-400" />
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
                   Profil Pimpinan
                 </h2>
@@ -239,8 +244,9 @@ const TentangDLH: React.FC = () => {
                   Lihat Profil Pimpinan
                 </a>
               </div>
-
+              {/* Profil Pegawai */}
               <div className="bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-amber-400/20 dark:to-amber-900/20 rounded-lg p-8 text-center border border-gray-200 dark:border-gray-700 flex flex-col">
+                <Users size={40} className="mx-auto mb-3 text-amber-600 dark:text-amber-400" />
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4">
                   Profil Pegawai
                 </h2>

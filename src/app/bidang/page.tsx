@@ -1,5 +1,7 @@
+
 import Link from 'next/link';
 import StatisticsSection, { StatisticsItem } from "@/components/StatisticsSection";
+import { Network, Trees, Trash2, Factory, Landmark } from 'lucide-react';
 
 export default function Bidang() {
   const bidangData = [
@@ -7,7 +9,7 @@ export default function Bidang() {
       id: 1,
       name: 'Bidang Tata Lingkungan',
       description: 'Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).',
-      icon: '🌍',
+      icon: <Trees size={40} className="text-green-600 dark:text-green-400" />,
       color: 'green',
       features: [
         'Penyusunan dan penetapan RPPLH dan dokumen daya dukung dan daya tampung',
@@ -22,8 +24,8 @@ export default function Bidang() {
       id: 2,
       name: 'Bidang Pengendalian Pencemaran',
       description: 'Mengawasi dan mengendalikan pencemaran air, udara, dan tanah',
-      icon: '🛡️',
-      color: 'blue',
+      icon: <Factory size={40} className="text-red-600 dark:text-red-400" />,
+      color: 'red',
       features: [
         'Monitoring Kualitas Air',
         'Pengawasan Emisi Gas Buang',
@@ -35,7 +37,7 @@ export default function Bidang() {
       id: 3,
       name: 'Bidang Pengelolaan Sampah',
       description: 'Mengelola sistem persampahan kota secara terintegrasi',
-      icon: '♻️',
+      icon: <Trash2 size={40} className="text-teal-600 dark:text-teal-400" />,
       color: 'teal',
       features: [
         'Pengumpulan dan Pengangkutan Sampah',
@@ -61,11 +63,11 @@ export default function Bidang() {
         hover: 'hover:border-green-300 dark:hover:border-green-600',
         button: 'bg-green-600 hover:bg-green-700'
       },
-      blue: {
-        bg: 'bg-blue-100 dark:bg-blue-900',
-        text: 'text-blue-600 dark:text-blue-400',
-        hover: 'hover:border-blue-300 dark:hover:border-blue-600',
-        button: 'bg-blue-600 hover:bg-blue-700'
+      red: {
+        bg: 'bg-red-100 dark:bg-red-900',
+        text: 'text-red-600 dark:text-red-400',
+        hover: 'hover:border-red-300 dark:hover:border-red-600',
+        button: 'bg-red-600 hover:bg-red-700'
       },
       teal: {
         bg: 'bg-teal-100 dark:bg-teal-900',
@@ -167,15 +169,14 @@ export default function Bidang() {
               <div className="grid md:grid-cols-2 gap-6">
                 <Link href="/profil/struktur-organisasi" className="group">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
-                    <div className="text-3xl mb-3">📊</div>
+                    <Network size={36} className="mx-auto mb-3 text-green-600 dark:text-green-400" />
                     <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Struktur Organisasi</h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">Lihat bagan organisasi lengkap</p>
                   </div>
                 </Link>
-                
                 <Link href="/profil/pimpinan" className="group">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
-                    <div className="text-3xl mb-3">👥</div>
+                    <Landmark size={36} className="mx-auto mb-3 text-blue-600 dark:text-blue-400" />
                     <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Profil Pimpinan</h3>
                     <p className="text-gray-600 dark:text-gray-300 text-sm">Kenali para pemimpin kami</p>
                   </div>

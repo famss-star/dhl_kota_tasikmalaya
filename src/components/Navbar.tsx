@@ -38,9 +38,10 @@ export default function Navbar() {
 	  name: "Informasi & Dokumen",
 	  submenu: [
 		{ name: "Informasi Umum", href: "/informasi" },
-		{ name: "Berita & Artikel", href: "/informasi/berita" },
+		{ name: "Berita", href: "/informasi/berita" },
+		{ name: "Artikel", href: "/informasi/artikel" },
 		{ name: "Agenda Kegiatan", href: "/informasi/agenda" },
-		{ name: "Panduan Perizinan Berusaha Untuk Usaha Mikro Dan Kecil (UMK) Risiko Rendah Dan Badan Usaha", href: "/informasi/panduan-umk" },
+		{ name: "Panduan Perizinan Berusaha (UMK)", href: "/informasi/panduan-umk" },
 		{ name: "Dokumen Umum", href: "/dokumen" },
 		{ name: "Peraturan Walikota", href: "/dokumen/peraturan" },
 		{ name: "SOP Instalasi Pengolahan Air Limbah", href: "/dokumen/sop-ipal" },
@@ -137,28 +138,50 @@ export default function Navbar() {
   // --- HIGHLIGHT LOGIC ---
   function layananPublikHighlight(name: string) {
 	switch (name) {
-	  case "Perizinan Umum": return "Layanan perizinan umum untuk masyarakat dan pelaku usaha.";
-	  case "Perizinan AMDAL": return "Layanan perizinan Analisis Mengenai Dampak Lingkungan (AMDAL).";
-	  case "Perizinan IPLC": return "Layanan perizinan Instalasi Pengolahan Limbah Cair (IPLC).";
-	  case "Perizinan SPPL": return "Layanan perizinan Surat Pernyataan Pengelolaan Lingkungan (SPPL).";
-	  case "Perizinan UKL-UPL": return "Layanan perizinan Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan (UKL-UPL).";
-	  case "Pengaduan": return "Layanan pengaduan masyarakat terkait lingkungan hidup.";
-	  case "Kontak": return "Informasi kontak Dinas Lingkungan Hidup Kota Tasikmalaya.";
-	  default: return name;
+	  case "Perizinan Umum": 
+	  	return "Layanan perizinan umum untuk masyarakat dan pelaku usaha.";
+	  case "Perizinan AMDAL": 
+	  	return "Layanan perizinan Analisis Mengenai Dampak Lingkungan (AMDAL).";
+	  case "Perizinan IPLC": 
+	  	return "Layanan perizinan Instalasi Pengolahan Limbah Cair (IPLC).";
+	  case "Perizinan SPPL": 
+	  	return "Layanan perizinan Surat Pernyataan Pengelolaan Lingkungan (SPPL).";
+	  case "Perizinan UKL-UPL": 
+	  	return "Layanan perizinan Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan (UKL-UPL).";
+	  case "Pengaduan": 
+	  	return "Layanan pengaduan masyarakat terkait lingkungan hidup.";
+	  case "Kontak": 
+	  	return "Informasi kontak Dinas Lingkungan Hidup Kota Tasikmalaya.";
+	  default: 
+	  	return name;
 	}
   }
 
   function informasiDokumenHighlight(name: string) {
-	if (name.includes("Informasi")) return "Akses berbagai informasi umum terkait lingkungan hidup.";
-	if (name.includes("Berita")) return "Berita dan artikel seputar kegiatan dan isu lingkungan.";
-	if (name.includes("Agenda")) return "Agenda kegiatan Dinas Lingkungan Hidup Kota Tasikmalaya.";
-	if (name.includes("Panduan")) return "Panduan perizinan usaha mikro dan kecil.";
-	if (name.includes("Dokumen")) return "Dokumen-dokumen penting terkait lingkungan hidup.";
-	if (name.includes("Peraturan")) return "Peraturan Walikota terkait lingkungan hidup.";
-	if (name.includes("SOP")) return "Standar Operasional Prosedur (SOP) lingkungan hidup.";
-	if (name.includes("Galeri")) return "Galeri foto dan video kegiatan DLH Kota Tasikmalaya.";
-	if (name.includes("Download")) return "Download file dan dokumen lingkungan hidup.";
-	return name;
+	switch (name) {
+	  case "Informasi":
+		return "Akses berbagai informasi umum terkait lingkungan hidup.";
+	  case "Berita":
+		return "Berita seputar kegiatan dan isu lingkungan.";
+	  case "Artikel":
+		return "Artikel-artikel edukatif tentang lingkungan hidup.";
+	  case "Agenda":
+		return "Agenda kegiatan Dinas Lingkungan Hidup Kota Tasikmalaya.";
+	  case "Panduan":
+		return "Panduan Perizinan Berusaha Untuk Usaha Mikro Dan Kecil (UMK) Risiko Rendah Dan Badan Usaha.";
+	  case "Dokumen":
+		return "Dokumen-dokumen penting terkait lingkungan hidup.";
+	  case "Peraturan":
+		return "Peraturan Walikota terkait lingkungan hidup.";
+	  case "SOP":
+		return "Standar Operasional Prosedur (SOP) lingkungan hidup.";
+	  case "Galeri":
+		return "Galeri foto dan video kegiatan DLH Kota Tasikmalaya.";
+	  case "Download":
+		return "Download file dan dokumen lingkungan hidup.";
+	  default:
+		return name;
+	}
   }
 
   function profilHighlight(name: string) {
@@ -174,13 +197,13 @@ export default function Navbar() {
 	  case "Struktur Organisasi":
 		return "Struktur organisasi DLH Kota Tasikmalaya.";
 	  case "Bidang Umum":
-		return "Bidang Umum: Mengelola administrasi dan tata usaha DLH.";
+		return "Mengelola administrasi dan tata usaha DLH.";
 	  case "Bidang Tata Lingkungan":
-		return "Bidang Tata Lingkungan: Mengelola tata lingkungan hidup di Kota Tasikmalaya.";
+		return "Mengelola tata lingkungan hidup di Kota Tasikmalaya.";
 	  case "Bidang Pengendalian Pencemaran & Penataan Hukum":
-		return "Bidang Pengendalian Pencemaran & Penataan Hukum: Mengendalikan pencemaran dan penataan hukum lingkungan.";
+		return "Mengendalikan pencemaran dan penataan hukum lingkungan.";
 	  case "Bidang Pengelolaan Sampah":
-		return "Bidang Pengelolaan Sampah: Mengelola persampahan dan limbah di Kota Tasikmalaya.";
+		return "Mengelola persampahan dan limbah di Kota Tasikmalaya.";
 	  default:
 		return "Dinas Lingkungan Hidup Kota Tasikmalaya merupakan unsur pelaksana urusan pemerintahan di bidang lingkungan hidup yang berkomitmen memberikan pelayanan terbaik kepada masyarakat.";
 	}
@@ -502,7 +525,14 @@ export default function Navbar() {
 															<div>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Informasi</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.includes("Informasi") || sub.name.includes("Berita") || sub.name.includes("Agenda") || sub.name.includes("Panduan")).map((sub) => (
+																	{item.submenu.filter(sub =>
+																		sub.name.includes("Informasi") ||
+																		sub.name.includes("Berita") ||
+																		sub.name.includes("Agenda") ||
+																		sub.name.includes("Panduan") ||
+																		sub.name.includes("Artikel") ||
+																		sub.name.includes("Blog")
+																	).map((sub) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}

@@ -25,14 +25,14 @@ export default function Home() {
 	  <LayananSection />
 	  <AgendaSection />
 	  {/* Statistik IKM */}
-	  <div className="max-w-7xl mx-auto px-4">
+	  <div className="max-w-6xl mx-auto px-4">
 		<StatisticsSection
 		  title="Indeks Kepuasan Masyarakat (IKM)"
 		  subtitle="Hasil survei kepuasan masyarakat terhadap pelayanan DLH Kota Tasikmalaya tahun 2024"
 		  items={ikmStats}
 		/>
 	  </div>
-	  <div className="max-w-7xl mx-auto px-4">
+	  <div className="max-w-6xl mx-auto px-4">
 	  <SocialMediaGallery
 		cards={[
 		  { platform: "tiktok", title: "Video Tiktok DLH", url: "https://www.tiktok.com/@ceritasiaki/video/7514670466817068344" },
