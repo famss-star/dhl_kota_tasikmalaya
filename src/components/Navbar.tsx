@@ -3,6 +3,42 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Home, User2, FileText, FolderOpen, Info, Newspaper, BookOpen, CalendarDays, FileDown, Image as ImageIcon, Gavel, FileCog, Users, FileVideo, FileImage, Folder } from "lucide-react";
+// Icon mapping for submenu items
+const submenuIcons: Record<string, React.ReactNode> = {
+  // Profil
+  "Profil": <User2 className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Tentang DLH Kota Tasikmalaya": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Tugas Pokok & Fungsi": <Users className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Visi & Misi": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Struktur Organisasi": <Users className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Bidang Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Bidang Tata Lingkungan": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Bidang Pengendalian Pencemaran & Penataan Hukum": <Gavel className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Bidang Pengelolaan Sampah": <FileDown className="w-4 h-4 mr-2 text-green-700 inline" />,
+  // Layanan Publik
+  "Perizinan Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Perizinan AMDAL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Perizinan IPLC": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Perizinan SPPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Perizinan UKL-UPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Pengaduan": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Kontak": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
+  // Informasi & Dokumen
+  "Informasi Umum": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Berita": <Newspaper className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Artikel": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Agenda Kegiatan": <CalendarDays className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Panduan Perizinan Berusaha (UMK)": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Dokumen Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Peraturan Walikota": <Gavel className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "SOP Instalasi Pengolahan Air Limbah": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "SOP Pengendali Emisi": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Download File": <FileDown className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Galeri Umum": <Folder className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Galeri Foto": <FileImage className="w-4 h-4 mr-2 text-green-700 inline" />,
+  "Galeri Video": <FileVideo className="w-4 h-4 mr-2 text-green-700 inline" />,
+};
 
 export default function Navbar() {
   // --- NAV ITEMS ---
@@ -139,21 +175,21 @@ export default function Navbar() {
   function layananPublikHighlight(name: string) {
 	switch (name) {
 	  case "Perizinan Umum": 
-	  	return "Layanan perizinan umum untuk masyarakat dan pelaku usaha.";
+		return "Layanan perizinan umum untuk masyarakat dan pelaku usaha.";
 	  case "Perizinan AMDAL": 
-	  	return "Layanan perizinan Analisis Mengenai Dampak Lingkungan (AMDAL).";
+		return "Layanan perizinan Analisis Mengenai Dampak Lingkungan (AMDAL).";
 	  case "Perizinan IPLC": 
-	  	return "Layanan perizinan Instalasi Pengolahan Limbah Cair (IPLC).";
+		return "Layanan perizinan Instalasi Pengolahan Limbah Cair (IPLC).";
 	  case "Perizinan SPPL": 
-	  	return "Layanan perizinan Surat Pernyataan Pengelolaan Lingkungan (SPPL).";
+		return "Layanan perizinan Surat Pernyataan Pengelolaan Lingkungan (SPPL).";
 	  case "Perizinan UKL-UPL": 
-	  	return "Layanan perizinan Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan (UKL-UPL).";
+		return "Layanan perizinan Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan (UKL-UPL).";
 	  case "Pengaduan": 
-	  	return "Layanan pengaduan masyarakat terkait lingkungan hidup.";
+		return "Layanan pengaduan masyarakat terkait lingkungan hidup.";
 	  case "Kontak": 
-	  	return "Informasi kontak Dinas Lingkungan Hidup Kota Tasikmalaya.";
+		return "Informasi kontak Dinas Lingkungan Hidup Kota Tasikmalaya.";
 	  default: 
-	  	return name;
+		return name;
 	}
   }
 
@@ -318,7 +354,8 @@ export default function Navbar() {
 											aria-haspopup="true"
 											aria-expanded={openDropdown === item.name}
 										>
-											<span className="transition-all">
+											<span className="transition-all flex items-center">
+												{Object.prototype.hasOwnProperty.call(item, "icon") ? item.icon : null}
 												{item.name}
 											</span>
 											<svg
@@ -342,6 +379,7 @@ export default function Navbar() {
 											}
 											} : undefined}
 										>
+											{Object.prototype.hasOwnProperty.call(item, "icon") ? item.icon : null}
 											{item.name}
 										</Link>
 									)}
@@ -443,13 +481,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -463,13 +502,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -486,13 +526,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
 																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -506,13 +547,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
 																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -536,13 +578,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -556,13 +599,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
@@ -576,13 +620,14 @@ export default function Navbar() {
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
+																			{submenuIcons[sub.name]}
 																			{sub.name}
 																		</Link>
 																	))}
