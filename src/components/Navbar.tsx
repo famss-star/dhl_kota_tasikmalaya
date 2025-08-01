@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Home, User2, FileText, FolderOpen, Info, Newspaper, BookOpen, CalendarDays, FileDown, Image as ImageIcon, Gavel, FileCog, Users, FileVideo, FileImage, Folder } from "lucide-react";
+import { User2, FileText, Info, Newspaper, BookOpen, CalendarDays, FileDown, Gavel, FileCog, Users, FileVideo, FileImage, Folder } from "lucide-react";
 // Icon mapping for submenu items
 const submenuIcons: Record<string, React.ReactNode> = {
   // Profil
@@ -94,6 +94,7 @@ export default function Navbar() {
   const [showLangDropdown, setShowLangDropdown] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [submenuHighlight, setSubmenuHighlight] = useState<string | null>(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Set default highlight for Layanan Publik & Informasi & Dokumen
   useEffect(() => {
@@ -169,6 +170,27 @@ export default function Navbar() {
 			if (savedLang) setLanguage(savedLang);
 		}
 	}, []);
+
+	// Close mobile menu when clicking outside
+	useEffect(() => {
+		const handleClickOutside = (event: MouseEvent) => {
+			const target = event.target as Element;
+			const navbar = document.querySelector('nav');
+			
+			if (mobileMenuOpen && navbar && !navbar.contains(target)) {
+				setMobileMenuOpen(false);
+				setOpenDropdown(null);
+			}
+		};
+
+		if (mobileMenuOpen) {
+			document.addEventListener('mousedown', handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [mobileMenuOpen]);
 
 
   // --- HIGHLIGHT LOGIC ---
@@ -325,17 +347,18 @@ export default function Navbar() {
 					<div className="flex-1 flex items-center min-w-0 justify-center">
 						{/* Burger menu button */}
 						<button
-							className="xl:hidden block text-gray-800 dark:text-white focus:outline-none ml-auto"
-							// onClick dihapus karena mobileOpen sudah tidak ada
+							className="xl:hidden block text-gray-800 dark:text-white focus:outline-none ml-auto transition-all duration-200 hover:scale-110"
+							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
 							aria-label="Toggle menu"
 						>
-							<svg width="32" height="32" fill="none" viewBox="0 0 24 24">
+							<svg width="32" height="32" fill="none" viewBox="0 0 24 24" className="transition-all duration-300">
 								<path
 									stroke="currentColor"
 									strokeWidth="2"
 									strokeLinecap="round"
 									strokeLinejoin="round"
-									d="M4 6h16M4 12h16M4 18h16"
+									d={mobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+									className="transition-all duration-300"
 								/>
 							</svg>
 						</button>
@@ -349,17 +372,20 @@ export default function Navbar() {
 								>
 									{item.submenu ? (
 										<button
-											className="px-2 py-1 rounded flex items-center gap-1 cursor-pointer"
+											className={`px-2 py-1 rounded flex items-center gap-1 cursor-pointer transition-all duration-200 hover:scale-105 ${
+												isScrolled
+													? 'hover:bg-green-900 dark:hover:bg-green-800'
+													: 'hover:bg-green-100 dark:hover:bg-green-900/30'
+											}`}
 											onClick={() => openDropdown === item.name ? closeMenu() : openMenu(item.name)}
 											aria-haspopup="true"
 											aria-expanded={openDropdown === item.name}
 										>
 											<span className="transition-all flex items-center">
-												{Object.prototype.hasOwnProperty.call(item, "icon") ? item.icon : null}
 												{item.name}
 											</span>
 											<svg
-												className={`ml-1 w-4 h-4 transition-transform duration-200 ${openDropdown === item.name ? 'rotate-180' : 'rotate-0'}`}
+												className={`ml-1 w-4 h-4 transition-all duration-300 ${openDropdown === item.name ? 'rotate-180 text-green-600' : 'rotate-0'}`}
 												fill="none"
 												viewBox="0 0 24 24"
 												stroke="currentColor"
@@ -370,7 +396,11 @@ export default function Navbar() {
 									) : (
 										<Link
 											href={item.href}
-											className="px-2 py-1 rounded transition-all flex items-center"
+											className={`px-2 py-1 rounded transition-all duration-200 flex items-center hover:scale-105 ${
+												isScrolled
+													? 'hover:bg-green-900 dark:hover:bg-green-800'
+													: 'hover:bg-green-100 dark:hover:bg-green-900/30'
+											}`}
 											onClick={item.name === "Kontak" ? (e) => {
 											e.preventDefault();
 											const footer = document.querySelector("footer");
@@ -379,13 +409,12 @@ export default function Navbar() {
 											}
 											} : undefined}
 										>
-											{Object.prototype.hasOwnProperty.call(item, "icon") ? item.icon : null}
 											{item.name}
 										</Link>
 									)}
 									{openDropdown === item.name && item.submenu && (
 										<div
-											className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-gray-800 dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out"
+											className="fixed left-0 top-[calc(100%+1px)] w-screen bg-white/90 dark:bg-gray-800/95 backdrop-blur-xl text-black dark:text-white shadow-2xl border-b border-gray-200/30 dark:border-gray-700/30 z-50 py-8 transition-all duration-300 ease-in-out transform animate-in slide-in-from-top-4 fade-in"
 											style={{}}
 											onMouseLeave={scheduleCloseMenu}
 											onMouseEnter={cancelCloseMenu}
@@ -393,21 +422,21 @@ export default function Navbar() {
 											<div className="container mx-auto px-8">
 												<div className="flex flex-col md:flex-row gap-8 items-start">
 													{/* Kolom kiri: highlight/preview */}
-													<div className="mb-6 md:mb-0 md:w-1/4">
+													<div className="mb-6 md:mb-0 md:w-1/4 transform transition-all duration-500 ease-out animate-in slide-in-from-left-8 fade-in">
 														{/* Animasi transisi judul dan deskripsi Profil */}
 														{item.name === "Profil" && openDropdown === "Profil" ? (
 															<>
 																<div
 																	key={profilAnimKey}
-																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
 																	style={{willChange: 'opacity, transform'}}
 																>
 																	{profilCurrent.title}
 																</div>
 																<div
 																	key={profilAnimKey + 1000}
-																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-																	style={{willChange: 'opacity, transform'}}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
+																	style={{willChange: 'opacity, transform', animationDelay: '100ms'}}
 																>
 																	{profilCurrent.desc}
 																</div>
@@ -416,15 +445,15 @@ export default function Navbar() {
 															<>
 																<div
 																	key={"layanan-title-" + layananAnimKey}
-																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
 																	style={{willChange: 'opacity, transform'}}
 																>
 																	{submenuHighlight || "Layanan Publik"}
 																</div>
 																<div
 																	key={"layanan-desc-" + layananAnimKey}
-																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-																	style={{willChange: 'opacity, transform'}}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
+																	style={{willChange: 'opacity, transform', animationDelay: '100ms'}}
 																>
 																	{submenuHighlight
 																	? layananPublikHighlight(submenuHighlight)
@@ -435,15 +464,15 @@ export default function Navbar() {
 															<>
 																<div
 																	key={"info-title-" + infoAnimKey}
-																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-300 ease-in-out animate-fadein"
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
 																	style={{willChange: 'opacity, transform'}}
 																>
 																	{submenuHighlight || "Informasi & Dokumen"}
 																</div>
 																<div
 																	key={"info-desc-" + infoAnimKey}
-																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-300 ease-in-out animate-fadein"
-																	style={{willChange: 'opacity, transform'}}
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
+																	style={{willChange: 'opacity, transform', animationDelay: '100ms'}}
 																>
 																	{submenuHighlight
 																	? informasiDokumenHighlight(submenuHighlight)
@@ -454,13 +483,14 @@ export default function Navbar() {
 															<>
 																<div
 																	key={item.name + "-title-" + (submenuHighlight || "default")}
-																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300"
+																	className="font-bold text-2xl mb-2 text-green-700 dark:text-green-300 transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
 																>
 																	{item.name}
 																</div>
 																<div
 																	key={item.name + "-desc-" + (submenuHighlight || "default")}
-																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px]"
+																	className="text-gray-600 dark:text-gray-300 text-base min-h-[60px] transition-all duration-500 ease-out animate-in slide-in-from-bottom-4 fade-in"
+																	style={{animationDelay: '100ms'}}
 																>
 																	{item.name === "Beranda"
 																	? "Kembali ke halaman utama DLH Kota Tasikmalaya."
@@ -472,99 +502,111 @@ export default function Navbar() {
 													</div>
 													{/* Kolom kanan: submenu dinamis */}
 													{item.name === "Profil" ? (
-														<div className="grid grid-cols-2 gap-6 md:w-3/4">
+														<div className="grid grid-cols-2 gap-6 md:w-3/4 transform transition-all duration-500 ease-out animate-in slide-in-from-right-8 fade-in">
 															{/* Kolom 1: Profil */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '150ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Profil</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub) => (
+																	{item.submenu.filter(sub => ["Profil", "Tentang DLH Kota Tasikmalaya", "Tugas Pokok & Fungsi", "Visi & Misi", "Struktur Organisasi"].includes(sub.name)).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 3) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 															{/* Kolom 2: Bidang */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '200ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Bidang</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub) => (
+																	{item.submenu.filter(sub => sub.name.startsWith("Bidang")).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 8) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																			onBlur={() => setSubmenuHighlight(openDropdown === "Profil" ? null : submenuHighlight)}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 														</div>
 													) : item.name === "Layanan Publik" ? (
-														<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4">
+														<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4 transform transition-all duration-500 ease-out animate-in slide-in-from-right-8 fade-in">
 															{/* Kolom 1: Perizinan */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '150ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub) => (
+																	{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 3) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
 																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 															{/* Kolom 2: Layanan Publik Lainnya */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '200ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Layanan Lainnya</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => !sub.name.includes("Perizinan")).map((sub) => (
+																	{item.submenu.filter(sub => !sub.name.includes("Perizinan")).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 8) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
 																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 														</div>
 													) : item.name === "Informasi & Dokumen" ? (
-														<div className="grid grid-cols-3 gap-6 md:w-3/4">
+														<div className="grid grid-cols-3 gap-6 md:w-3/4 transform transition-all duration-500 ease-out animate-in slide-in-from-right-8 fade-in">
 															{/* Kolom 1: Informasi */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '150ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Informasi</div>
 																<div className="flex flex-col gap-2">
 																	{item.submenu.filter(sub =>
@@ -574,74 +616,86 @@ export default function Navbar() {
 																		sub.name.includes("Panduan") ||
 																		sub.name.includes("Artikel") ||
 																		sub.name.includes("Blog")
-																	).map((sub) => (
+																	).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 3) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 															{/* Kolom 2: Dokumen */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '200ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Dokumen</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.includes("Dokumen") || sub.name.includes("Peraturan") || sub.name.includes("SOP")).map((sub) => (
+																	{item.submenu.filter(sub => sub.name.includes("Dokumen") || sub.name.includes("Peraturan") || sub.name.includes("SOP")).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 9) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 															{/* Kolom 3: Galeri */}
-															<div>
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '250ms'}}>
 																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Galeri</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.includes("Galeri") || sub.name.includes("Download")).map((sub) => (
+																	{item.submenu.filter(sub => sub.name.includes("Galeri") || sub.name.includes("Download")).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
-																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-colors flex items-center"
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 12) * 75}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
 																			onMouseLeave={() => setSubmenuHighlight("Informasi Umum")}
 																			onBlur={() => setSubmenuHighlight("Informasi Umum")}
 																		>
-																			{submenuIcons[sub.name]}
-																			{sub.name}
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
 																		</Link>
 																	))}
 																</div>
 															</div>
 														</div>
 													) : (
-														<div className="flex flex-col gap-2 md:w-3/4">
-															{item.submenu.map((sub) => (
+														<div className="flex flex-col gap-2 md:w-3/4 transform transition-all duration-300 ease-in-out animate-in slide-in-from-right">
+															{item.submenu.map((sub, index) => (
 																<div key={sub.name}>
 																	{sub.href ? (
 																		<Link
 																			href={sub.href}
-																			className="block px-4 py-3 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-colors"
+																			className="block px-4 py-3 font-medium text-base hover:bg-green-100/80 dark:hover:bg-green-900/60 rounded-lg transition-all duration-200 hover:translate-x-2 hover:scale-105 transform"
+																			style={{ 
+																				animationDelay: `${index * 50}ms` 
+																			}}
 																			onClick={() => setOpenDropdown(null)}
 																		>
 																			{sub.name}
@@ -670,11 +724,11 @@ export default function Navbar() {
 									placeholder="Cari informasi..."
 									value={searchQuery}
 									onChange={(e) => setSearchQuery(e.target.value)}
-									className="w-64 px-4 py-2 pr-10 text-gray-800 bg-white/90 backdrop-blur-sm border border-gray/30 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all"
+									className="w-64 px-4 py-2 pr-10 text-gray-800 bg-white/90 backdrop-blur-sm border border-gray/30 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 focus:scale-105 focus:shadow-lg"
 								/>
 								<button
 									type="submit"
-									className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-green-600 transition-colors"
+									className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-green-600 transition-all duration-200 hover:scale-110"
 									aria-label="Search"
 								>
 									<svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -686,7 +740,7 @@ export default function Navbar() {
 						{/* Tombol dark/light mode dan bahasa di paling kanan pada desktop */}
 						<div className="items-center gap-4 hidden lg:flex">
 							<button
-								className="text-gray-800 dark:text-white bg-gray-200/50 dark:bg-green-900 rounded-full p-2 hover:bg-gray-300/70 dark:hover:bg-green-600 transition-colors"
+								className="text-gray-800 dark:text-white bg-gray-200/50 dark:bg-green-900 rounded-full p-2 hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-110 hover:shadow-lg"
 								aria-label="Toggle dark mode"
 								onClick={handleThemeToggle}
 							>
@@ -702,7 +756,7 @@ export default function Navbar() {
 							</button>
 							<div className="relative">
 								<button
-								className="flex items-center gap-2 bg-gray-200/50 dark:bg-green-900 text-gray-800 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-colors"
+								className={`flex items-center gap-2 ${isScrolled ? 'bg-green-700 text-white' : 'bg-gray-200/50 text-black'} dark:bg-green-900 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg`}
 								aria-label="Pilih bahasa"
 								onClick={() => setShowLangDropdown((prev) => !prev)}
 								type="button"
@@ -715,21 +769,192 @@ export default function Navbar() {
 								</svg>
 								</button>
 								{showLangDropdown && (
-								<div className="absolute right-0 mt-2 w-32 bg-white dark:bg-green-900 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700">
+								<div className={`absolute right-0 mt-2 w-32 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700 transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in ${isScrolled ? 'bg-green-700' : 'bg-white'} dark:bg-green-900`}>
 									<button
-									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-colors ${language === "id" ? "font-bold" : ""}`}
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
 									onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
 									</button>
 									<button
-									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-colors ${language === "en" ? "font-bold" : ""}`}
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
 									onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇬🇧</span> <span>English</span>
 									</button>
 								</div>
 								)}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				{/* Mobile menu */}
+				<div className={`xl:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+					mobileMenuOpen 
+						? 'max-h-screen opacity-100' 
+						: 'max-h-0 opacity-0'
+				}`}>
+					<div className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl border-t border-gray-200/30 dark:border-gray-700/30">
+						<div className="container mx-auto px-4 py-4">
+							<ul className="space-y-2">
+								{navItems.map((item, index) => (
+									<li 
+										key={item.name}
+										className={`transform transition-all duration-300 ease-in-out ${
+											mobileMenuOpen 
+												? 'translate-x-0 opacity-100' 
+												: '-translate-x-4 opacity-0'
+										}`}
+										style={{ 
+											transitionDelay: mobileMenuOpen ? `${index * 50}ms` : '0ms' 
+										}}
+									>
+										{item.submenu ? (
+											<div>
+												<button
+													className="w-full text-left px-4 py-2 text-gray-800 dark:text-white hover:bg-green-100 dark:hover:bg-green-900/30 rounded-lg transition-all duration-200 flex items-center justify-between group"
+													onClick={() => setOpenDropdown(openDropdown === item.name ? null : item.name)}
+												>
+													<span className="group-hover:translate-x-1 transition-transform duration-200">{item.name}</span>
+													<svg
+														className={`w-4 h-4 transition-all duration-300 ${openDropdown === item.name ? 'rotate-180 text-green-600' : 'rotate-0'}`}
+														fill="none"
+														viewBox="0 0 24 24"
+														stroke="currentColor"
+													>
+														<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+													</svg>
+												</button>
+												<div className={`ml-4 mt-2 space-y-1 overflow-hidden transition-all duration-300 ease-in-out ${
+													openDropdown === item.name 
+														? 'max-h-96 opacity-100' 
+														: 'max-h-0 opacity-0'
+												}`}>
+													{item.submenu.map((sub, subIndex) => (
+														<Link
+															key={sub.name}
+															href={sub.href}
+															className={`block px-4 py-2 text-gray-600 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-900/20 rounded-lg transition-all duration-200 hover:translate-x-1 transform ${
+																openDropdown === item.name 
+																	? 'translate-x-0 opacity-100' 
+																	: '-translate-x-2 opacity-0'
+															}`}
+															style={{ 
+																transitionDelay: openDropdown === item.name ? `${subIndex * 30}ms` : '0ms' 
+															}}
+															onClick={() => {
+																setMobileMenuOpen(false);
+																setOpenDropdown(null);
+															}}
+														>
+															{sub.name}
+														</Link>
+													))}
+												</div>
+											</div>
+										) : (
+											<Link
+												href={item.href}
+												className="block px-4 py-2 text-gray-800 dark:text-white hover:bg-green-100 dark:hover:bg-green-900/30 rounded-lg transition-all duration-200 hover:translate-x-1 transform"
+												onClick={() => setMobileMenuOpen(false)}
+											>
+												{item.name}
+											</Link>
+										)}
+									</li>
+								))}
+							</ul>
+							
+							{/* Mobile search */}
+							<form 
+								onSubmit={handleSearch} 
+								className={`mt-4 transform transition-all duration-300 ease-in-out ${
+									mobileMenuOpen 
+										? 'translate-y-0 opacity-100' 
+										: 'translate-y-4 opacity-0'
+								}`}
+								style={{ 
+									transitionDelay: mobileMenuOpen ? '200ms' : '0ms' 
+								}}
+							>
+								<div className="relative">
+									<input
+										type="text"
+										placeholder="Cari informasi..."
+										value={searchQuery}
+										onChange={(e) => setSearchQuery(e.target.value)}
+										className="w-full px-4 py-2 pr-10 text-gray-800 bg-white/90 backdrop-blur-sm border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent transition-all duration-200 focus:scale-105"
+									/>
+									<button
+										type="submit"
+										className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-600 hover:text-green-600 transition-all duration-200 hover:scale-110"
+										aria-label="Search"
+									>
+										<svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+										</svg>
+									</button>
+								</div>
+							</form>
+
+							{/* Mobile theme toggle and language */}
+							<div 
+								className={`flex items-center justify-between mt-4 transform transition-all duration-300 ease-in-out ${
+									mobileMenuOpen 
+										? 'translate-y-0 opacity-100' 
+										: 'translate-y-4 opacity-0'
+								}`}
+								style={{ 
+									transitionDelay: mobileMenuOpen ? '250ms' : '0ms' 
+								}}
+							>
+								<button
+									className="text-gray-800 dark:text-white bg-gray-200/50 dark:bg-green-900 rounded-full p-2 hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-110"
+									aria-label="Toggle dark mode"
+									onClick={handleThemeToggle}
+								>
+									<svg width="22" height="22" fill="none" viewBox="0 0 24 24">
+										<path
+											stroke="currentColor"
+											strokeWidth="2"
+											d="M12 3v1m0 16v1m8.485-8.485l-.707.707M4.222 19.778l-.707-.707M21 12h-1M4 12H3m16.263-5.263l-.707-.707M6.343 6.343l-.707-.707"
+										/>
+										<circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
+									</svg>
+								</button>
+								
+								<div className="relative">
+								<button
+								className={`flex items-center gap-2 ${isScrolled ? 'bg-green-700 text-white' : 'bg-gray-200/50 text-black'} dark:bg-green-900 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105`}
+										aria-label="Pilih bahasa"
+										onClick={() => setShowLangDropdown((prev) => !prev)}
+										type="button"
+									>
+										<span className="text-xl">
+											{language === "id" ? "🇮🇩" : "🇬🇧"}
+										</span>
+										<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+											<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+										</svg>
+									</button>
+									{showLangDropdown && (
+										<div className="absolute right-0 mt-2 w-32 bg-white dark:bg-green-900 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700 transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in">
+											<button
+												className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""}`}
+												onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
+											>
+												<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
+											</button>
+											<button
+												className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""}`}
+												onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
+											>
+												<span className="text-xl">🇬🇧</span> <span>English</span>
+											</button>
+										</div>
+									)}
+								</div>
 							</div>
 						</div>
 					</div>

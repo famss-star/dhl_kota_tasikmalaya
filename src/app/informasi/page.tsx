@@ -90,12 +90,7 @@ export default function Informasi() {
               <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 text-center">
                 Fitur yang Akan Datang
               </h2>
-              <div className="grid md:grid-cols-3 gap-6">
-                <div className="text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <FileText className="w-8 h-8 mx-auto mb-3 text-gray-500 dark:text-gray-300" />
-                  <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Artikel & Blog</h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-sm">Artikel edukatif tentang lingkungan hidup</p>
-                </div>
+              <div className="grid md:grid-cols-2 gap-6">
                 <div className="text-center p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <BarChart2 className="w-8 h-8 mx-auto mb-3 text-blue-500 dark:text-blue-400" />
                   <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Data & Statistik</h3>

@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useState } from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export default function AgendaSection() {
 	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date(2025, 6, 16)); // July 16, 2025
@@ -183,15 +185,15 @@ const events: AgendaEvent[] = agendaEvents[monthKey] || [];
 						<h3 className="text-lg font-bold text-white">
 							{agendaMonthNames[currentMonth]} {currentYear}
 						</h3>
-						<div className="inline-flex gap-1">
-							<button onClick={() => navigateAgendaMonth("prev")} className="text-green-600 bg-white rounded-l-md hover:scale-110 transition px-3">
-								⭠
+						<div className="inline-flex gap-0">
+							<button onClick={() => navigateAgendaMonth("prev")} className="text-green-600 bg-white rounded-l-md hover:scale-110 transition px-3 flex items-center justify-center">
+							<ChevronLeft size={20} />
 							</button>
 							<button onClick={() => setCurrentAgendaDate(new Date(2025, 6, 16))} className="text-green-600 bg-white hover:scale-110 transition px-3 font-semibold">
-								Hari Ini
+							Hari Ini
 							</button>
-							<button onClick={() => navigateAgendaMonth("next")} className="text-green-600 bg-white rounded-r-md hover:scale-110 transition px-3">
-								⭢
+							<button onClick={() => navigateAgendaMonth("next")} className="text-green-600 bg-white rounded-r-md hover:scale-110 transition px-3 flex items-center justify-center">
+							<ChevronRight size={20} />
 							</button>
 						</div>
 					</div>

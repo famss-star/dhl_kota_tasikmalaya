@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ChevronLeft, ChevronRight, Calendar, Info } from 'lucide-react';
 import Link from 'next/link';
 
 // Type definitions
@@ -159,8 +160,9 @@ export default function AgendaPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                📅 Agenda Kegiatan
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Calendar className="w-7 h-7 text-green-600 dark:text-green-400" />
+                Agenda Kegiatan
               </h1>
               <p className="mt-2 text-gray-600 dark:text-gray-400">
                 Jadwal kegiatan dan acara Dinas Lingkungan Hidup Kota Tasikmalaya
@@ -184,21 +186,31 @@ export default function AgendaPage() {
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  📅 Kalender {monthNames[currentMonth]} {currentYear}
+                <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                  <Calendar className="w-6 h-6 text-green-600 dark:text-green-400" />
+                  Kalender {monthNames[currentMonth]} {currentYear}
                 </h2>
-                <div className="flex space-x-2">
+                <div className="inline-flex gap-0">
                   <button
                     onClick={() => navigateMonth('prev')}
-                    className="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400"
+                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 rounded-l-md border border-green-500 border-r-0 transition px-3 flex items-center justify-center outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
+                    aria-label="Bulan sebelumnya"
                   >
-                    ←
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={() => setCurrentDate(new Date(2025, 6, 16))}
+                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 font-semibold border-t border-b border-green-500 transition px-3 outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
+                    aria-label="Hari ini"
+                  >
+                    Hari Ini
                   </button>
                   <button
                     onClick={() => navigateMonth('next')}
-                    className="p-2 rounded-md bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-400"
+                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 rounded-r-md border border-green-500 border-l-0 transition px-3 flex items-center justify-center outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
+                    aria-label="Bulan berikutnya"
                   >
-                    →
+                    <ChevronRight size={20} />
                   </button>
                 </div>
               </div>
@@ -381,7 +393,7 @@ export default function AgendaPage() {
         {/* Info Panel */}
         <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
           <div className="flex items-start space-x-3">
-            <div className="text-2xl">ℹ️</div>
+            <Info className="w-7 h-7 text-blue-700 dark:text-blue-300 mt-1" />
             <div>
               <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
                 Panduan Penggunaan Agenda

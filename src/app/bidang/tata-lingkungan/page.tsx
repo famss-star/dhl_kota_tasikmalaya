@@ -4,6 +4,37 @@ import React, { useState, useRef, useEffect } from "react";
 import { Trees } from "lucide-react";
 
 const BidangTataLingkunganPage = () => {
+  const [showAll, setShowAll] = useState(false);
+  const [height, setHeight] = useState(0);
+  const contentRef = useRef<HTMLUListElement>(null);
+
+  const tugas = [
+    "Menyelenggarakan penyusunan rencana program kerja dan target kinerja Bidang Tata Lingkungan sesuai perjanjian kinerja;",
+    "Melaksanakan perumusan strategi pelaksanaan pencapaian target kinerja termasuk di dalamnya pembentukan tim kerja dan pelibatan jabatanjabatan yang diperlukan dalam pencapaian target kinerja;",
+    "Menyelenggarakan perumusan bahan kebijakan dan petunjuk teknis penataan ruang yang berkaitan dengan lingkungan hidup;",
+    "Menyelenggarakan perumusan bahan kebijakan dan petunjuk teknis pengendalian dampak lingkungan yang meliputi Analisis Mengenai Dampak Lingkungan (AMDAL), Upaya Pengelolaan Lingkungan dan Upaya Pemantauan Lingkungan (UKL-UPL), Surat Pernyataan Pengelolaan Lingkungan (SPPL) dan sejenisnya;",
+    "Mengoordinasikan penyelenggaraan penataan ruang yang berkaitan dengan lingkungan hidup;",
+    "Mengoordinasikan penyelenggaraan pengendalian dampak lingkungan;",
+    "Mengoordinasikan pembinaan dan pengawasan terhadap usaha dan/atau kegiatan yang berkaitan dengan izin lingkungan;",
+    "Menyelenggarakan inventarisasi dan identifikasi sumber daya alam beserta kondisi lingkungan hidup;",
+    "Menyelenggarakan penetapan daya dukung dan daya tampung lingkungan hidup;",
+    "Menyelenggarakan pengkajian lingkungan hidup strategis;",
+    "Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Bidang Tata Lingkungan;",
+    "Melaksanakan pembinaan kinerja jabatan fungsional dan jabatan pelaksana yang ditempatkan di Bidang Tata Lingkungan;",
+    "Melaksanakan penyediaan sarana dan prasarana, tata kelola serta sumber daya dalam rangka pencapaian target kinerja oleh jabatan fungsional dan jabatan pelaksana yang berada di bawahnya;",
+    "Melaksanakan koordinasi dengan unit kerja terkait; dan",
+    "Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya."
+  ];
+
+  const tugasPendek = tugas.slice(0, 5);
+
+  useEffect(() => {
+    if (showAll && contentRef.current) {
+      setHeight(contentRef.current.scrollHeight);
+    } else {
+      setHeight(0);
+    }
+  }, [showAll]);
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
@@ -44,79 +75,43 @@ const BidangTataLingkunganPage = () => {
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
             <div className="prose dark:prose-invert max-w-none">
               <h3 className="text-3xl text-center font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">Rincian tugas Bidang Tata Lingkungan:</h3>
-              {(() => {
-                const tugas = [
-                  "Menyelenggarakan penyusunan rencana program kerja dan target kinerja Bidang Tata Lingkungan sesuai perjanjian kinerja",
-                  "Melaksanakan perumusan strategi pelaksanaan pencapaian target kinerja termasuk di dalamnya pembentukan tim kerja dan pelibatan jabatan-jabatan yang diperlukan dalam pencapaian target kinerja",
-                  "Menyelenggarakan perumusan kebijakan teknis di bidang perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH)",
-                  "Menyelenggarakan penyusunan dan penetapan Rencana Perlindungan dan Pengelolaan Lingkungan Hidup (RPPLH) serta dokumen daya dukung dan daya tampung",
-                  "Menyelenggarakan penyusunan Kajian Lingkungan Hidup Strategis (KLHS) meliputi KLHS Rencana Tata Ruang Wilayah, KLHS Rencana Detail Tata Ruang (RDTR), KLHS Rencana Pembangunan Jangka Panjang Daerah dan Rencana Pembangunan Jangka Menengah Daerah serta KLHS untuk Kebijakan, Rencana dan Program (KRP) yang berpotensi menimbulkan dampak/resiko lingkungan hidup",
-                  "Mengoordinasikan pelaksanaaan pemeriksaan formulir Upaya Pengelolaan Lingkungan-Upaya Pemantauan Lingkungan (UKL-UPL)",
-                  "Menyelenggarakan fasilitasi penilaian dokumen Analisis Mengenai Dampak Lingkungan (AMDAL)",
-                  "Menyelenggarakan pelayanan penerbitan persetujuan lingkungan",
-                  "Menyelenggarakan penyusunan Dokumen Informasi Kinerja Pengelolaan Lingkungan Hidup Daerah (DIKPLHD)",
-                  "Menyelenggarakan pengelolaan keanekaragaman hayati",
-                  "Menyelenggarakan pengelolaan ruang terbuka hijau yang meliputi pertamanan, pemakaman dan bukit resapan air yang menjadi kewenangan pemerintah",
-                  "Menyelenggarakan pengelolaan sarana dan prasarana keanekaragaman hayati dan ruang terbuka hijau",
-                  "Menyelenggarakan pengendalian pelaksanaan RPPLH",
-                  "Menyelenggarakan kerjasama dan pengembangan kapasitas kelembagaan serta sumber daya manusia dalam pengelolaan keanekaragaman hayati",
-                  "Melaksanakan pemantauan, evaluasi dan laporan yang berkaitan dengan tugas Bidang Tata Lingkungan",
-                  "Melaksanakan pembinaan kinerja jabatan fungsional dan jabatan pelaksana yang ditempatkan di Bidang Tata Lingkungan",
-                  "Melaksanakan penyediaan sarana dan prasarana, tata kelola serta sumber daya dalam rangka pencapaian target kinerja oleh jabatan fungsional dan jabatan pelaksana yang berada di bawahnya",
-                  "Melaksanakan koordinasi dengan Unit kerja terkait",
-                  "Melaksanakan tugas kedinasan lain sesuai dengan tugas dan fungsinya"
-                ];
-                const [showAll, setShowAll] = useState(false);
-                const [height, setHeight] = useState(0);
-                const contentRef = useRef<HTMLUListElement>(null);
-                const tugasPendek = tugas.slice(0, 5);
-                useEffect(() => {
-                  if (showAll && contentRef.current) {
-                    setHeight(contentRef.current.scrollHeight);
-                  } else {
-                    setHeight(0);
-                  }
-                }, [showAll]);
-                return (
-                  <>
-                    <div
-                      style={{
-                        height: showAll ? height : 0,
-                        overflow: 'hidden',
-                        transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
-                      }}
-                      aria-hidden={!showAll}
-                    >
-                      <ul
-                        ref={contentRef}
-                        className={
-                          (showAll ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity duration-300') +
-                          ' list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300'
-                        }
-                      >
-                        {showAll && tugas.map((item, idx) => (
-                          <li key={idx}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    {!showAll && (
-                      <ul className="list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                        {tugasPendek.map((item, idx) => (
-                          <li key={idx}>{item}</li>
-                        ))}
-                      </ul>
-                    )}
-                    <div className="text-center mt-6">
-                      <button
-                        className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
-                        onClick={() => setShowAll((v) => !v)}
-                      >
-                        {showAll ? 'Sembunyikan' : 'Lihat Selengkapnya'}
-                      </button>
-                    </div>
-                  </>
-                );
-              })()}
+              <>
+                <div
+                  style={{
+                    height: showAll ? height : 0,
+                    overflow: 'hidden',
+                    transition: 'height 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+                  }}
+                  aria-hidden={!showAll}
+                >
+                  <ul
+                    ref={contentRef}
+                    className={
+                      (showAll ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 transition-opacity duration-300') +
+                      ' list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300'
+                    }
+                  >
+                    {showAll && tugas.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
+                {!showAll && (
+                  <ul className="list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300">
+                    {tugasPendek.map((item, idx) => (
+                      <li key={idx}>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                <div className="text-center mt-6">
+                  <button
+                    className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
+                    onClick={() => setShowAll((v) => !v)}
+                  >
+                    {showAll ? 'Sembunyikan' : 'Lihat Selengkapnya'}
+                  </button>
+                </div>
+              </>
             </div>
           </div>
         </section>

@@ -108,7 +108,7 @@ export default function Pelayanan() {
 
                 <span className="flex items-center gap-2 mt-1">
                   <CircleCheck className="text-green-600 dark:text-green-400" size={24} />
-                  Silakan klik layanan "Perizinan Lingkungan" lalu ikuti petunjuk dan unggah dokumen yang diperlukan.
+                  Silakan klik layanan &quot;Perizinan Lingkungan&quot; lalu ikuti petunjuk dan unggah dokumen yang diperlukan.
                 </span>
               </li>
               <li>
@@ -119,7 +119,7 @@ export default function Pelayanan() {
 
                 <span className="flex items-center gap-2 mt-1">
                   <CircleCheck className="text-green-600 dark:text-green-400" size={24} />
-                  Ya, gunakan menu "Pengaduan Lingkungan" untuk melaporkan masalah secara online.
+                  Ya, gunakan menu &quot;Pengaduan Lingkungan&quot; untuk melaporkan masalah secara online.
                 </span>
               </li>
             </ul>
