@@ -42,6 +42,7 @@ export default function AdminPage() {
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola agenda & event DLH</span>
             </Link>
             <Link href="/admin/galeri" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-pink-50 dark:hover:bg-pink-900/30">
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-2 group-hover:scale-110 transition" aria-hidden="true" focusable="false" />
               <span className="font-semibold text-gray-800 dark:text-white mb-1">Manajemen Galeri</span>
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola foto & dokumentasi</span>

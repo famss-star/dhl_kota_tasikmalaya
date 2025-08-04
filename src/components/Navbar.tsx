@@ -756,7 +756,7 @@ export default function Navbar() {
 							</button>
 							<div className="relative">
 								<button
-								className={`flex items-center gap-2 ${isScrolled ? 'bg-green-700 text-white' : 'bg-gray-200/50 text-black'} dark:bg-green-900 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg`}
+								className={`flex items-center gap-2 ${isScrolled ? 'bg-gray-200/50 text-black' : 'bg-gray-200/50 text-black'} dark:bg-green-900 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg`}
 								aria-label="Pilih bahasa"
 								onClick={() => setShowLangDropdown((prev) => !prev)}
 								type="button"
@@ -769,15 +769,15 @@ export default function Navbar() {
 								</svg>
 								</button>
 								{showLangDropdown && (
-								<div className={`absolute right-0 mt-2 w-32 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700 transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in ${isScrolled ? 'bg-green-700' : 'bg-white'} dark:bg-green-900`}>
+								<div className={`absolute right-0 mt-7 w-32 rounded-lg shadow-lg z-50 dark:transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in ${isScrolled ? 'bg-green-700' : 'bg-white'} dark:bg-green-900`}>
 									<button
-									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-600 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
 									onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
 									</button>
 									<button
-									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
+									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-600 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
 									onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇬🇧</span> <span>English</span>

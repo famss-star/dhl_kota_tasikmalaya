@@ -34,6 +34,7 @@ export default function AdminGaleri() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="w-9 h-9 text-white" aria-hidden="true" focusable="false" />
               Manajemen Galeri
             </h1>
@@ -45,6 +46,7 @@ export default function AdminGaleri() {
         <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
+              {/* eslint-disable-next-line jsx-a11y/alt-text */}
               <Image className="w-7 h-7 text-pink-600 dark:text-pink-400" aria-hidden="true" focusable="false" />
               Daftar Galeri Foto
             </h2>

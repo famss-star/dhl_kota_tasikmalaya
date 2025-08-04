@@ -178,7 +178,7 @@ const events: AgendaEvent[] = agendaEvents[monthKey] || [];
 				</p>
 			</div>
 
-			<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+			<div className="grid grid-cols-1 lg:grid-cols-[35%_65%] gap-8">
 				{/* Kalender */}
 				<div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
 					<div className="bg-gradient-to-r from-green-500 to-green-600 p-4 flex justify-between items-center">
@@ -229,21 +229,25 @@ const events: AgendaEvent[] = agendaEvents[monthKey] || [];
 					<div className="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
 						<h3 className="text-lg text-center font-bold text-white">Agenda {agendaMonthNames[currentMonth]} {currentYear}</h3>
 					</div>
-					<div className="p-6 space-y-4">
-			{events.length > 0 ? events.map((event: AgendaEvent, index: number) => (
-				<div key={index} className="flex items-start text-sm">
-					<div className={`w-2 h-2 rounded-full mr-2 ${
-						event.color === "green" ? "bg-green-600 mt-1" :
-						event.color === "blue" ? "bg-blue-600 mt-1" :
-						event.color === "purple" ? "bg-purple-600 mt-1" : "bg-gray-400"
-					}`}></div>
-					<div>
-						<p className={`font-medium ${event.color === "green" ? "text-green-600" : event.color === "blue" ? "text-blue-600" : event.color === "purple" ? "text-purple-600" : "text-gray-800"} dark:text-gray-200`}>{event.title}</p>
-						<p className="text-xs font-semibold mb-1 text-gray- dark:text-blue-400">{event.location}</p>
-						<p className="text-xs text-gray-500 dark:text-gray-300">Tanggal {event.date}</p>
-					</div>
-				</div>
-			)) : (
+					<div className="p-6">
+						{events.length > 0 ? (
+							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+								{events.map((event: AgendaEvent, index: number) => (
+									<div key={index} className="flex items-start text-sm">
+										<div className={`w-2 h-2 rounded-full mr-2 ${
+											event.color === "green" ? "bg-green-600 mt-1" :
+											event.color === "blue" ? "bg-blue-600 mt-1" :
+											event.color === "purple" ? "bg-purple-600 mt-1" : "bg-gray-400"
+										}`}></div>
+										<div>
+											<p className={`font-medium ${event.color === "green" ? "text-green-600" : event.color === "blue" ? "text-blue-600" : event.color === "purple" ? "text-purple-600" : "text-gray-800"} dark:text-gray-200`}>{event.title}</p>
+											<p className="text-xs font-semibold mb-1 text-gray- dark:text-blue-400">{event.location}</p>
+											<p className="text-xs text-gray-500 dark:text-gray-300">Tanggal {event.date}</p>
+										</div>
+									</div>
+								))}
+							</div>
+						) : (
 							<p className="text-sm text-gray-500 dark:text-gray-400">Tidak ada agenda bulan ini.</p>
 						)}
 					</div>

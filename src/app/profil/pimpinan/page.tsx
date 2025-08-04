@@ -34,7 +34,7 @@ const ProfilPimpinan: React.FC = () => {
                 <div className="grid md:grid-cols-3 gap-8">
                   {/* Photo Placeholder */}
                   <div className="md:col-span-1">
-                    <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-80 flex items-center justify-center">
+                    <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-full w-full flex items-center justify-center">
                       <div className="text-center text-gray-500 dark:text-gray-400">
                         <svg className="mx-auto h-24 w-24 mb-4" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -86,7 +86,7 @@ const ProfilPimpinan: React.FC = () => {
                 <div className="grid md:grid-cols-4 gap-6">
                   {/* Photo Placeholder */}
                   <div className="md:col-span-1">
-                    <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-48 flex items-center justify-center">
+                    <div className="bg-gray-200 rounded-lg dark:bg-gray-700 h-full w-full flex items-center justify-center">
                       <div className="text-center text-gray-500 dark:text-gray-400">
                         <svg className="mx-auto h-16 w-16 mb-2" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -108,6 +108,16 @@ const ProfilPimpinan: React.FC = () => {
                         </p>
                       </div>
                       
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-3">Riwayat Jabatan:</h4>
+                        <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                          <ul className="space-y-2 text-gray-600 dark:text-gray-400">
+                            <li>• [Tahun] - [Tahun]: [Jabatan Sebelumnya]</li>
+                            <li>• [Tahun] - [Tahun]: [Jabatan Sebelumnya]</li>
+                            <li>• [Tahun] - Sekarang: Kepala Dinas Lingkungan Hidup Kota Tasikmalaya</li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

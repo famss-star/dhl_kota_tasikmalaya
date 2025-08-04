@@ -163,7 +163,7 @@ const PelayananSpplPage = () => {
         </section>
 
         {/* Informasi Layanan Section */}
-        <section className="max-w-6xl mx-auto">
+        <section className="max-w-6xl mx-auto mb-12">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
             Informasi Layanan
           </h2>
@@ -199,6 +199,18 @@ const PelayananSpplPage = () => {
           </div>
         </section>
         {/* u can delete to here */}
+
+        {/* Back to Profile */}
+        <section className="max-w-6xl mx-auto mb-12">
+          <div className="text-center">
+            <a
+              href="/pelayanan"
+              className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+            >
+              Kembali ke Halaman Pelayanan
+            </a>
+          </div>
+        </section>
       </div>
     </div>
   );
