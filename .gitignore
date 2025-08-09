@@ -42,3 +42,6 @@ next-env.d.ts
 
 # github copilot instructions
 .github/copilot-instructions.md
+
+# documentation
+dark_mode_guide.md

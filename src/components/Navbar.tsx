@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { User2, FileText, Info, Newspaper, BookOpen, CalendarDays, FileDown, Gavel, FileCog, Users, FileVideo, FileImage, Folder } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import ThemeToggle from "./ThemeToggle";
 // Icon mapping for submenu items
 const submenuIcons: Record<string, React.ReactNode> = {
   // Profil
@@ -41,51 +43,54 @@ const submenuIcons: Record<string, React.ReactNode> = {
 };
 
 export default function Navbar() {
+  const { language, setLanguage, t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
+  
   // --- NAV ITEMS ---
   const navItems = [
-	{ name: "Beranda", href: "/" },
+	{ name: t('navbar.home'), href: "/" },
 	{
-	  name: "Profil",
+	  name: t('navbar.profile'),
 	  submenu: [
-		{ name: "Profil", href: "/profil" },
-		{ name: "Tentang DLH Kota Tasikmalaya", href: "/profil/tentang" },
+		{ name: t('navbar.profile'), href: "/profil" },
+		{ name: t('navbar.about'), href: "/profil/tentang" },
 		{ name: "Tugas Pokok & Fungsi", href: "/profil/tentang#tupoksi" },
-		{ name: "Visi & Misi", href: "/profil/tentang#visi" },
-		{ name: "Struktur Organisasi", href: "/profil/struktur-organisasi" },
-		{ name: "Bidang Umum", href: "/bidang" },
-		{ name: "Bidang Tata Lingkungan", href: "/bidang/tata-lingkungan" },
-		{ name: "Bidang Pengendalian Pencemaran & Penataan Hukum", href: "/bidang/pencemaran" },
-		{ name: "Bidang Pengelolaan Sampah", href: "/bidang/sampah" },
+		{ name: t('navbar.vision_mission'), href: "/profil/tentang#visi" },
+		{ name: t('navbar.organizational_structure'), href: "/profil/struktur-organisasi" },
+		{ name: t('navbar.departments'), href: "/bidang" },
+		{ name: t('dept.environmental_planning'), href: "/bidang/tata-lingkungan" },
+		{ name: t('dept.pollution_control'), href: "/bidang/pencemaran" },
+		{ name: t('dept.waste_management'), href: "/bidang/sampah" },
 	  ],
 	},
 	{
-	  name: "Layanan Publik",
+	  name: t('navbar.services'),
 	  submenu: [
-		{ name: "Perizinan Umum", href: "/pelayanan" },
-		{ name: "Perizinan AMDAL", href: "/pelayanan/amdal" },
-		{ name: "Perizinan IPLC", href: "/pelayanan/iplc" },
-		{ name: "Perizinan SPPL", href: "/pelayanan/sppl" },
-		{ name: "Perizinan UKL-UPL", href: "/pelayanan/ukl-upl" },
-		{ name: "Pengaduan", href: "/pengaduan" },
-		{ name: "Kontak", href: "#footer" },
+		{ name: t('navbar.general_permit'), href: "/pelayanan" },
+		{ name: t('navbar.amdal_permit'), href: "/pelayanan/amdal" },
+		{ name: t('navbar.iplc_permit'), href: "/pelayanan/iplc" },
+		{ name: t('navbar.sppl_permit'), href: "/pelayanan/sppl" },
+		{ name: t('navbar.ukl_upl_permit'), href: "/pelayanan/ukl-upl" },
+		{ name: t('navbar.complaints'), href: "/pengaduan" },
+		{ name: t('navbar.contact'), href: "#footer" },
 	  ],
 	},
 	{
-	  name: "Informasi & Dokumen",
+	  name: t('navbar.information') + " & " + t('navbar.documents'),
 	  submenu: [
-		{ name: "Informasi Umum", href: "/informasi" },
-		{ name: "Berita", href: "/informasi/berita" },
-		{ name: "Artikel", href: "/informasi/artikel" },
-		{ name: "Agenda Kegiatan", href: "/informasi/agenda" },
-		{ name: "Panduan Perizinan Berusaha (UMK)", href: "/informasi/panduan-umk" },
-		{ name: "Dokumen Umum", href: "/dokumen" },
-		{ name: "Peraturan Walikota", href: "/dokumen/peraturan" },
-		{ name: "SOP Instalasi Pengolahan Air Limbah", href: "/dokumen/sop-ipal" },
-		{ name: "SOP Pengendali Emisi", href: "/dokumen/sop-emisi" },
-		{ name: "Download File", href: "/file-download" },
-		{ name: "Galeri Umum", href: "/galeri" },
-		{ name: "Galeri Foto", href: "/galeri/foto" },
-		{ name: "Galeri Video", href: "/galeri/video" },
+		{ name: t('navbar.information'), href: "/informasi" },
+		{ name: t('navbar.news'), href: "/informasi/berita" },
+		{ name: t('navbar.articles'), href: "/informasi/artikel" },
+		{ name: t('navbar.agenda'), href: "/informasi/agenda" },
+		{ name: t('navbar.umk_guidelines'), href: "/informasi/panduan-umk" },
+		{ name: t('navbar.documents'), href: "/dokumen" },
+		{ name: t('navbar.regulations'), href: "/dokumen/peraturan" },
+		{ name: t('navbar.wwtp_sop'), href: "/dokumen/sop-ipal" },
+		{ name: t('navbar.emission_sop'), href: "/dokumen/sop-emisi" },
+		{ name: t('navbar.file_downloads'), href: "/file-download" },
+		{ name: t('navbar.gallery'), href: "/galeri" },
+		{ name: t('navbar.photo_gallery'), href: "/galeri/foto" },
+		{ name: t('navbar.video_gallery'), href: "/galeri/video" },
 	  ],
 	},
   ];
@@ -137,8 +142,7 @@ export default function Navbar() {
 	}
   }, [submenuHighlight, openDropdown]);
   const closeDropdownTimeout = React.useRef<NodeJS.Timeout | null>(null);
-	const [theme, setTheme] = useState<string>("light");
-	const [language, setLanguage] = useState<string>("id");
+	
 	const [isScrolled, setIsScrolled] = useState(false);
 	const [searchQuery, setSearchQuery] = useState<string>("");
 
@@ -154,21 +158,16 @@ export default function Navbar() {
 	}, []);
 
 	useEffect(() => {
-		// Sync theme from localStorage
+		// Sync language from localStorage
 		if (typeof window !== "undefined") {
-			const savedTheme = localStorage.getItem("theme");
-			if (savedTheme) {
-				setTheme(savedTheme);
-				const html = document.documentElement;
-				if (savedTheme === "dark") {
-					html.classList.add("dark");
-				} else {
-					html.classList.remove("dark");
-				}
-			}
 			const savedLang = localStorage.getItem("lang");
-			if (savedLang) setLanguage(savedLang);
+			if (savedLang && (savedLang === "id" || savedLang === "en")) setLanguage(savedLang);
 		}
+	}, [setLanguage]);
+
+	// Set mounted state for hydration
+	useEffect(() => {
+		setMounted(true);
 	}, []);
 
 	// Close mobile menu when clicking outside
@@ -293,20 +292,7 @@ export default function Navbar() {
 	}
   };
 
-	const handleThemeToggle = () => {
-		if (typeof window !== "undefined") {
-			const html = document.documentElement;
-			if (theme === "dark") {
-				html.classList.remove("dark");
-				setTheme("light");
-				localStorage.setItem("theme", "light");
-			} else {
-				html.classList.add("dark");
-				setTheme("dark");
-				localStorage.setItem("theme", "dark");
-			}
-		}
-	};
+
 
 	const handleSearch = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -739,21 +725,7 @@ export default function Navbar() {
 						</form>
 						{/* Tombol dark/light mode dan bahasa di paling kanan pada desktop */}
 						<div className="items-center gap-4 hidden lg:flex">
-							<button
-								className="text-gray-800 dark:text-white bg-gray-200/50 dark:bg-green-900 rounded-full p-2 hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-110 hover:shadow-lg"
-								aria-label="Toggle dark mode"
-								onClick={handleThemeToggle}
-							>
-								<span className="sr-only">Toggle dark mode</span>
-								<svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-									<path
-										stroke="currentColor"
-										strokeWidth="2"
-										d="M12 3v1m0 16v1m8.485-8.485l-.707.707M4.222 19.778l-.707-.707M21 12h-1M4 12H3m16.263-5.263l-.707-.707M6.343 6.343l-.707-.707"
-									/>
-									<circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
-								</svg>
-							</button>
+							{mounted && <ThemeToggle size="md" />}
 							<div className="relative">
 								<button
 								className={`flex items-center gap-2 ${isScrolled ? 'bg-gray-200/50 text-black' : 'bg-gray-200/50 text-black'} dark:bg-green-900 dark:text-white rounded-full px-4 py-1 focus:outline-none hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-105 hover:shadow-lg`}
@@ -772,13 +744,13 @@ export default function Navbar() {
 								<div className={`absolute right-0 mt-7 w-32 rounded-lg shadow-lg z-50 dark:transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in ${isScrolled ? 'bg-green-700' : 'bg-white'} dark:bg-green-900`}>
 									<button
 									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-600 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
-									onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
+									onClick={() => { setLanguage("id"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
 									</button>
 									<button
 									className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-600 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""} ${isScrolled ? 'bg-green-700 text-white' : ''}`}
-									onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
+									onClick={() => { setLanguage("en"); setShowLangDropdown(false); }}
 									>
 									<span className="text-xl">🇬🇧</span> <span>English</span>
 									</button>
@@ -909,20 +881,7 @@ export default function Navbar() {
 									transitionDelay: mobileMenuOpen ? '250ms' : '0ms' 
 								}}
 							>
-								<button
-									className="text-gray-800 dark:text-white bg-gray-200/50 dark:bg-green-900 rounded-full p-2 hover:bg-gray-300/70 dark:hover:bg-green-600 transition-all duration-200 hover:scale-110"
-									aria-label="Toggle dark mode"
-									onClick={handleThemeToggle}
-								>
-									<svg width="22" height="22" fill="none" viewBox="0 0 24 24">
-										<path
-											stroke="currentColor"
-											strokeWidth="2"
-											d="M12 3v1m0 16v1m8.485-8.485l-.707.707M4.222 19.778l-.707-.707M21 12h-1M4 12H3m16.263-5.263l-.707-.707M6.343 6.343l-.707-.707"
-										/>
-										<circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="2" />
-									</svg>
-								</button>
+								{mounted && <ThemeToggle size="sm" />}
 								
 								<div className="relative">
 								<button
@@ -942,13 +901,13 @@ export default function Navbar() {
 										<div className="absolute right-0 mt-2 w-32 bg-white dark:bg-green-900 rounded-lg shadow-lg z-50 border border-gray-200 dark:border-green-700 transform transition-all duration-200 ease-out animate-in slide-in-from-top-2 fade-in">
 											<button
 												className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "id" ? "font-bold" : ""}`}
-												onClick={() => { setLanguage("id"); if (typeof window !== "undefined") localStorage.setItem("lang", "id"); setShowLangDropdown(false); }}
+												onClick={() => { setLanguage("id"); setShowLangDropdown(false); }}
 											>
 												<span className="text-xl">🇮🇩</span> <span>Indonesia</span>
 											</button>
 											<button
 												className={`flex items-center gap-2 w-full px-4 py-2 text-left text-lg hover:bg-green-100 dark:hover:bg-green-800 rounded-lg transition-all duration-200 hover:translate-x-1 ${language === "en" ? "font-bold" : ""}`}
-												onClick={() => { setLanguage("en"); if (typeof window !== "undefined") localStorage.setItem("lang", "en"); setShowLangDropdown(false); }}
+												onClick={() => { setLanguage("en"); setShowLangDropdown(false); }}
 											>
 												<span className="text-xl">🇬🇧</span> <span>English</span>
 											</button>

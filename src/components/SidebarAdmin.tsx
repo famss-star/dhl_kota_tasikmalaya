@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import {
   User2, Info, Users, BookOpen, FileText, FileCog, Gavel, FileDown,
-  Newspaper, CalendarDays, FileImage, FileVideo, Folder, Settings, ChevronDown, ChevronUp, UserCog
+  Newspaper, CalendarDays, FileImage, FileVideo, Folder, ChevronDown, ChevronUp, UserCog
 } from "lucide-react";
 
 const sidebarMenu = [
@@ -55,13 +55,6 @@ const sidebarMenu = [
       { label: "Manajemen File", href: "/admin/file-download", icon: FileDown },
       { label: "Manajemen Galeri Foto", href: "/admin/galeri", icon: FileImage },
       { label: "Manajemen Galeri Video", href: "/admin/galeri-video", icon: FileVideo },
-    ],
-  },
-  {
-    label: "Pengaturan Website",
-    icon: Settings,
-    children: [
-      { label: "Warna Website", href: "/admin/pengaturan#warna", icon: FileCog },
     ],
   },
 ];

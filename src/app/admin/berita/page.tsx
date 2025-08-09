@@ -45,7 +45,7 @@ export default function AdminBerita() {
         </div>
       </div>
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
               <Newspaper className="w-7 h-7 text-yellow-600 dark:text-yellow-400" />

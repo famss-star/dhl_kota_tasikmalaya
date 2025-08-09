@@ -40,14 +40,22 @@ export default function Carousel() {
   const splideRef = React.useRef<{ index: number } | null>(null);
 
   // Sinkronisasi background dengan Splide
-  const handleMove = (_splide: unknown, newIndex: number) => {
-    setCurrent(newIndex % carouselImages.length);
-    setSplideIndex(newIndex % bannerImages.length);
+  const handleMove = (splide: { index: number }) => {
+    const activeIndex = splide.index;
+    setCurrent(activeIndex % carouselImages.length);
+    setSplideIndex(activeIndex % bannerImages.length); // Use modulo for proper loop
+  };
+
+  // For perPage: 2, the "active" slide is the one on the left (index 0 of visible slides)
+  const isActive = (idx: number) => {
+    const normalizedSplideIndex = splideIndex % bannerImages.length;
+    const normalizedIdx = idx % bannerImages.length;
+    return normalizedSplideIndex === normalizedIdx;
   };
 
   return (
     <div className="relative w-full mx-auto mb-8 aspect-[16/9]">
-      {/* Background carousel slideshow with ellipse clip-path */}
+      {/* Background carousel slideshow */}
       {carouselImages.map((img, idx) => (
         <div
           key={img.src}
@@ -73,9 +81,9 @@ export default function Carousel() {
           options={{
             type: 'loop',
             perPage: 3,
-            focus: 'center',
+            focus: 1, // Focus on the first visible slide (left side)
             gap: '2rem',
-            arrows: false,
+            arrows: true,
             pagination: true,
             autoplay: true,
             interval: 3500,
@@ -88,21 +96,21 @@ export default function Carousel() {
           }}
           className="w-full splide-banner"
           onMove={handleMove}
-          onMounted={(_splide: { index: number }) => {
-            setCurrent(_splide.index);
-            setSplideIndex(_splide.index);
+          onMounted={() => {
+            setCurrent(0);
+            setSplideIndex(0);
           }}
         >
           {bannerImages.map((banner, idx) => (
-            <SplideSlide key={banner.src} className="flex items-center justify-center">
+            <SplideSlide key={`${banner.src}-${idx}`} className="flex items-center justify-center">
               <div className="flex items-center justify-center w-full h-full transition-all duration-500">
                 <Image
                   src={banner.src}
                   alt={banner.alt}
-                  width={idx === splideIndex ? 1060 : 400}
-                  height={idx === splideIndex ? 354 : 140}
+                  width={isActive(idx) ? 1060 : 400}
+                  height={isActive(idx) ? 354 : 140}
                   className={`object-contain drop-shadow-xl transition-all duration-500 ${
-                    idx === splideIndex ? 'scale-100 z-10' : 'scale-90 opacity-60'
+                    isActive(idx) ? 'scale-100 z-10' : 'scale-90 opacity-60'
                   }`}
                   priority={idx === 0}
                 />

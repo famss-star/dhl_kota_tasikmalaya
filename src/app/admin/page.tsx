@@ -20,7 +20,7 @@ export default function AdminPage() {
       </div>
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center justify-center gap-2">
             <ShieldCheck className="w-7 h-7 text-green-600 dark:text-green-400" />
             Panel Admin
@@ -50,7 +50,7 @@ export default function AdminPage() {
             <Link href="/admin/pengaturan" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-green-50 dark:hover:bg-green-900/30">
               <Settings className="w-10 h-10 text-green-600 dark:text-green-400 mb-2 group-hover:scale-110 transition" />
               <span className="font-semibold text-gray-800 dark:text-white mb-1">Pengaturan Website</span>
-              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Profil, kontak, warna, dsb</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Profil, kontak, dsb</span>
             </Link>
           </div>
         </div>

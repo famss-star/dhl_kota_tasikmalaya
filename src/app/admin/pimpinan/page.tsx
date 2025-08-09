@@ -27,7 +27,7 @@ export default function AdminPimpinan() {
         </div>
       </div>
       <div className="container mx-auto px-4 py-10">
-        <div className="max-w-xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-10 border border-gray-200 dark:border-gray-700">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-10 border border-gray-200 dark:border-gray-700">
           <form className="space-y-5" onSubmit={e => {e.preventDefault(); alert('Data pimpinan disimpan!')}}>
             <div>
               <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Nama Pimpinan</label>

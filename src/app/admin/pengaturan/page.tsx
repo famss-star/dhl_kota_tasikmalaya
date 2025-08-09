@@ -22,9 +22,6 @@ const initialKontak = {
   email: "info@dlhtasik.go.id",
   telepon: "(0265) 123456",
 };
-const initialWarna = {
-  warnaUtama: "#16a34a"
-};
 
 export default function AdminPengaturan() {
   const [profil, setProfil] = useState(initialProfil);
@@ -32,7 +29,6 @@ export default function AdminPengaturan() {
   const [tupoksi, setTupoksi] = useState(initialTupoksi);
   const [visiMisi, setVisiMisi] = useState(initialVisiMisi);
   const [kontak, setKontak] = useState(initialKontak);
-  const [warna, setWarna] = useState(initialWarna);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -48,7 +44,7 @@ export default function AdminPengaturan() {
         </div>
       </div>
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700 space-y-10">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700 space-y-10">
           {/* Profil Instansi */}
           <form id="profil" className="space-y-4" onSubmit={e => {e.preventDefault(); alert('Profil instansi disimpan!')}}>
             <h2 className="text-xl font-bold mb-2">Profil Instansi</h2>
@@ -114,17 +110,6 @@ export default function AdminPengaturan() {
             </div>
             <button type="submit" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
               <Save className="w-5 h-5" /> Simpan Kontak
-            </button>
-          </form>
-          {/* Warna Website */}
-          <form id="warna" className="space-y-4" onSubmit={e => {e.preventDefault(); alert('Warna website disimpan!')}}>
-            <h2 className="text-xl font-bold mb-2">Warna Website</h2>
-            <div>
-              <label className="block text-gray-700 dark:text-gray-200 font-semibold mb-2">Warna Utama Website</label>
-              <input type="color" name="warnaUtama" value={warna.warnaUtama} onChange={e => setWarna({warnaUtama: e.target.value})} className="w-16 h-10 p-0 border-0 bg-transparent" />
-            </div>
-            <button type="submit" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-              <Save className="w-5 h-5" /> Simpan Warna
             </button>
           </form>
         </div>

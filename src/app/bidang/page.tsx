@@ -1,9 +1,13 @@
 
+'use client';
+
 import Link from 'next/link';
 import StatisticsSection, { StatisticsItem } from "@/components/StatisticsSection";
+import { useLanguage } from "../../context/LanguageContext";
 import { Network, Trees, Trash2, Factory, Landmark } from 'lucide-react';
 
 export default function Bidang() {
+  const { t } = useLanguage();
   const bidangData = [
     {
       id: 1,
@@ -141,7 +145,7 @@ export default function Bidang() {
                         : '#'
                       }>
                         <button className={`${colors.button} items-end text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
-                          Pelajari Lebih Lanjut
+                          {t('button.learn_more')}
                         </button>
                       </Link>
                     </div>

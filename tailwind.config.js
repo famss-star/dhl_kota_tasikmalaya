@@ -6,6 +6,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: 'class', // Mengaktifkan dark mode berdasarkan class
   theme: {
     extend: {},
   },

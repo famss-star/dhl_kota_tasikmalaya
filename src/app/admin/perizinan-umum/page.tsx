@@ -17,7 +17,7 @@ export default function AdminPerizinanUmum() {
         </div>
       </div>
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-6xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center gap-2">
             <FileText className="w-7 h-7 text-green-600 dark:text-green-400" />
             Daftar Perizinan Umum
