@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Settings, ShieldCheck, Newspaper, FileText, Calendar, Image } from "lucide-react";
+import { Settings, ShieldCheck, Newspaper, FileText, Calendar, ImageIcon, Users, FileDown, Gavel, FileCog } from "lucide-react";
 
 export default function AdminPage() {
   return (
@@ -25,32 +25,124 @@ export default function AdminPage() {
             <ShieldCheck className="w-7 h-7 text-green-600 dark:text-green-400" />
             Panel Admin
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Link href="/admin/berita" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-green-50 dark:hover:bg-green-900/30">
-              <Newspaper className="w-10 h-10 text-yellow-600 dark:text-yellow-400 mb-2 group-hover:scale-110 transition" />
-              <span className="font-semibold text-gray-800 dark:text-white mb-1">Manajemen Berita</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {/* Manajemen Konten */}
+            <Link href="/admin/berita" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30">
+              <Newspaper className="w-10 h-10 text-yellow-600 dark:text-yellow-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Manajemen Berita</span>
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola berita dan info lingkungan</span>
             </Link>
+
             <Link href="/admin/artikel" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-purple-50 dark:hover:bg-purple-900/30">
-              <FileText className="w-10 h-10 text-purple-600 dark:text-purple-400 mb-2 group-hover:scale-110 transition" />
-              <span className="font-semibold text-gray-800 dark:text-white mb-1">Manajemen Artikel</span>
+              <FileText className="w-10 h-10 text-purple-600 dark:text-purple-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Manajemen Artikel</span>
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola artikel edukasi lingkungan</span>
             </Link>
+
             <Link href="/admin/agenda" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/30">
-              <Calendar className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-2 group-hover:scale-110 transition" />
-              <span className="font-semibold text-gray-800 dark:text-white mb-1">Manajemen Agenda</span>
+              <Calendar className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Manajemen Agenda</span>
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola agenda & event DLH</span>
             </Link>
+
             <Link href="/admin/galeri" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-pink-50 dark:hover:bg-pink-900/30">
-              {/* eslint-disable-next-line jsx-a11y/alt-text */}
-              <Image className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-2 group-hover:scale-110 transition" aria-hidden="true" focusable="false" />
-              <span className="font-semibold text-gray-800 dark:text-white mb-1">Manajemen Galeri</span>
+              <ImageIcon className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Manajemen Galeri</span>
               <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola foto & dokumentasi</span>
             </Link>
+
+            <Link href="/admin/galeri-video" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30">
+              <FileText className="w-10 h-10 text-indigo-600 dark:text-indigo-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Galeri Video</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola video kegiatan DLH</span>
+            </Link>
+
+            {/* Manajemen Dokumen */}
+            <Link href="/admin/dokumen" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+              <FileText className="w-10 h-10 text-gray-600 dark:text-gray-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Dokumen Umum</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola dokumen umum</span>
+            </Link>
+
+            <Link href="/admin/peraturan" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-red-50 dark:hover:bg-red-900/30">
+              <Gavel className="w-10 h-10 text-red-600 dark:text-red-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Peraturan</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola peraturan walikota</span>
+            </Link>
+
+            <Link href="/admin/sop-ipal" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-cyan-50 dark:hover:bg-cyan-900/30">
+              <FileCog className="w-10 h-10 text-cyan-600 dark:text-cyan-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">SOP IPAL</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">SOP Instalasi Pengolahan Air Limbah</span>
+            </Link>
+
+            <Link href="/admin/sop-emisi" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-orange-50 dark:hover:bg-orange-900/30">
+              <FileCog className="w-10 h-10 text-orange-600 dark:text-orange-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">SOP Emisi</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">SOP Pengendali Emisi</span>
+            </Link>
+
+            <Link href="/admin/file-download" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-teal-50 dark:hover:bg-teal-900/30">
+              <FileDown className="w-10 h-10 text-teal-600 dark:text-teal-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">File Download</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola file untuk diunduh</span>
+            </Link>
+
+            <Link href="/admin/panduan-umk" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30">
+              <FileText className="w-10 h-10 text-emerald-600 dark:text-emerald-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Panduan UMK</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Panduan perizinan UMK</span>
+            </Link>
+
+            {/* Manajemen Layanan */}
+            <Link href="/admin/pengaduan" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-yellow-50 dark:hover:bg-yellow-900/30">
+              <FileText className="w-10 h-10 text-yellow-600 dark:text-yellow-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Pengaduan</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola pengaduan masyarakat</span>
+            </Link>
+
+            <Link href="/admin/perizinan-umum" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/30">
+              <FileText className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Perizinan Umum</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola perizinan umum</span>
+            </Link>
+
+            <Link href="/admin/perizinan-amdal" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-green-50 dark:hover:bg-green-900/30">
+              <FileText className="w-10 h-10 text-green-600 dark:text-green-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Perizinan AMDAL</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola perizinan AMDAL</span>
+            </Link>
+
+            <Link href="/admin/perizinan-iplc" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-purple-50 dark:hover:bg-purple-900/30">
+              <FileText className="w-10 h-10 text-purple-600 dark:text-purple-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Perizinan IPLC</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola perizinan IPLC</span>
+            </Link>
+
+            <Link href="/admin/perizinan-sppl" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-pink-50 dark:hover:bg-pink-900/30">
+              <FileText className="w-10 h-10 text-pink-600 dark:text-pink-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Perizinan SPPL</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola perizinan SPPL</span>
+            </Link>
+
+            <Link href="/admin/perizinan-ukl-upl" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-indigo-50 dark:hover:bg-indigo-900/30">
+              <FileText className="w-10 h-10 text-indigo-600 dark:text-indigo-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Perizinan UKL-UPL</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola perizinan UKL-UPL</span>
+            </Link>
+
+            {/* Manajemen Profil & Organisasi */}
+            <Link href="/admin/pimpinan" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-blue-50 dark:hover:bg-blue-900/30">
+              <Users className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Profil Pimpinan</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola profil pimpinan</span>
+            </Link>
+
+            {/* Pengaturan Website */}
             <Link href="/admin/pengaturan" className="group bg-gray-50 dark:bg-gray-700 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-gray-200 dark:border-gray-600 hover:bg-green-50 dark:hover:bg-green-900/30">
-              <Settings className="w-10 h-10 text-green-600 dark:text-green-400 mb-2 group-hover:scale-110 transition" />
-              <span className="font-semibold text-gray-800 dark:text-white mb-1">Pengaturan Website</span>
-              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Profil, kontak, dsb</span>
+              <Settings className="w-10 h-10 text-green-600 dark:text-green-400 mb-3 group-hover:scale-110 transition" />
+              <span className="font-semibold text-gray-800 dark:text-white mb-2">Pengaturan Website</span>
+              <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Logo, profil, kontak, dsb</span>
             </Link>
           </div>
         </div>

@@ -1,12 +1,14 @@
 "use client";
 
-
 import Link from "next/link";
 import { useState } from "react";
 import {
   User2, Info, Users, BookOpen, FileText, FileCog, Gavel, FileDown,
-  Newspaper, CalendarDays, FileImage, FileVideo, Folder, ChevronDown, ChevronUp, UserCog
+  Newspaper, CalendarDays, FileImage, FileVideo, Folder, ChevronDown, ChevronUp, UserCog,
+  LogOut
 } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import { useAuth } from "@/context/AuthContext";
 
 const sidebarMenu = [
   {
@@ -61,14 +63,52 @@ const sidebarMenu = [
 
 export default function SidebarAdmin() {
   const [open, setOpen] = useState<string | null>(null);
+  const [userDropdown, setUserDropdown] = useState(false);
+  const { logout } = useAuth();
 
   const handleToggle = (label: string) => {
     setOpen(open === label ? null : label);
   };
 
+  const handleLogout = () => {
+    logout();
+  };
+
   return (
-    <aside className="w-full md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4 rounded-xl md:rounded-none md:rounded-l-xl shadow md:shadow-none mb-6 md:mb-0 overflow-y-auto max-h-[90vh]">
-      <nav className="flex flex-col gap-2">
+    <aside className="mt-8 w-full md:w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4 rounded-xl md:rounded-none md:rounded-l-xl shadow md:shadow-none mb-6 md:mb-0 overflow-y-auto max-h-[90vh] flex flex-col">
+      {/* User Profile Section */}
+      <div className="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="relative">
+          <button
+            className="flex items-center w-full gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+            onClick={() => setUserDropdown(!userDropdown)}
+          >
+            <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+              <User2 className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1 text-left">
+              <div className="text-sm font-medium text-gray-900 dark:text-white">Dummy</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">Administrator</div>
+            </div>
+            {userDropdown ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+          
+          {userDropdown && (
+            <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-10">
+              <button
+                onClick={handleLogout}
+                className="flex items-center w-full gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
+              >
+                <LogOut className="w-4 h-4" />
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Navigation Menu */}
+      <nav className="flex flex-col gap-2 flex-1">
         {sidebarMenu.map((item) => {
           const Icon = item.icon;
           if (item.children) {
@@ -109,6 +149,13 @@ export default function SidebarAdmin() {
           return null;
         })}
       </nav>
+
+      {/* Theme Toggle at Bottom */}
+      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-end px-3 py-2">
+          <ThemeToggle size="sm" />
+        </div>
+      </div>
     </aside>
   );
 }

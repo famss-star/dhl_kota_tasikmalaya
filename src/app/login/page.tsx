@@ -47,7 +47,8 @@ export default function LoginPage() {
     try {
       const success = await login(formData.username, formData.password, formData.rememberMe);
       if (success) {
-        router.push("/");
+        // Redirect ke admin jika login berhasil
+        router.push("/admin");
       } else {
         setErrors({ submit: "Username atau password salah" });
       }
