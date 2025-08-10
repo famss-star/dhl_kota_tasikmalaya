@@ -24,7 +24,7 @@ const translations = {
     'navbar.organizational_structure': 'Struktur Organisasi',
     'navbar.leadership': 'Pimpinan',
     'navbar.employees': 'Pegawai',
-    'navbar.departments': 'Bidang Kerja',
+    'navbar.departments': 'Bidang Umum',
     'navbar.services': 'Layanan Publik',
     'navbar.general_permit': 'Perizinan Umum',
     'navbar.amdal_permit': 'Perizinan AMDAL',
@@ -34,12 +34,12 @@ const translations = {
     'navbar.information': 'Informasi',
     'navbar.news': 'Berita',
     'navbar.articles': 'Artikel',
-    'navbar.agenda': 'Agenda',
-    'navbar.umk_guidelines': 'Panduan UMK',
+    'navbar.agenda': 'Agenda Kegiatan',
+    'navbar.umk_guidelines': 'Panduan Perizinan Berusaha (UMK)',
     'navbar.documents': 'Dokumen',
-    'navbar.regulations': 'Peraturan',
-    'navbar.emission_sop': 'SOP Emisi',
-    'navbar.wwtp_sop': 'SOP IPAL',
+    'navbar.regulations': 'Peraturan Walikota',
+    'navbar.emission_sop': 'SOP Pengendali Emisi',
+    'navbar.wwtp_sop': 'SOP Instalasi Pengolahan Air Limbah',
     'navbar.gallery': 'Galeri',
     'navbar.photo_gallery': 'Galeri Foto',
     'navbar.video_gallery': 'Galeri Video',
@@ -62,7 +62,7 @@ const translations = {
     
     // Department Names
     'dept.environmental_planning': 'Bidang Tata Lingkungan',
-    'dept.pollution_control': 'Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup',
+    'dept.pollution_control': 'Bidang Pengendalian Pencemaran dan Penataan Lingkungan Hidup',
     'dept.waste_management': 'Bidang Pengelolaan Sampah',
     
     // Department Descriptions
@@ -77,7 +77,7 @@ const translations = {
     
     // Titles
     'title.task_details_environmental': 'Rincian tugas Bidang Tata Lingkungan:',
-    'title.task_details_pollution': 'Rincian tugas Bidang Pengendalian Pencemaran dan Penaatan Lingkungan Hidup:',
+    'title.task_details_pollution': 'Rincian tugas Bidang Pengendalian Pencemaran dan Penataan Lingkungan Hidup:',
     'title.task_details_waste': 'Rincian tugas Bidang Pengelolaan Sampah:',
   },
   en: {

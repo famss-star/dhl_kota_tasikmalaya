@@ -3,44 +3,49 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { User2, FileText, Info, Newspaper, BookOpen, CalendarDays, FileDown, Gavel, FileCog, Users, FileVideo, FileImage, Folder } from "lucide-react";
+import { User2, FileText, Info, Newspaper, BookOpen, CalendarDays, FileDown, Gavel, FileCog, Users, FileVideo, FileImage, Folder, Network, Trees, Factory, Trash2, Contact, Building, Files } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
 import ThemeToggle from "./ThemeToggle";
 // Icon mapping for submenu items
-const submenuIcons: Record<string, React.ReactNode> = {
-  // Profil
-  "Profil": <User2 className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Tentang DLH Kota Tasikmalaya": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Tugas Pokok & Fungsi": <Users className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Visi & Misi": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Struktur Organisasi": <Users className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Bidang Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Bidang Tata Lingkungan": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Bidang Pengendalian Pencemaran & Penataan Hukum": <Gavel className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Bidang Pengelolaan Sampah": <FileDown className="w-4 h-4 mr-2 text-green-700 inline" />,
-  // Layanan Publik
-  "Perizinan Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Perizinan AMDAL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Perizinan IPLC": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Perizinan SPPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Perizinan UKL-UPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Pengaduan": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Kontak": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
-  // Informasi & Dokumen
-  "Informasi Umum": <Info className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Berita": <Newspaper className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Artikel": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Agenda Kegiatan": <CalendarDays className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Panduan Perizinan Berusaha (UMK)": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Dokumen Umum": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Peraturan Walikota": <Gavel className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "SOP Instalasi Pengolahan Air Limbah": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "SOP Pengendali Emisi": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Download File": <FileDown className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Galeri Umum": <Folder className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Galeri Foto": <FileImage className="w-4 h-4 mr-2 text-green-700 inline" />,
-  "Galeri Video": <FileVideo className="w-4 h-4 mr-2 text-green-700 inline" />,
-};
+	const submenuIcons: Record<string, React.ReactNode> = new Proxy({
+		// Profil
+		"Profil": <User2 className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Tentang DLH Kota Tasikmalaya": <Info className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Tugas Pokok & Fungsi": <Users className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Visi & Misi": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Struktur Organisasi": <Network className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Bidang Umum": <Building className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Bidang Tata Lingkungan": <Trees className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Bidang Pengendalian Pencemaran dan Penataan Lingkungan Hidup": <Factory className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Bidang Pengelolaan Sampah": <Trash2 className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		// Layanan Publik
+		"Perizinan Umum": <Folder className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Perizinan AMDAL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Perizinan IPLC": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Perizinan SPPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Perizinan UKL-UPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Pengaduan": <Info className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Kontak": <Contact className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		// Informasi & Dokumen
+		"Informasi": <Info className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Berita": <Newspaper className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Artikel": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Agenda Kegiatan": <CalendarDays className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Panduan Perizinan Berusaha (UMK)": <BookOpen className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Dokumen": <Files className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Peraturan Walikota": <Gavel className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"SOP Pengendali Emisi": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"SOP Instalasi Pengolahan Air Limbah": <FileCog className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"File Download": <FileDown className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Galeri": <Folder className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Galeri Foto": <FileImage className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Galeri Video": <FileVideo className="w-4 h-4 mr-2 text-green-700 inline" />, 
+	}, {
+			get: (target, name) =>
+				name in target
+					? target[name as keyof typeof target]
+					: <FileText className="w-4 h-4 mr-2 text-green-700 inline" />
+	});
 
 export default function Navbar() {
   const { language, setLanguage, t } = useLanguage();
