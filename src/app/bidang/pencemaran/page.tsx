@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Factory } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 const BidangPencemaranPage = () => {
@@ -40,11 +39,8 @@ const BidangPencemaranPage = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-red-500 to-red-700 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
             <div className="flex flex-col items-center justify-center mb-4">
-              <div className="flex items-center justify-center gap-4 mb-2">
-                <Factory className="w-14 h-14 md:w-16 md:h-16 text-red-200 drop-shadow-md" />
-              </div>
               <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
                 {t('dept.pollution_control')}
               </h1>
@@ -79,7 +75,7 @@ const BidangPencemaranPage = () => {
                 <div className="relative">
                   <div
                     style={{
-                      height: showAll ? height : '384px',
+                      height: showAll ? height : '250px',
                       overflow: 'hidden',
                       transition: 'height 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
                     }}
@@ -94,9 +90,9 @@ const BidangPencemaranPage = () => {
                           className={`transform transition-all duration-500 ease-out ${
                             showAll 
                               ? 'opacity-100 translate-y-0 scale-100' 
-                              : idx < 5 
+                              : idx < 3
                                 ? 'opacity-100 translate-y-0 scale-100' 
-                                : 'opacity-60 translate-y-2 scale-95'
+                                : 'opacity-60 translate-y-0 scale-100'
                           }`}
                           style={{
                             transitionDelay: `${idx * 30}ms`

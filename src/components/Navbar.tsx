@@ -60,7 +60,7 @@ export default function Navbar() {
 		{ name: t('navbar.profile'), href: "/profil" },
 		{ name: t('navbar.about'), href: "/profil/tentang" },
 		{ name: "Tugas Pokok & Fungsi", href: "/profil/tentang#tupoksi" },
-		{ name: t('navbar.vision_mission'), href: "/profil/tentang#visi" },
+		{ name: t('navbar.vision_mission'), href: "/profil/tentang#visi-misi" },
 		{ name: t('navbar.organizational_structure'), href: "/profil/struktur-organisasi" },
 		{ name: t('navbar.departments'), href: "/bidang" },
 		{ name: t('dept.environmental_planning'), href: "/bidang/tata-lingkungan" },

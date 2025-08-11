@@ -1,30 +1,32 @@
 import Link from 'next/link';
-import { CalendarDays, Newspaper, FileText, BarChart2, Megaphone } from 'lucide-react';
+import { CalendarDays, Newspaper, FileText, BarChart2, Megaphone, BookOpen } from 'lucide-react';
 
 export default function Informasi() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-teal-600 to-green-600 text-white py-16">
+      <section className="bg-gradient-to-r from-teal-600 to-green-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Informasi & Berita
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90">
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
+                Informasi & Berita
+              </h1>
+            </div>
+            <p className="text-lg opacity-90 max-w-3xl mx-auto">
               Berita terkini dan informasi penting DLH Kota Tasikmalaya
             </p>
           </div>
         </div>
-      </div>
-
+      </section>
+            
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
           
           {/* Available Features */}
           <section className="mb-12">
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 gap-8">
               <Link href="/informasi/agenda" className="group">
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
                   <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
@@ -77,6 +79,25 @@ export default function Informasi() {
                   <div className="text-center mt-auto">
                     <span className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
                       Lihat Artikel
+                    </span>
+                  </div>
+                </div>
+              </Link>
+
+              <Link href="/informasi/panduan-umk" className="group">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                  <div className="bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                    <BookOpen className="w-8 h-8" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-teal-600 dark:group-hover:text-teal-400">
+                    Panduan UMK
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
+                    Panduan lengkap untuk memahami dan menerapkan Upaya Manajemen Keselamatan dalam pengelolaan lingkungan hidup
+                  </p>
+                  <div className="text-center mt-auto">
+                    <span className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
+                      Lihat Panduan
                     </span>
                   </div>
                 </div>

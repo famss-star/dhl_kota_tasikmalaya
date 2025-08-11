@@ -6,21 +6,24 @@ const PelayananIplcPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-cyan-600 to-blue-500 text-white py-16">
+      <section className="bg-gradient-to-r from-cyan-600 to-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Pelayanan IPLC
-            </h1>
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
+                Pelayanan IPLC
+              </h1>
+            </div>
             <p className="text-lg opacity-90 max-w-3xl mx-auto">
               Izin Pembuangan Limbah Cair untuk pengelolaan limbah yang 
               bertanggung jawab dan ramah lingkungan
             </p>
           </div>
         </div>
-      </div>
+      </section>      
 
       <div className="container mx-auto px-4 py-12">
+        
         {/* Perizinan pembuangan air limbah cair Section */}
         <section className="max-w-6xl mx-auto mb-12">
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">

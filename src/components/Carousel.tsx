@@ -39,18 +39,27 @@ export default function Carousel() {
   const [splideIndex, setSplideIndex] = React.useState<number>(0);
   const splideRef = React.useRef<{ index: number } | null>(null);
 
-  // Sinkronisasi background dengan Splide
-  const handleMove = (splide: { index: number }) => {
-    const activeIndex = splide.index;
-    setCurrent(activeIndex % carouselImages.length);
-    setSplideIndex(activeIndex % bannerImages.length); // Use modulo for proper loop
+  // Background carousel - independent auto transition
+  React.useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % carouselImages.length);
+    }, 5000); // Change background every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Banner splide movement handler
+  const handleBannerMove = (splide: { index: number }) => {
+    setSplideIndex(splide.index);
   };
 
-  // For perPage: 2, the "active" slide is the one on the left (index 0 of visible slides)
+  // For banner splide with perPage: 3 and focus: 1
+  // The focused slide is the one in the center position
   const isActive = (idx: number) => {
-    const normalizedSplideIndex = splideIndex % bannerImages.length;
-    const normalizedIdx = idx % bannerImages.length;
-    return normalizedSplideIndex === normalizedIdx;
+    // Dengan focus: 1, slide yang aktif adalah yang berada di posisi tengah
+    // splideIndex menunjukkan index slide yang sedang di-focus (tengah)
+    const normalizedActiveIndex = splideIndex % bannerImages.length;
+    return normalizedActiveIndex === idx;
   };
 
   return (
@@ -81,9 +90,9 @@ export default function Carousel() {
           options={{
             type: 'loop',
             perPage: 3,
-            focus: 1, // Focus on the first visible slide (left side)
+            focus: 'center',
             gap: '2rem',
-            arrows: true,
+            arrows: false,
             pagination: true,
             autoplay: true,
             interval: 3500,
@@ -95,9 +104,9 @@ export default function Carousel() {
             },
           }}
           className="w-full splide-banner"
-          onMove={handleMove}
+          onMove={handleBannerMove}
+          onMoved={handleBannerMove}
           onMounted={() => {
-            setCurrent(0);
             setSplideIndex(0);
           }}
         >

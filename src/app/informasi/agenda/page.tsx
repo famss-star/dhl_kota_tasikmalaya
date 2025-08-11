@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight, Calendar, Info } from 'lucide-react';
-import Link from 'next/link';
 
 // Type definitions
 interface AgendaItem {
@@ -155,28 +154,21 @@ export default function AgendaPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                <Calendar className="w-7 h-7 text-green-600 dark:text-green-400" />
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
                 Agenda Kegiatan
               </h1>
-              <p className="mt-2 text-gray-600 dark:text-gray-400">
-                Jadwal kegiatan dan acara Dinas Lingkungan Hidup Kota Tasikmalaya
-              </p>
             </div>
-            <Link
-              href="/"
-              className="inline-flex items-center px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              ← Kembali ke Beranda
-            </Link>
+            <p className="text-lg opacity-90 max-w-3xl mx-auto">
+              Jadwal kegiatan dan acara Dinas Lingkungan Hidup Kota Tasikmalaya
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

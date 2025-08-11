@@ -6,6 +6,7 @@ const nextConfig = {
       "portal.tasikmalayakota.go.id", 
       "www.dlh.tasikmalayakota.go.id",
       "images.unsplash.com"
+    ,"img.youtube.com"
     ],
     remotePatterns: [
       {

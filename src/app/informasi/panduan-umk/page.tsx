@@ -70,21 +70,24 @@ const PanduanUMKPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
+      <section className="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Panduan UMK
-            </h1>
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
+                Panduan UMK
+              </h1>
+            </div>
             <p className="text-lg opacity-90 max-w-3xl mx-auto">
               Pedoman lengkap untuk memahami dan menerapkan Upaya Manajemen 
               Keselamatan dalam pengelolaan lingkungan hidup
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       <div className="container mx-auto px-4 py-12">
+
         {/* Overview Section */}
         <section className="max-w-6xl mx-auto mb-12">
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">

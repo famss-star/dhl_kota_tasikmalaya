@@ -34,23 +34,25 @@ export default function Pelayanan() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Pelayanan Publik
-            </h1>
-            <p className="text-xl md:text-2xl opacity-90">
-              Layanan Dinas Lingkungan Hidup Kota Tasikmalaya
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
+                Pelayanan Publik
+              </h1>
+            </div>
+            <p className="text-lg opacity-90 max-w-3xl mx-auto">
+              Pelayanan Dinas Lingkungan Hidup Kota Tasikmalaya
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 border border-gray-200 dark:border-gray-700">
+          <section className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 border border-gray-200 dark:border-gray-700">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center">
               Daftar Perizinan Publik DLH
             </h2>
@@ -127,10 +129,10 @@ export default function Pelayanan() {
                 <Link href="/pelayanan/ppid" className="inline-block bg-purple-700 hover:bg-purple-800 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">Lihat Detail</Link>
               </div>
             </div>
-          </div>
+          </section>
 
         {/* Section: FAQ singkat */}
-        <div className="mt-12">
+        <section className="mt-12">
           <div className="bg-gray-100 dark:bg-gray-900 rounded-xl px-8 pt-5 pb-8 shadow border border-gray-200 dark:border-gray-700 w-4xl mx-auto">
             <div className="flex items-center justify-center gap-3 mb-6">
               
@@ -161,7 +163,7 @@ export default function Pelayanan() {
               </li>
             </ul>
           </div>
-        </div>
+        </section>
 
           {/* Navigation */}
           <section>

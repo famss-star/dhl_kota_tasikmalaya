@@ -60,22 +60,26 @@ const DokumenPeraturanPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-blue-800 to-indigo-600 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Dokumen Peraturan
-            </h1>
+          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
+            <div className="flex flex-col items-center justify-center mb-4">
+              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
+                Dokumen Peraturan
+              </h1>
+            </div>
             <p className="text-lg opacity-90 max-w-3xl mx-auto">
-              Kumpulan peraturan perundang-undangan terkait lingkungan hidup dari tingkat 
+                Kumpulan peraturan perundang-undangan terkait lingkungan hidup dari tingkat 
               nasional hingga daerah
             </p>
           </div>
         </div>
-      </div>
+      </section> 
 
       <div className="container mx-auto px-4 py-12">
+        
         {/* Search Section */}
         <section className="max-w-6xl mx-auto mb-12">
           <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6">
