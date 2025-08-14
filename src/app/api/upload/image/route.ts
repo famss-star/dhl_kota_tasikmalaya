@@ -1,24 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put } from '@vercel/blob';
+import { writeFile, mkdir } from 'fs/promises';
+import { join } from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   try {
-    // Check if token is available
+    // Check environment
+    const isProduction = process.env.NODE_ENV === 'production';
     const token = process.env.BLOB_READ_WRITE_TOKEN;
+    
     console.log('Environment check:', {
       hasToken: !!token,
       tokenLength: token ? token.length : 0,
-      nodeEnv: process.env.NODE_ENV
+      nodeEnv: process.env.NODE_ENV,
+      isProduction
     });
-    
-    if (!token) {
-      console.error('BLOB_READ_WRITE_TOKEN not found in environment variables');
-      return NextResponse.json(
-        { success: false, error: 'Server configuration error: Storage token missing' },
-        { status: 500 }
-      );
-    }
 
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File;
@@ -53,14 +50,40 @@ export async function POST(request: NextRequest) {
     const fileExtension = file.name.split('.').pop();
     const uniqueFileName = `${folder}/${uuidv4()}.${fileExtension}`;
 
-    // Upload ke Vercel Blob dengan explicit token
-    const blob = await put(uniqueFileName, file, {
-      access: 'public',
-      token: token, // Explicitly pass the token
-    });
+    let imageUrl: string;
 
-    // Return URL dari Vercel Blob
-    const imageUrl = blob.url;
+    if (isProduction && token) {
+      // Production: Use Vercel Blob
+      try {
+        const blob = await put(uniqueFileName, file, {
+          access: 'public',
+          token: token,
+        });
+        imageUrl = blob.url;
+      } catch (blobError) {
+        console.error('Vercel Blob error:', blobError);
+        return NextResponse.json(
+          { success: false, error: 'Cloud storage error' },
+          { status: 500 }
+        );
+      }
+    } else {
+      // Development: Use local file system
+      const bytes = await file.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+
+      // Create upload directory if it doesn't exist
+      const uploadDir = join(process.cwd(), 'public', 'uploads', folder);
+      await mkdir(uploadDir, { recursive: true });
+
+      // Save file locally
+      const localFileName = `${uuidv4()}.${fileExtension}`;
+      const filePath = join(uploadDir, localFileName);
+      await writeFile(filePath, buffer);
+
+      // Return local URL
+      imageUrl = `/uploads/${folder}/${localFileName}`;
+    }
 
     return NextResponse.json({
       success: true,
