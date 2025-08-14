@@ -4,6 +4,22 @@ import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if token is available
+    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    console.log('Environment check:', {
+      hasToken: !!token,
+      tokenLength: token ? token.length : 0,
+      nodeEnv: process.env.NODE_ENV
+    });
+    
+    if (!token) {
+      console.error('BLOB_READ_WRITE_TOKEN not found in environment variables');
+      return NextResponse.json(
+        { success: false, error: 'Server configuration error: Storage token missing' },
+        { status: 500 }
+      );
+    }
+
     const data = await request.formData();
     const file: File | null = data.get('file') as unknown as File;
     const folder = (data.get('folder') as string) || 'articles'; // Default ke articles
@@ -37,9 +53,10 @@ export async function POST(request: NextRequest) {
     const fileExtension = file.name.split('.').pop();
     const uniqueFileName = `${folder}/${uuidv4()}.${fileExtension}`;
 
-    // Upload ke Vercel Blob
+    // Upload ke Vercel Blob dengan explicit token
     const blob = await put(uniqueFileName, file, {
       access: 'public',
+      token: token, // Explicitly pass the token
     });
 
     // Return URL dari Vercel Blob
