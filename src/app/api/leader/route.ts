@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 
 // GET - Ambil data kepala dinas yang aktif
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const leader = await prisma.leader.findFirst({
       where: {

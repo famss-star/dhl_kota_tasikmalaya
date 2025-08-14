@@ -50,7 +50,7 @@ import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const { language, setLanguage, t } = useLanguage();
-  const { settings: logoSettings, loading: logoLoading } = useLogoSettings();
+  const { settings: logoSettings } = useLogoSettings();
   const [mounted, setMounted] = useState(false);
   
   // --- NAV ITEMS ---

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Trash2 } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 

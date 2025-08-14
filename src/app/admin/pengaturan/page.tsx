@@ -78,13 +78,22 @@ export default function AdminPengaturan() {
     }
   }, [leader]);
 
+interface Setting {
+  key: string;
+  value: string;
+}
+
+interface SettingsMap {
+  [key: string]: string;
+}
+
   const fetchLogoSettings = async () => {
     try {
       const response = await fetch('/api/settings');
       const data = await response.json();
 
       if (data.success) {
-        const settingsMap = data.data.reduce((acc: any, setting: any) => {
+        const settingsMap = data.data.reduce((acc: SettingsMap, setting: Setting) => {
           acc[setting.key] = setting.value;
           return acc;
         }, {});

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Trees } from "lucide-react";
 import { useLanguage } from "../../../context/LanguageContext";
 
 const BidangTataLingkunganPage = () => {

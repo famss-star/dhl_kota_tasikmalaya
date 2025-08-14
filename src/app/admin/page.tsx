@@ -2,7 +2,19 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Settings, ShieldCheck, Newspaper, FileText, Calendar, ImageIcon, Users, FileDown, Gavel, FileCog, BarChart3, TrendingUp } from "lucide-react";
+import { Settings, ShieldCheck, Newspaper, FileText, Calendar, ImageIcon, Users, FileDown, Gavel, FileCog, BarChart3 } from "lucide-react";
+
+interface Article {
+  id: string;
+  title: string;
+  createdAt: string;
+}
+
+interface News {
+  id: string;
+  title: string;
+  createdAt: string;
+}
 
 interface DashboardStats {
   totalArticles: number;
@@ -12,8 +24,8 @@ interface DashboardStats {
   totalDocuments: number;
   totalGalleryItems: number;
   totalPermits: number;
-  recentArticles: any[];
-  recentNews: any[];
+  recentArticles: Article[];
+  recentNews: News[];
 }
 
 export default function AdminPage() {
