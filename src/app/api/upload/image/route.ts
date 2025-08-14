@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
-import { join } from 'path';
+import { put } from '@vercel/blob';
 import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
@@ -34,27 +33,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const bytes = await file.arrayBuffer();
-    const buffer = Buffer.from(bytes);
-
-    // Generate unique filename
+    // Generate unique filename dengan folder path
     const fileExtension = file.name.split('.').pop();
-    const uniqueFileName = `${uuidv4()}.${fileExtension}`;
-    
-    // Path untuk menyimpan file (dinamis berdasarkan folder)
-    const uploadDir = join(process.cwd(), 'public', 'uploads', folder);
-    const filePath = join(uploadDir, uniqueFileName);
+    const uniqueFileName = `${folder}/${uuidv4()}.${fileExtension}`;
 
-    // Simpan file
-    await writeFile(filePath, buffer);
+    // Upload ke Vercel Blob
+    const blob = await put(uniqueFileName, file, {
+      access: 'public',
+    });
 
-    // Return URL path yang bisa diakses public
-    const imageUrl = `/uploads/${folder}/${uniqueFileName}`;
+    // Return URL dari Vercel Blob
+    const imageUrl = blob.url;
 
     return NextResponse.json({
       success: true,
       imageUrl: imageUrl,
-      fileName: uniqueFileName
+      fileName: uniqueFileName,
+      size: file.size,
+      type: file.type
     });
 
   } catch (error) {
