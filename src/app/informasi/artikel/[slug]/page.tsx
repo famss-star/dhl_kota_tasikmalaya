@@ -19,8 +19,9 @@ interface Article {
   author: {
     id: string;
     name: string;
+    email: string;
   };
-  category: {
+  category?: {
     id: string;
     name: string;
     slug: string;
@@ -135,9 +136,11 @@ export default function ArtikelDetail() {
           {/* Article Header */}
           <header className="mb-8">
             <div className="flex items-center gap-2 mb-4">
-              <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm px-3 py-1 rounded-full">
-                {article.category.name}
-              </span>
+              {article.category && (
+                <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm px-3 py-1 rounded-full">
+                  {article.category.name}
+                </span>
+              )}
               <span className="text-gray-500 dark:text-gray-400 text-sm">
                 {formatDate(article.createdAt)}
               </span>
