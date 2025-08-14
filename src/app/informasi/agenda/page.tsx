@@ -17,7 +17,7 @@ type AgendaData = {
   [key: string]: AgendaItem[];
 };
 
-// Sample agenda data
+// Data agenda
 const agendaData: AgendaData = {
   '2025-07-16': [
     {

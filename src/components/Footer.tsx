@@ -1,24 +1,32 @@
 
+'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
 import { MapPin, Phone, Mail, Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+import { useLogoSettings } from '../hooks/useLogoSettings';
 
 export default function Footer() {
+  const { settings: logoSettings } = useLogoSettings();
   return (
     <footer className="bg-green-900 text-white pt-10 pb-4">
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* Kolom 1: Logo & Info */}
         <div className="flex flex-col items-center md:items-start gap-3">
           <Image
-            src="https://www.dlh.tasikmalayakota.go.id/images/logo-white-footer.png"
-            alt="DLH Kota Tasikmalaya"
+            src={logoSettings.logoFooter}
+            alt={logoSettings.siteName}
             width={330}
             height={60}
             className="w-full max-w-[330px] h-auto object-contain mb-2"
             priority
+            onError={(e) => {
+              // Fallback ke logo default jika gagal load
+              const target = e.target as HTMLImageElement;
+              target.src = 'https://www.dlh.tasikmalayakota.go.id/images/logo-white-footer.png';
+            }}
           />
-          {/* <div className="font-bold text-lg">DLH Kota Tasikmalaya</div> */}
+          {/* <div className="font-bold text-lg">{logoSettings.siteName}</div> */}
           <Link
             href="https://www.google.com/maps?q=Jl.+Ir.+H.+Juanda+No.+277,+Tasikmalaya"
             target="_blank"

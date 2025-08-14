@@ -5,7 +5,7 @@ import { useState } from "react";
 import {
   User2, Info, Users, BookOpen, FileText, FileCog, Gavel, FileDown,
   Newspaper, CalendarDays, FileImage, FileVideo, Folder, ChevronDown, ChevronUp, UserCog,
-  LogOut
+  LogOut, User
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
@@ -23,9 +23,12 @@ const sidebarMenu = [
     icon: Users,
     children: [
       { label: "Profil Instansi", href: "/admin/pengaturan#profil", icon: User2 },
+      { label: "Logo", href: "/admin/pengaturan#logo", icon: FileImage },
+      { label: "Kepala Dinas", href: "/admin/pengaturan#kepala-dinas", icon: User },
       { label: "Struktur Organisasi", href: "/admin/pengaturan#struktur", icon: Users },
       { label: "Tugas & Fungsi", href: "/admin/pengaturan#tupoksi", icon: BookOpen },
       { label: "Visi & Misi", href: "/admin/pengaturan#visi", icon: BookOpen },
+      { label: "Kontak & Alamat", href: "/admin/pengaturan#kontak", icon: Info },
       { label: "Manajemen Pimpinan", href: "/admin/pimpinan", icon: UserCog },
     ],
   },
@@ -39,7 +42,6 @@ const sidebarMenu = [
       { label: "Manajemen SPPL", href: "/admin/perizinan-sppl", icon: FileText },
       { label: "Manajemen UKL-UPL", href: "/admin/perizinan-ukl-upl", icon: FileText },
       { label: "Manajemen Pengaduan", href: "/admin/pengaduan", icon: Info },
-      { label: "Manajemen Kontak", href: "/admin/pengaturan#kontak", icon: Info },
     ],
   },
   {
@@ -57,6 +59,7 @@ const sidebarMenu = [
       { label: "Manajemen File", href: "/admin/file-download", icon: FileDown },
       { label: "Manajemen Galeri Foto", href: "/admin/galeri", icon: FileImage },
       { label: "Manajemen Galeri Video", href: "/admin/galeri-video", icon: FileVideo },
+      { label: "Pengaturan Umum", href: "/admin/pengaturan", icon: FileCog },
     ],
   },
 ];
@@ -95,8 +98,8 @@ export default function SidebarAdmin() {
                 <User2 className="w-5 h-5 text-white" />
               </div>
               <div className="flex-1 text-left">
-                <div className="text-sm font-medium text-gray-900 dark:text-white">Dummy</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400">Administrator</div>
+                <div className="text-sm font-medium text-gray-900 dark:text-white">Administrator</div>
+              <div className="text-xs text-gray-500 dark:text-gray-400">DLH Kota Tasikmalaya</div>
             </div>
             {userDropdown ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
@@ -117,7 +120,16 @@ export default function SidebarAdmin() {
 
       {/* Navigation Menu */}
       <nav className="flex flex-col gap-2 flex-1">
-        {sidebarMenu.map((item) => {
+        {/* Beranda langsung tombol, bukan dropdown */}
+        <Link
+          href="/admin"
+          className="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-green-100 dark:hover:bg-green-900/30 font-medium transition"
+        >
+          <Folder className="w-5 h-5" />
+          Dashboard
+        </Link>
+        {/* Menu lain tetap dropdown */}
+        {sidebarMenu.filter(item => item.label !== "Beranda").map((item) => {
           const Icon = item.icon;
           if (item.children) {
             return (
@@ -153,7 +165,6 @@ export default function SidebarAdmin() {
               </div>
             );
           }
-          // No direct links for items without href in new admin-only sidebar
           return null;
         })}
       </nav>

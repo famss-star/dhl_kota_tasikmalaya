@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-// Sample gallery data
+// Data galeri
 const galleryItems = [
   {
     id: 1,

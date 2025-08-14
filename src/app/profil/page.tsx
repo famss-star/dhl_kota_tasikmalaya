@@ -80,7 +80,7 @@ export default function Profil() {
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">Misi</h3>
                   <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300 group-hover:text-gray-700 dark:group-hover:text-gray-200">
-                    <span className='font-semibold'>DUMMY </span>4 misi utama dalam pengendalian pencemaran, kesadaran masyarakat, 
+                    4 misi utama dalam pengendalian pencemaran, kesadaran masyarakat, 
                     pengelolaan sampah, dan peningkatan kapasitas aparatur
                   </p>
                   <div className="mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

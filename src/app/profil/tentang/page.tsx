@@ -2,8 +2,10 @@
 "use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { Users, Landmark, Network } from 'lucide-react';
+import { useLanguage } from '../../../context/LanguageContext';
 
 const TentangDLH: React.FC = () => {
+  const { t } = useLanguage();
   const [showFullTupoksi, setShowFullTupoksi] = useState(false);
   const [height, setHeight] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);

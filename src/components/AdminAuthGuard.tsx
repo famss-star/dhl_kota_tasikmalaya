@@ -25,10 +25,13 @@ export default function AdminAuthGuard({ children }: AdminAuthGuardProps) {
 
       try {
         const parsedAuth = JSON.parse(authData);
-        // You can add more validation here (token expiry, role check, etc.)
-        if (parsedAuth.isLoggedIn && parsedAuth.role === 'admin') {
+        console.log('🔍 AdminAuthGuard checking auth:', parsedAuth); // Debug log
+        // Check if user is logged in and has admin role (case insensitive)
+        if (parsedAuth.isLoggedIn && (parsedAuth.role === 'ADMIN' || parsedAuth.role === 'admin')) {
+          console.log('✅ Admin authentication successful');
           setIsAuthenticated(true);
         } else {
+          console.log('❌ Admin authentication failed - role:', parsedAuth.role);
           setIsAuthenticated(false);
         }
       } catch {

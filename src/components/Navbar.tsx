@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { User2, FileText, Info, Newspaper, BookOpen, CalendarDays, FileDown, Gavel, FileCog, Users, FileVideo, FileImage, Folder, Network, Trees, Factory, Trash2, Contact, Building, Files } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
+import { useLogoSettings } from "../hooks/useLogoSettings";
 import ThemeToggle from "./ThemeToggle";
 // Icon mapping for submenu items
 	const submenuIcons: Record<string, React.ReactNode> = new Proxy({
@@ -49,6 +50,7 @@ import ThemeToggle from "./ThemeToggle";
 
 export default function Navbar() {
   const { language, setLanguage, t } = useLanguage();
+  const { settings: logoSettings, loading: logoLoading } = useLogoSettings();
   const [mounted, setMounted] = useState(false);
   
   // --- NAV ITEMS ---
@@ -323,14 +325,19 @@ export default function Navbar() {
 							className="flex items-center gap-2 group min-w-0"
 							>
 							<Image
-								src="https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png"
-								alt="DLH Kota Tasikmalaya"
+								src={logoSettings.logoHeader}
+								alt={logoSettings.siteName}
 								width={60}
 								height={60}
 								className="h-[60px] w-[60px] object-contain transition-transform duration-300 ease-in-out group-hover:scale-110"
 								priority
+								onError={(e) => {
+									// Fallback ke logo default jika gagal load
+									const target = e.target as HTMLImageElement;
+									target.src = 'https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png';
+								}}
 							/>
-							<span className="font-bold text-lg sr-only">DLH Kota Tasikmalaya</span>
+							<span className="font-bold text-lg sr-only">{logoSettings.siteName}</span>
 						</Link>
 					</div>
 

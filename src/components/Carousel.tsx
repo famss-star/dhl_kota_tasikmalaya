@@ -90,12 +90,12 @@ export default function Carousel() {
           options={{
             type: 'loop',
             perPage: 3,
-            focus: 'center',
+            focus: 'center', // Focus on the center visible slide
             gap: '2rem',
-            arrows: false,
-            pagination: true,
+            arrows: true,
+            pagination: false,
             autoplay: true,
-            interval: 3500,
+            interval: 4000, // Different interval from background (4 seconds)
             pauseOnHover: false,
             pauseOnFocus: false,
             breakpoints: {
@@ -106,7 +106,7 @@ export default function Carousel() {
           className="w-full splide-banner"
           onMove={handleBannerMove}
           onMoved={handleBannerMove}
-          onMounted={() => {
+          onMounted={(splide: any) => {
             setSplideIndex(0);
           }}
         >

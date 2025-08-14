@@ -22,7 +22,9 @@ export default function AdminSopIpal() {
             <FileCog className="w-7 h-7 text-green-600 dark:text-green-400" />
             Daftar SOP IPAL
           </h2>
-          <div className="text-gray-600 dark:text-gray-300">(Dummy data SOP IPAL di sini)</div>
+          <div className="text-gray-600 dark:text-gray-300">
+            Halaman untuk mengelola Standard Operating Procedure (SOP) Instalasi Pengolahan Air Limbah (IPAL).
+          </div>
         </div>
       </div>
     </div>

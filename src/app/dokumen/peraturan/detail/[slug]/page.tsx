@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import React from "react";
 import { use } from "react";
 
-// Dummy data, should be replaced with real data source
+// Data peraturan
 const peraturanList = [
   {
     judul: "UU No. 32 Tahun 2009",

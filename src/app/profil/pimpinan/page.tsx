@@ -34,7 +34,7 @@ const ProfilPimpinan: React.FC = () => {
               
               <div className="p-8">
                 <div className="grid md:grid-cols-3 gap-8">
-                  {/* Photo Placeholder */}
+                  {/* Foto Kepala Dinas */}
                   <div className="md:col-span-1">
                     <div className="bg-gray-200 dark:bg-gray-700 rounded-lg h-full w-full flex items-center justify-center">
                       <div className="text-center text-gray-500 dark:text-gray-400">
@@ -86,7 +86,7 @@ const ProfilPimpinan: React.FC = () => {
               
               <div className="p-6">
                 <div className="grid md:grid-cols-4 gap-6">
-                  {/* Photo Placeholder */}
+                  {/* Foto Sekretaris */}
                   <div className="md:col-span-1">
                     <div className="bg-gray-200 rounded-lg dark:bg-gray-700 h-full w-full flex items-center justify-center">
                       <div className="text-center text-gray-500 dark:text-gray-400">

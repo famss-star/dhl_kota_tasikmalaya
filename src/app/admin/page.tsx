@@ -1,9 +1,44 @@
 "use client";
 
 import Link from "next/link";
-import { Settings, ShieldCheck, Newspaper, FileText, Calendar, ImageIcon, Users, FileDown, Gavel, FileCog } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Settings, ShieldCheck, Newspaper, FileText, Calendar, ImageIcon, Users, FileDown, Gavel, FileCog, BarChart3, TrendingUp } from "lucide-react";
+
+interface DashboardStats {
+  totalArticles: number;
+  totalNews: number;
+  totalUsers: number;
+  totalComplaints: number;
+  totalDocuments: number;
+  totalGalleryItems: number;
+  totalPermits: number;
+  recentArticles: any[];
+  recentNews: any[];
+}
 
 export default function AdminPage() {
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardStats();
+  }, []);
+
+  const fetchDashboardStats = async () => {
+    try {
+      const response = await fetch('/api/dashboard/stats');
+      const data = await response.json();
+      
+      if (data.success) {
+        setStats(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard stats:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
@@ -18,8 +53,74 @@ export default function AdminPage() {
           </div>
         </div>
       </div>
+
+      {/* Statistics Cards */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {loading ? (
+            // Loading skeleton
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg animate-pulse">
+                <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-4"></div>
+                <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded"></div>
+              </div>
+            ))
+          ) : (
+            <>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-blue-200 dark:border-blue-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900">
+                    <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Artikel</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalArticles || 0}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-yellow-200 dark:border-yellow-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-yellow-100 dark:bg-yellow-900">
+                    <Newspaper className="w-8 h-8 text-yellow-600 dark:text-yellow-400" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Berita</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalNews || 0}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-green-200 dark:border-green-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-green-100 dark:bg-green-900">
+                    <Users className="w-8 h-8 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Users</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalUsers || 0}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-lg border border-red-200 dark:border-red-700">
+                <div className="flex items-center">
+                  <div className="p-3 rounded-full bg-red-100 dark:bg-red-900">
+                    <BarChart3 className="w-8 h-8 text-red-600 dark:text-red-400" />
+                  </div>
+                  <div className="ml-4">
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-300">Total Pengaduan</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats?.totalComplaints || 0}</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 pb-12">
         <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center justify-center gap-2">
             <ShieldCheck className="w-7 h-7 text-green-600 dark:text-green-400" />

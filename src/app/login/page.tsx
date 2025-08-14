@@ -9,7 +9,7 @@ export default function LoginPage() {
   const { login } = useAuth();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     rememberMe: false
   });
@@ -20,8 +20,10 @@ export default function LoginPage() {
   const validateForm = () => {
     const newErrors: { [key: string]: string } = {};
     
-    if (!formData.username) {
-      newErrors.username = "Username wajib diisi";
+    if (!formData.email) {
+      newErrors.email = "Email wajib diisi";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Format email tidak valid";
     }
     
     if (!formData.password) {
@@ -45,12 +47,12 @@ export default function LoginPage() {
     setIsLoading(true);
 
     try {
-      const success = await login(formData.username, formData.password, formData.rememberMe);
+      const success = await login(formData.email, formData.password, formData.rememberMe);
       if (success) {
         // Redirect ke admin jika login berhasil
         router.push("/admin");
       } else {
-        setErrors({ submit: "Username atau password salah" });
+        setErrors({ submit: "Email atau password salah" });
       }
     } catch {
       setErrors({ submit: "Terjadi kesalahan. Silakan coba lagi." });
@@ -101,23 +103,23 @@ export default function LoginPage() {
           
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Username
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Email
               </label>
               <input
-                id="username"
-                name="username"
-                type="text"
+                id="email"
+                name="email"
+                type="email"
                 className={`appearance-none rounded-lg relative block w-full px-3 py-2 border ${
-                  errors.username ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
+                  errors.email ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'
                 } placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white dark:bg-gray-700 focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 sm:text-sm`}
-                placeholder="Masukkan username"
-                value={formData.username}
+                placeholder="Masukkan email"
+                value={formData.email}
                 onChange={handleChange}
                 disabled={isLoading}
               />
-              {errors.username && (
-                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.username}</p>
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-600 dark:text-red-400">{errors.email}</p>
               )}
             </div>
             

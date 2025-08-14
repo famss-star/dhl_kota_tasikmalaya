@@ -4,13 +4,15 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 interface User {
-  username: string;
+  id: string;
+  email: string;
+  name: string;
   role: string;
 }
 
 interface AuthContextType {
   user: User | null;
-  login: (username: string, password: string, rememberMe: boolean) => Promise<boolean>;
+  login: (email: string, password: string, rememberMe: boolean) => Promise<boolean>;
   logout: () => void;
   isLoading: boolean;
 }
@@ -39,19 +41,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false);
   }, []);
 
-  const login = async (username: string, password: string, rememberMe: boolean): Promise<boolean> => {
+  const login = async (email: string, password: string, rememberMe: boolean): Promise<boolean> => {
     try {
-      // This is where you would normally make an API call
-      // For demo purposes, we're using a mock authentication
-      if (username === "admin" && password === "admin123") {
-        const user = {
-          username,
-          role: "admin",
-        };
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.user) {
+        const user = data.user;
+        console.log('🔐 Login success, user role:', user.role); // Debug log
         const authData = {
           isLoggedIn: true,
           user: user,
-          role: "admin",
+          role: user.role, // This should be 'ADMIN' from database
           timestamp: Date.now()
         };
         

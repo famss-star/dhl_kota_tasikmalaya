@@ -1,64 +1,91 @@
 import { NextRequest, NextResponse } from 'next/server';
+import bcrypt from 'bcryptjs';
+import prisma from '@/lib/prisma';
 
 // Interface untuk request body
 interface LoginRequest {
-  username: string;
+  email: string;
   password: string;
   rememberMe?: boolean;
 }
-
-// Dummy user data - nantinya akan diganti dengan database
-const VALID_USER = {
-  username: 'admin',
-  password: 'admin123',
-  role: 'admin'
-};
 
 export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body: LoginRequest = await request.json();
-    const { username, password } = body;
+    const { email, password } = body;
 
     // Validasi input
-    if (!username || !password) {
+    if (!email || !password) {
       return NextResponse.json(
-        { error: 'Username dan password wajib diisi' },
+        { error: 'Email dan password wajib diisi' },
         { status: 400 }
       );
     }
 
-    // Cek kredensial
-    // Note: Ini hanya implementasi dummy, gunakan database dan hash password di production
-    if (username === VALID_USER.username && password === VALID_USER.password) {
-      // Login berhasil
-      const user = {
-        username: VALID_USER.username,
-        role: VALID_USER.role,
-      };
+    // Cari user di database
+    const user = await prisma.user.findUnique({
+      where: { email: email.toLowerCase() },
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        role: true,
+        password: true,
+        isActive: true
+      }
+    });
 
-      return NextResponse.json({
-        success: true,
-        user,
-        message: 'Login berhasil'
-      });
+    // Cek apakah user ada
+    if (!user) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Email atau password salah' 
+        },
+        { status: 401 }
+      );
     }
 
-    // Login gagal
-    return NextResponse.json(
-      { 
-        success: false,
-        error: 'Username atau password salah' 
-      },
-      { status: 401 }
-    );
+    // Cek apakah user aktif
+    if (!user.isActive) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Akun Anda tidak aktif. Hubungi administrator.' 
+        },
+        { status: 401 }
+      );
+    }
+
+    // Verifikasi password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Email atau password salah' 
+        },
+        { status: 401 }
+      );
+    }
+
+    // Login berhasil - hapus password dari response
+    const { password: _, ...userWithoutPassword } = user;
+
+    return NextResponse.json({
+      success: true,
+      user: userWithoutPassword,
+      message: 'Login berhasil'
+    });
 
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
       { 
         success: false,
-        error: 'Terjadi kesalahan pada server' 
+        error: 'Terjadi kesalahan server' 
       },
       { status: 500 }
     );

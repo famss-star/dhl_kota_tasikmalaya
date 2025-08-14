@@ -45,3 +45,5 @@ next-env.d.ts
 
 # documentation
 dark_mode_guide.md
+/src/generated/prisma
+DEV_GUIDE.md
