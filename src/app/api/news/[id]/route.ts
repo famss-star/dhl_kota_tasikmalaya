@@ -33,7 +33,24 @@ export async function GET(
       }
     });
 
+    // If not found by ID, try by slug
+    let finalNews = news;
     if (!news) {
+      finalNews = await prisma.news.findUnique({
+        where: { slug: id }, // id parameter actually contains slug in this case
+        include: {
+          author: {
+            select: {
+              id: true,
+              name: true,
+              email: true
+            }
+          }
+        }
+      });
+    }
+
+    if (!finalNews) {
       return NextResponse.json(
         { success: false, error: 'News not found' },
         { status: 404 }
@@ -41,7 +58,7 @@ export async function GET(
     }
 
     // If not admin and news is not published, don't return it
-    if (!isAdmin && !news.isPublished) {
+    if (!isAdmin && !finalNews.isPublished) {
       return NextResponse.json(
         { success: false, error: 'News not found' },
         { status: 404 }
@@ -50,7 +67,7 @@ export async function GET(
 
     return NextResponse.json({
       success: true,
-      data: news
+      data: finalNews
     });
 
   } catch (error) {
@@ -70,12 +87,19 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { title, content, excerpt, thumbnail, isPublished } = body;
+    const { title, content, excerpt, thumbnail, tags, isPublished } = body;
 
-    // Check if news exists
-    const existingNews = await prisma.news.findUnique({
+    // Check if news exists - try by id first, then by slug
+    let existingNews = await prisma.news.findUnique({
       where: { id }
     });
+
+    // If not found by ID, try by slug
+    if (!existingNews) {
+      existingNews = await prisma.news.findUnique({
+        where: { slug: id }
+      });
+    }
 
     if (!existingNews) {
       return NextResponse.json(
@@ -108,13 +132,14 @@ export async function PATCH(
 
     // Update news
     const updatedNews = await prisma.news.update({
-      where: { id },
+      where: { id: existingNews.id }, // Use the actual ID from the found news
       data: {
         ...(title && { title }),
         ...(newSlug !== existingNews.slug && { slug: newSlug }),
         ...(content && { content }),
         ...(excerpt !== undefined && { excerpt }),
         ...(thumbnail !== undefined && { thumbnail }),
+        ...(tags !== undefined && { tags: Array.isArray(tags) ? tags.join(', ') : (tags || '') }),
         ...(isPublished !== undefined && { 
           isPublished,
           publishedAt: isPublished ? new Date() : null
@@ -154,9 +179,17 @@ export async function DELETE(
   try {
     const { id } = await params;
 
-    const existingNews = await prisma.news.findUnique({
+    // Check if news exists - try by id first, then by slug
+    let existingNews = await prisma.news.findUnique({
       where: { id }
     });
+
+    // If not found by ID, try by slug
+    if (!existingNews) {
+      existingNews = await prisma.news.findUnique({
+        where: { slug: id }
+      });
+    }
 
     if (!existingNews) {
       return NextResponse.json(
@@ -166,7 +199,7 @@ export async function DELETE(
     }
 
     await prisma.news.delete({
-      where: { id }
+      where: { id: existingNews.id } // Use the actual ID from the found news
     });
 
     return NextResponse.json({

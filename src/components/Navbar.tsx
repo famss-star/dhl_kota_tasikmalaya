@@ -20,6 +20,12 @@ import ThemeToggle from "./ThemeToggle";
 		"Bidang Pengendalian Pencemaran dan Penataan Lingkungan Hidup": <Factory className="w-4 h-4 mr-2 text-green-700 inline" />, 
 		"Bidang Pengelolaan Sampah": <Trash2 className="w-4 h-4 mr-2 text-green-700 inline" />, 
 		// Layanan Publik
+		"Pelayanan Umum": <Users className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Pelayanan IPLC": <Factory className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Rekomendasi KA-ANDAL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Kelayakan Lingkungan": <Trees className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Persetujuan SPPL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
+		"Pengaduan Pencemaran": <Info className="w-4 h-4 mr-2 text-green-700 inline" />, 
 		"Perizinan Umum": <Folder className="w-4 h-4 mr-2 text-green-700 inline" />, 
 		"Perizinan AMDAL": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
 		"Perizinan IPLC": <FileText className="w-4 h-4 mr-2 text-green-700 inline" />, 
@@ -66,18 +72,24 @@ export default function Navbar() {
 		{ name: t('navbar.organizational_structure'), href: "/profil/struktur-organisasi" },
 		{ name: t('navbar.departments'), href: "/bidang" },
 		{ name: t('dept.environmental_planning'), href: "/bidang/tata-lingkungan" },
-		{ name: t('dept.pollution_control'), href: "/bidang/pencemaran" },
-		{ name: t('dept.waste_management'), href: "/bidang/sampah" },
+		{ name: t('dept.pollution_control'), href: "/bidang/pengendalian-pencemaran" },
+		{ name: t('dept.waste_management'), href: "/bidang/pengelolaan-sampah" },
 	  ],
 	},
 	{
 	  name: t('navbar.services'),
 	  submenu: [
-		{ name: t('navbar.general_permit'), href: "/pelayanan" },
-		{ name: t('navbar.amdal_permit'), href: "/pelayanan/amdal" },
-		{ name: t('navbar.iplc_permit'), href: "/pelayanan/iplc" },
-		{ name: t('navbar.sppl_permit'), href: "/pelayanan/sppl" },
-		{ name: t('navbar.ukl_upl_permit'), href: "/pelayanan/ukl-upl" },
+		{ name: t('navbar.public_services'), href: "/pelayanan" },
+		{ name: t('navbar.iplc_service'), href: "/pelayanan/iplc" },
+		{ name: t('navbar.ka_andal'), href: "/pelayanan/ka-andal" },
+		{ name: t('navbar.kelayakan_lingkungan'), href: "/pelayanan/kelayakan-lingkungan" },
+		{ name: t('navbar.sppl_service'), href: "/pelayanan/sppl" },
+		{ name: t('navbar.pengaduan_pencemaran'), href: "/pelayanan/pengaduan-pencemaran" },
+		{ name: t('navbar.general_permit'), href: "/perizinan" },
+		{ name: t('navbar.amdal_permit'), href: "/perizinan/amdal" },
+		{ name: t('navbar.iplc_permit'), href: "/perizinan/iplc" },
+		{ name: t('navbar.sppl_permit'), href: "/perizinan/sppl" },
+		{ name: t('navbar.ukl_upl_permit'), href: "/perizinan/ukl-upl" },
 		{ name: t('navbar.complaints'), href: "/pengaduan" },
 		{ name: t('navbar.contact'), href: "#footer" },
 	  ],
@@ -94,10 +106,10 @@ export default function Navbar() {
 		{ name: t('navbar.regulations'), href: "/dokumen/peraturan" },
 		{ name: t('navbar.wwtp_sop'), href: "/dokumen/sop-ipal" },
 		{ name: t('navbar.emission_sop'), href: "/dokumen/sop-emisi" },
-		{ name: t('navbar.file_downloads'), href: "/file-download" },
 		{ name: t('navbar.gallery'), href: "/galeri" },
 		{ name: t('navbar.photo_gallery'), href: "/galeri/foto" },
 		{ name: t('navbar.video_gallery'), href: "/galeri/video" },
+		{ name: t('navbar.file_downloads'), href: "/file-download" }
 	  ],
 	},
   ];
@@ -111,7 +123,7 @@ export default function Navbar() {
   // Set default highlight for Layanan Publik & Informasi & Dokumen
   useEffect(() => {
 	if (openDropdown === "Layanan Publik") {
-	  setSubmenuHighlight("Perizinan Umum");
+	  setSubmenuHighlight("Pelayanan Umum");
 	} else if (openDropdown === "Informasi & Dokumen") {
 	  setSubmenuHighlight("Informasi Umum");
 	} else if (openDropdown === "Profil") {
@@ -202,6 +214,18 @@ export default function Navbar() {
   // --- HIGHLIGHT LOGIC ---
   function layananPublikHighlight(name: string) {
 	switch (name) {
+	  case "Pelayanan Umum": 
+		return "Layanan umum yang disediakan oleh DLH Kota Tasikmalaya untuk masyarakat.";
+	  case "Pelayanan IPLC": 
+		return "Layanan Instalasi Pengolahan Limbah Cair (IPLC) untuk pengelolaan limbah industri.";
+	  case "Rekomendasi KA-ANDAL": 
+		return "Memberikan rekomendasi untuk persetujuan Kerangka Acuan Analisis Dampak Lingkungan.";
+	  case "Kelayakan Lingkungan": 
+		return "Menilai dan memberikan rekomendasi kelayakan lingkungan untuk kegiatan atau proyek.";
+	  case "Persetujuan SPPL": 
+		return "Layanan persetujuan Surat Pernyataan Pengelolaan Lingkungan untuk UMK.";
+	  case "Pengaduan Pencemaran": 
+		return "Masyarakat dapat mengajukan pengaduan pencemaran atau kerusakan lingkungan hidup.";
 	  case "Perizinan Umum": 
 		return "Layanan perizinan umum untuk masyarakat dan pelaku usaha.";
 	  case "Perizinan AMDAL": 
@@ -334,7 +358,7 @@ export default function Navbar() {
 								onError={(e) => {
 									// Fallback ke logo default jika gagal load
 									const target = e.target as HTMLImageElement;
-									target.src = 'https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png';
+									target.src = '/logo-white-footer.png';
 								}}
 							/>
 							<span className="font-bold text-lg sr-only">{logoSettings.siteName}</span>
@@ -551,12 +575,17 @@ export default function Navbar() {
 															</div>
 														</div>
 													) : item.name === "Layanan Publik" ? (
-														<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:w-3/4 transform transition-all duration-500 ease-out animate-in slide-in-from-right-8 fade-in">
-															{/* Kolom 1: Perizinan */}
+														<div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:w-full transform transition-all duration-500 ease-out animate-in slide-in-from-right-8 fade-in">
+															{/* Kolom 1: Pelayanan Umum */}
 															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '150ms'}}>
-																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Pelayanan Umum</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub, index) => (
+																	{item.submenu.filter(sub => 
+																		sub.name.includes("Pelayanan Umum") || 
+																		sub.name.includes("Pelayanan IPLC") || 
+																		sub.name.includes("Pengaduan") || 
+																		sub.name.includes("Kontak")
+																	).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
@@ -567,8 +596,8 @@ export default function Navbar() {
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
-																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
-																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
+																			onMouseLeave={() => setSubmenuHighlight("Pelayanan Umum")}
+																			onBlur={() => setSubmenuHighlight("Pelayanan Umum")}
 																		>
 																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
 																			<span className="transition-colors duration-200">{sub.name}</span>
@@ -576,23 +605,53 @@ export default function Navbar() {
 																	))}
 																</div>
 															</div>
-															{/* Kolom 2: Layanan Publik Lainnya */}
+															{/* Kolom 2: Pelayanan Lingkungan */}
 															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '200ms'}}>
-																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Layanan Lainnya</div>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Pelayanan Lingkungan</div>
 																<div className="flex flex-col gap-2">
-																	{item.submenu.filter(sub => !sub.name.includes("Perizinan")).map((sub, index) => (
+																	{item.submenu.filter(sub => 
+																		sub.name.includes("Rekomendasi KA-ANDAL") ||
+																		sub.name.includes("Kelayakan Lingkungan") ||
+																		sub.name.includes("Persetujuan SPPL") ||
+																		sub.name.includes("Pengaduan Pencemaran") ||
+																		(sub.href.includes("/pelayanan/") && !sub.name.includes("Pelayanan Umum") && !sub.name.includes("Pelayanan IPLC"))
+																	).map((sub, index) => (
 																		<Link
 																			key={sub.name}
 																			href={sub.href}
 																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
 																			style={{ 
-																				animationDelay: `${(index + 8) * 75}ms` 
+																				animationDelay: `${(index + 3) * 75}ms` 
 																			}}
 																			onClick={() => setOpenDropdown(null)}
 																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
 																			onFocus={() => setSubmenuHighlight(sub.name)}
-																			onMouseLeave={() => setSubmenuHighlight("Perizinan Umum")}
-																			onBlur={() => setSubmenuHighlight("Perizinan Umum")}
+																			onMouseLeave={() => setSubmenuHighlight("Pelayanan Umum")}
+																			onBlur={() => setSubmenuHighlight("Pelayanan Umum")}
+																		>
+																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
+																			<span className="transition-colors duration-200">{sub.name}</span>
+																		</Link>
+																	))}
+																</div>
+															</div>
+															{/* Kolom 3: Perizinan */}
+															<div className="transform transition-all duration-300 ease-out animate-in slide-in-from-bottom-4 fade-in" style={{animationDelay: '250ms'}}>
+																<div className="font-semibold text-green-700 dark:text-green-300 mb-2">Perizinan</div>
+																<div className="flex flex-col gap-2">
+																	{item.submenu.filter(sub => sub.name.includes("Perizinan")).map((sub, index) => (
+																		<Link
+																			key={sub.name}
+																			href={sub.href}
+																			className="block px-4 py-2 font-medium text-base hover:bg-green-600/30 dark:hover:bg-green-900/60 rounded-lg transition-all duration-300 ease-out flex items-center hover:translate-x-3 hover:scale-[1.02] transform hover:shadow-md group"
+																			style={{ 
+																				animationDelay: `${(index + 6) * 75}ms` 
+																			}}
+																			onClick={() => setOpenDropdown(null)}
+																			onMouseEnter={() => setSubmenuHighlight(sub.name)}
+																			onFocus={() => setSubmenuHighlight(sub.name)}
+																			onMouseLeave={() => setSubmenuHighlight("Pelayanan Umum")}
+																			onBlur={() => setSubmenuHighlight("Pelayanan Umum")}
 																		>
 																			<span className="group-hover:scale-110 transition-transform duration-200">{submenuIcons[sub.name]}</span>
 																			<span className="transition-colors duration-200">{sub.name}</span>

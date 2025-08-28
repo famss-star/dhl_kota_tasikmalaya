@@ -7,6 +7,16 @@ export async function GET() {
     const leader = await prisma.leader.findFirst({
       where: {
         isActive: true
+      },
+      include: {
+        careerHistory: {
+          where: {
+            isPublished: true // Hanya ambil riwayat jabatan yang sudah dipublikasi
+          },
+          orderBy: {
+            startDate: 'desc' // Urutkan dari yang terbaru
+          }
+        }
       }
     });
 
@@ -19,7 +29,7 @@ export async function GET() {
           name: "Drs. Nama Pimpinan",
           position: "Kepala Dinas Lingkungan Hidup",
           greeting: "Selamat datang di portal Dinas Lingkungan Hidup Kota Tasikmalaya. Kami berkomitmen untuk mewujudkan lingkungan yang bersih, sehat, dan lestari melalui kolaborasi dengan masyarakat. Mari bersama menjaga dan mencintai lingkungan demi masa depan yang lebih baik.",
-          photo: "/pemimpin.png",
+          photo: "/pemimpin-placeholder.svg",
           isActive: true
         }
       });
@@ -63,7 +73,7 @@ export async function POST(request: NextRequest) {
         name,
         position,
         greeting,
-        photo: photo || "/pemimpin.png",
+        photo: photo || "/pemimpin-placeholder.svg",
         isActive: true
       }
     });
@@ -118,7 +128,7 @@ export async function PUT(request: NextRequest) {
           name,
           position,
           greeting,
-          photo: photo || "/pemimpin.png",
+          photo: photo || "/pemimpin-placeholder.svg",
           isActive: true
         }
       });

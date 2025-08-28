@@ -241,13 +241,13 @@ const TentangDLH: React.FC = () => {
                   Profil Pimpinan
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
-                  Profil lengkap pimpinan DLH Kota Tasikmalaya
+                  Struktur organisasi dan profil pimpinan DLH Kota Tasikmalaya
                 </p>
                 <a 
-                  href="/profil/pimpinan" 
+                  href="/profil/struktur-organisasi" 
                   className="mt-auto inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                 >
-                  Lihat Profil Pimpinan
+                  Lihat Struktur Organisasi
                 </a>
               </div>
               {/* Profil Pegawai */}

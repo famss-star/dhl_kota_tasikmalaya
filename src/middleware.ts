@@ -2,9 +2,12 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  // Middleware tidak akan melakukan redirect untuk admin
-  // Biarkan AdminAuthGuard yang handle autentikasi admin
   const { pathname } = request.nextUrl;
+
+  // Redirect legacy URLs to new structure
+  if (pathname === "/admin/sdm-organisasi/pejabat") {
+    return NextResponse.redirect(new URL("/admin/sdm-organisasi/staff", request.url));
+  }
 
   // Jika sudah login dan akses /login, redirect ke admin
   if (pathname === "/login") {
@@ -26,5 +29,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login"],
+  matcher: ["/login", "/admin/sdm-organisasi/pejabat"],
 };

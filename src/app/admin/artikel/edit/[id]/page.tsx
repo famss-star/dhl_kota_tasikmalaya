@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Save, FileText } from "lucide-react";
+import { ArrowLeft, Save, FileText, ChevronLeft } from "lucide-react";
 
 interface Category {
   id: string;
@@ -140,7 +140,7 @@ export default function EditArtikel() {
       if (result.success) {
         setFormData(prev => ({
           ...prev,
-          featuredImage: result.imageUrl
+          featuredImage: result.data?.url || result.imageUrl || ''
         }));
         alert('Gambar berhasil diupload!');
       } else {
@@ -202,6 +202,7 @@ export default function EditArtikel() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -214,15 +215,15 @@ export default function EditArtikel() {
         </div>
       </div>
 
+      {/* Navigation */}
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Kembali
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Edit Artikel</h2>
           </div>
@@ -340,17 +341,20 @@ export default function EditArtikel() {
 
             <div>
               <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Tags (pisahkan dengan koma)
+                Tags
               </label>
               <input
                 type="text"
                 id="tags"
                 name="tags"
-                value={formData.tags ? formData.tags.join(', ') : ''}
+                value={typeof formData.tags === 'string' ? formData.tags : formData.tags?.join(', ') || ''}
                 onChange={handleTagsChange}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder="lingkungan, kebijakan, edukasi"
+                placeholder="Masukkan tags dipisah koma, contoh: lingkungan, kesehatan, teknologi"
               />
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Pisahkan dengan koma untuk membuat beberapa tag
+              </p>
             </div>
 
             <div>

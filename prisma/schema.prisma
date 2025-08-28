@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -43,7 +43,7 @@ model Article {
   content     String
   excerpt     String?
   thumbnail   String?
-  tags        String[] @default([])
+  tags        String?
   isPublished Boolean  @default(false)
   publishedAt DateTime?
   createdAt   DateTime @default(now())
@@ -79,6 +79,7 @@ model News {
   content     String
   excerpt     String?
   thumbnail   String?
+  tags        String?
   isPublished Boolean  @default(false)
   publishedAt DateTime?
   createdAt   DateTime @default(now())
@@ -267,6 +268,33 @@ model Event {
   @@map("events")
 }
 
+// Detailed Agenda Management
+model Agenda {
+  id           Int         @id @default(autoincrement())
+  title        String
+  description  String
+  location     String
+  startDate    DateTime
+  endDate      DateTime
+  startTime    String
+  endTime      String?
+  organizer    String
+  participants Int         @default(0)
+  tags         String?
+  status       AgendaStatus @default(UPCOMING)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  
+  @@map("agendas")
+}
+
+enum AgendaStatus {
+  UPCOMING
+  ONGOING  
+  COMPLETED
+  CANCELLED
+}
+
 // Settings/Configuration
 model SiteSetting {
   id        String      @id @default(cuid())
@@ -299,5 +327,179 @@ model Leader {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  // Relations
+  careerHistory CareerHistory[]
+
   @@map("leaders")
+}
+
+// Staff Members Model
+model StaffMember {
+  id               String             @id @default(cuid())
+  name             String
+  position         String
+  photo            String?
+  type             StaffType          // wakil, sekretaris, kabid
+  
+  // Data Kepegawaian untuk Statistik
+  employmentStatus EmploymentStatus   // PNS, PPPK, Honorer
+  education        EducationLevel     // SMP, SMA/SMK, Diploma, S1, S2
+  rank             String?            // IV/e, IV/d, IV/c, IV/b, IV/a, III/d, III/c, III/b, III/a, II/c, II/b, II/a
+  birthDate        DateTime?          // untuk menghitung usia
+  
+  isActive         Boolean            @default(true)
+  isPublished      Boolean            @default(true) // Status publikasi untuk halaman publik
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  // Relations
+  careerHistory CareerHistory[]
+
+  @@map("staff_members")
+}
+
+enum StaffType {
+  KEPALA_DINAS
+  WAKIL
+  SEKRETARIS
+  KABID
+  STAFF
+}
+
+enum EmploymentStatus {
+  PNS
+  PPPK
+  HONORER
+}
+
+enum EducationLevel {
+  SMP
+  SMA_SMK
+  DIPLOMA
+  S1
+  S2
+  S3
+}
+
+// Career History Model
+model CareerHistory {
+  id          String    @id @default(cuid())
+  position    String    // nama jabatan
+  institution String    // instansi/tempat kerja
+  startDate   DateTime  // tanggal mulai
+  endDate     DateTime? // tanggal selesai (null jika masih aktif)
+  description String?   // deskripsi tugas/pencapaian
+  isActive    Boolean   @default(false) // apakah jabatan saat ini
+  isPublished Boolean   @default(false) // status publikasi
+  
+  // Relations - Either Leader or Staff Member
+  leaderId      String?
+  leader        Leader?      @relation(fields: [leaderId], references: [id], onDelete: Cascade)
+  staffMemberId String?
+  staffMember   StaffMember? @relation(fields: [staffMemberId], references: [id], onDelete: Cascade)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("career_history")
+}
+
+// Carousel Management
+model CarouselItem {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  description String
+  imageUrl    String
+  linkUrl     String?
+  linkText    String?
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("carousel_items")
+}
+
+// Homepage Settings
+model HomepageSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  type        String   @default("text") // text, number, boolean, json
+  category    String   @default("general") // general, ikm, social_media, layanan
+  description String?
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("homepage_settings")
+}
+
+// Layanan Cards Management
+model LayananCard {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String   // nama icon dari lucide-react
+  linkUrl     String
+  category    String   @default("perizinan") // perizinan, edukasi, layanan
+  color       String   @default("green") // green, blue, yellow, red
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("layanan_cards")
+}
+
+// Contact & Footer Settings
+model ContactSetting {
+  id          String   @id @default(cuid())
+  type        String   // phone, email, address, social, logo_header, logo_footer
+  label       String
+  value       String   // konten utama (nomor, email, alamat, logo url)
+  icon        String?  // nama icon untuk social media
+  url         String?  // link url untuk social media
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("contact_settings")
+}
+
+// Bidang/Department Management
+model Bidang {
+  id                String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  aboutTitle       String
+  aboutDescription String
+  tugasPokokTitle  String
+  tugasPokok       String   // JSON array as string
+  fungsiTitle      String
+  fungsi           String   // JSON array as string
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("bidang")
+}
+
+// Employee Statistics Model  
+model EmployeeStatistic {
+  id          String   @id @default(cuid())
+  category    String   // e.g., "status", "education", "rank", "age"
+  subcategory String   // e.g., "PNS", "PPPK", "S1", "IV/a", etc.
+  count       Int
+  description String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([category, subcategory])
+  @@map("employee_statistics")
 }

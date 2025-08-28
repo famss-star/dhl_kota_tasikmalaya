@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Edit, Trash2, Eye, Calendar, User, Tag, Globe } from "lucide-react";
+import { ArrowLeft, Edit, Trash2, Eye, Calendar, User, Tag, Globe, ChevronLeft } from "lucide-react";
 
 interface Article {
   id: string;
@@ -53,6 +53,7 @@ export default function ViewArtikel() {
     } catch (error) {
       console.error('Error fetching article:', error);
       alert('Gagal mengambil data artikel');
+      router.push('/admin/artikel');
     } finally {
       setLoading(false);
     }
@@ -67,16 +68,28 @@ export default function ViewArtikel() {
         method: 'DELETE',
       });
       
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         alert('Artikel berhasil dihapus');
         router.push('/admin/artikel');
       } else {
-        alert('Gagal menghapus artikel');
+        alert(data.error || 'Gagal menghapus artikel');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Delete error:', error);
       alert('Terjadi kesalahan saat menghapus artikel');
-      console.error('Delete error:', err);
     }
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   useEffect(() => {
@@ -114,6 +127,7 @@ export default function ViewArtikel() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -127,22 +141,23 @@ export default function ViewArtikel() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
-          {/* Header */}
+        <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+          
+          {/* Navigation */}
           <div className="p-8 border-b border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <button
                 onClick={() => router.back()}
                 className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ChevronLeft className="w-5 h-5" />
                 Kembali
               </button>
               
               <div className="flex gap-2">
                 <button
                   onClick={() => router.push(`/admin/artikel/edit/${article.id}`)}
-                  className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded-lg transition-colors"
                 >
                   <Edit className="w-4 h-4" />
                   Edit
@@ -181,13 +196,15 @@ export default function ViewArtikel() {
                 <User className="w-4 h-4" />
                 <span>{article.author?.name || 'Admin'}</span>
               </div>
+              {article.updatedAt && (
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
+                  <span>Diupdate: {formatDate(article.updatedAt)}</span>
+                </div>
+              )}
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                <span>{new Date(article.createdAt).toLocaleDateString('id-ID', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}</span>
+                <span>Dibuat: {formatDate(article.createdAt)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Globe className="w-4 h-4" />
@@ -207,18 +224,22 @@ export default function ViewArtikel() {
             </div>
           )}
 
-          {/* Excerpt */}
+          {/* Excerpt Section */}
           {article.excerpt && (
             <div className="p-8 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">Ringkasan</h3>
-              <p className="text-gray-600 dark:text-gray-300 italic">
-                {article.excerpt}
-              </p>
-            </div>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
+                  Ringkasan
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 italic leading-relaxed">
+                  {article.excerpt}
+                </p>
+              </div>
+            </div>          
           )}
 
           {/* Content */}
-          <div className="p-8 border-b border-gray-200 dark:border-gray-700">
+          <div className="p-8">
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">Konten</h3>
             <div className="prose dark:prose-invert max-w-none">
               <div className="whitespace-pre-wrap text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -228,19 +249,19 @@ export default function ViewArtikel() {
           </div>
 
           {/* Tags */}
-          {article.tags && Array.isArray(article.tags) && article.tags.length > 0 && (
+          {article.tags && (article.tags as unknown as string).trim() && (
             <div className="p-8">
               <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 flex items-center gap-2">
                 <Tag className="w-5 h-5" />
                 Tags
               </h3>
               <div className="flex flex-wrap gap-2">
-                {article.tags.map((tag, index) => (
+                {(article.tags as unknown as string).split(',').map((tag: string, index: number) => (
                   <span
                     key={index}
                     className="px-3 py-1 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-full text-sm"
                   >
-                    #{tag}
+                    #{tag.trim()}
                   </span>
                 ))}
               </div>

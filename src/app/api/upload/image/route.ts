@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
     });
 
     const data = await request.formData();
-    const file: File | null = data.get('file') as unknown as File;
-    const folder = (data.get('folder') as string) || 'articles'; // Default ke articles
+    const file: File | null = (data.get('image') || data.get('file')) as unknown as File;
+    const type = (data.get('type') as string) || 'articles'; // Get type from form data
+    const folder = type || 'articles'; // Use type as folder name
 
     if (!file) {
       return NextResponse.json(
@@ -51,6 +52,7 @@ export async function POST(request: NextRequest) {
     const uniqueFileName = `${folder}/${uuidv4()}.${fileExtension}`;
 
     let imageUrl: string;
+    let finalFileName: string;
 
     if (isProduction && token) {
       // Production: Use Vercel Blob
@@ -60,6 +62,7 @@ export async function POST(request: NextRequest) {
           token: token,
         });
         imageUrl = blob.url;
+        finalFileName = uniqueFileName;
       } catch (blobError) {
         console.error('Vercel Blob error:', blobError);
         return NextResponse.json(
@@ -83,14 +86,17 @@ export async function POST(request: NextRequest) {
 
       // Return local URL
       imageUrl = `/uploads/${folder}/${localFileName}`;
+      finalFileName = localFileName;
     }
 
     return NextResponse.json({
       success: true,
-      imageUrl: imageUrl,
-      fileName: uniqueFileName,
-      size: file.size,
-      type: file.type
+      data: {
+        url: imageUrl,
+        fileName: finalFileName,
+        size: file.size,
+        type: file.type
+      }
     });
 
   } catch (error) {

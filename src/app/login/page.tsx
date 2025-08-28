@@ -79,7 +79,7 @@ export default function LoginPage() {
         <div className="text-center">
           <div className="flex justify-center mb-4">
             <Image
-              src="https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png"
+              src="/logo-dlh.png"
               alt="DLH Logo"
               width={90}
               height={90}

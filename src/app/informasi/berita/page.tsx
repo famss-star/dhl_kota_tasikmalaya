@@ -88,6 +88,7 @@ const BeritaPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
         <div className="container mx-auto px-4">

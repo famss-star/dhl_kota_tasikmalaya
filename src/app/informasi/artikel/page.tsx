@@ -22,7 +22,7 @@ interface Article {
     id: string;
     name: string;
     slug: string;
-  };
+  } | null;
 }
 
 export default function ArtikelBlog() {
@@ -129,9 +129,11 @@ export default function ArtikelBlog() {
                   
                   <div className="p-6">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">
-                        {article.category.name}
-                      </span>
+                      {article.category && (
+                        <span className="inline-block bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs px-2 py-1 rounded-full">
+                          {article.category.name}
+                        </span>
+                      )}
                       <span className="text-gray-400 dark:text-gray-500 text-xs">
                         {formatDate(article.createdAt)}
                       </span>

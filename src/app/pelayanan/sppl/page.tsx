@@ -1,222 +1,227 @@
 "use client";
 
-import React from "react";
+import React from 'react';
+import { FileCheck, CheckCircle, Clock, Building, AlertCircle, Download, Phone, Mail, ArrowRight } from 'lucide-react';
 
-const PelayananSpplPage = () => {
+export default function SPPLPage() {
+  const applicableBusinesses = [
+    "Usaha Mikro dan Kecil (UMK)",
+    "Kegiatan yang tidak wajib AMDAL dan UKL-UPL",
+    "Usaha perdagangan dan jasa skala kecil",
+    "Industri rumah tangga",
+    "Kegiatan dengan risiko lingkungan rendah"
+  ];
+
+  const requirements = [
+    "Formulir permohonan SPPL",
+    "Fotocopy identitas pemohon",
+    "Fotocopy izin usaha (jika ada)",
+    "Denah lokasi dan layout usaha",
+    "Deskripsi kegiatan usaha",
+    "Rencana pengelolaan lingkungan sederhana"
+  ];
+
+  const processFlow = [
+    {
+      step: 1,
+      title: "Pengajuan Berkas",
+      description: "Pemohon menyerahkan formulir SPPL dan dokumen pendukung",
+      duration: "1 hari",
+      icon: <FileCheck className="w-6 h-6" />
+    },
+    {
+      step: 2,
+      title: "Verifikasi Administratif",
+      description: "Pengecekan kelengkapan berkas oleh petugas",
+      duration: "2 hari",
+      icon: <CheckCircle className="w-6 h-6" />
+    },
+    {
+      step: 3,
+      title: "Evaluasi Dokumen",
+      description: "Penilaian kesesuaian dengan kriteria SPPL",
+      duration: "3 hari",
+      icon: <Building className="w-6 h-6" />
+    },
+    {
+      step: 4,
+      title: "Penerbitan SPPL",
+      description: "Persetujuan SPPL diterbitkan dan dapat diambil",
+      duration: "1 hari",
+      icon: <Download className="w-6 h-6" />
+    }
+  ];
+
+  const obligations = [
+    "Melaksanakan kegiatan sesuai dengan yang dinyatakan dalam SPPL",
+    "Menerapkan upaya pengelolaan lingkungan yang telah direncanakan",
+    "Melakukan pemantauan lingkungan secara berkala",
+    "Melaporkan pelaksanaan pengelolaan lingkungan setiap 6 bulan",
+    "Menyimpan dokumen SPPL dan dapat dipresentasikan saat diperlukan"
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-teal-600 text-white py-16">
+      <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
-            <div className="flex flex-col items-center justify-center mb-4">
-              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
-                Pelayanan SPPL
-              </h1>
-            </div>
-            <p className="text-lg opacity-90 max-w-3xl mx-auto">
-              Surat Pernyataan Kesanggupan Pengelolaan dan Pemantauan Lingkungan Hidup 
-              untuk usaha dan/atau kegiatan yang tidak wajib AMDAL atau UKL-UPL
+          <div className="text-center">
+            <FileCheck className="w-16 h-16 mx-auto mb-4 text-white" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              Persetujuan SPPL
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto">
+              Surat Pernyataan Pengelolaan Lingkungan untuk usaha mikro, kecil, dan kegiatan berisiko rendah
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <div className="container mx-auto px-4 py-12">
-
-        {/* Perizinan SPPL Section */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Perizinan SPPL
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 mb-6 indent-8">
-                <span className="font-bold">SPPL</span> (Surat Pernyataan Pengelolaan Lingkungan) adalah kesanggupan dari penanggung jawab usaha dan/ atau kegiatan untuk melakukan pengelolaan dan pemantauan lingkungan hidup atas dampak lingkungan hidup dari usaha dan/ atau kegiatannya di luar Usaha dan/atau kegiatan yang wajib amdal atau UKL-UPL
+      {/* Overview Section */}
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Tentang SPPL
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
+                Surat Pernyataan Pengelolaan Lingkungan (SPPL) adalah dokumen yang berisi pernyataan 
+                kesanggupan dari penanggung jawab usaha untuk melakukan pengelolaan lingkungan hidup. 
+                SPPL diperlukan untuk usaha atau kegiatan yang tidak wajib memiliki AMDAL atau UKL-UPL.
               </p>
-            </div>
-          </div>
-        </section>
-
-        {/* Dasar Hukum Section
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Dasar Hukum
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="prose dark:prose-invert max-w-none">
-              <ul className="list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                <li>UU No.32 Tahun 2009 tentang tentang Perlindungan dan Pengelolaan Lingkungan Hidup sebagai pengganti UU No. 23 Tahun 1997 tentang pengelolaan Lingkungan Hidup</li>
-                <li>Surat Keputusan Menteri Negara Lingkungan Hidup No.111 Tahun 2003 tentang pedoman mengenai syarat Tata Cara Perizinan serta Pedoman Kajian Pembuangan Buih Air Limbah ke air atau sumber air</li>
-              </ul>
-            </div>
-          </div>
-        </section>    */}
-
-        {/* u can delete from here */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h1 className="text-6xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Dumy teks
-          </h1>
-        </section>
-        {/* Informasi Umum Section */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Tentang SPPL
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="prose dark:prose-invert max-w-none">
-              <p className="text-gray-700 dark:text-gray-300 mb-6">
-                SPPL adalah pernyataan kesanggupan dari penanggung jawab usaha untuk melakukan 
-                pengelolaan dan pemantauan lingkungan hidup atas dampak lingkungan dari usaha 
-                dan/atau kegiatannya di luar usaha yang wajib AMDAL atau UKL-UPL.
-              </p>
-              <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                Kriteria Usaha yang Memerlukan SPPL
-              </h3>
-              <ul className="list-disc pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                <li>Usaha mikro dan kecil yang tidak termasuk wajib UKL-UPL</li>
-                <li>Kegiatan usaha yang dampak lingkungannya dapat dikelola dengan standar prosedur</li>
-                <li>Usaha yang berlokasi di luar kawasan yang dilindungi</li>
-                <li>Kegiatan usaha yang tidak menghasilkan limbah B3</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Prosedur Section */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Prosedur Pengajuan
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Persyaratan Dokumen
-                </h3>
-                <ul className="list-disc pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                  <li>Formulir SPPL yang telah diisi lengkap</li>
-                  <li>Fotokopi KTP penanggung jawab usaha</li>
-                  <li>Profil usaha/kegiatan</li>
-                  <li>Izin usaha atau surat keterangan usaha</li>
-                  <li>Bukti kepemilikan/penguasaan lahan</li>
-                  <li>Foto lokasi dan bangunan usaha</li>
-                  <li>Denah lokasi dan layout usaha</li>
+              <div className="bg-green-50 dark:bg-green-900/20 border-l-4 border-green-400 p-4 rounded">
+                <h3 className="font-semibold text-green-800 dark:text-green-200 mb-2">Keunggulan SPPL:</h3>
+                <ul className="text-green-700 dark:text-green-300 space-y-1">
+                  <li>• Proses lebih cepat dan sederhana</li>
+                  <li>• Biaya terjangkau untuk UMK</li>
+                  <li>• Syarat mudah dipenuhi</li>
+                  <li>• Mendukung legalitas usaha</li>
                 </ul>
               </div>
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Tahapan Proses
-                </h3>
-                <ol className="list-decimal pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                  <li>Mengisi formulir permohonan SPPL</li>
-                  <li>Melengkapi dokumen persyaratan</li>
-                  <li>Pemeriksaan kelengkapan administrasi</li>
-                  <li>Verifikasi lokasi usaha (jika diperlukan)</li>
-                  <li>Penerbitan SPPL</li>
-                </ol>
-                <div className="mt-6">
-                  <h4 className="font-semibold mb-2 text-gray-800 dark:text-gray-100">
-                    Waktu Penyelesaian:
-                  </h4>
-                  <p className="text-gray-700 dark:text-gray-300">
-                    3-5 hari kerja sejak berkas dinyatakan lengkap
+            </div>
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg">
+              <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-4">
+                Usaha yang Memerlukan SPPL
+              </h3>
+              <ul className="space-y-3">
+                {applicableBusinesses.map((business, index) => (
+                  <li key={index} className="flex items-start">
+                    <ArrowRight className="w-5 h-5 text-purple-500 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">{business}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Process Section */}
+      <div className="bg-gray-100 dark:bg-gray-800 py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 dark:text-white mb-12">
+            Alur Proses Persetujuan SPPL
+          </h2>
+          <div className="max-w-4xl mx-auto">
+            {processFlow.map((process, index) => (
+              <div key={index} className="flex items-center mb-8 last:mb-0">
+                <div className="w-16 h-16 bg-purple-600 text-white rounded-full flex items-center justify-center mr-6 flex-shrink-0">
+                  {process.icon}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center mb-2">
+                    <span className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded text-sm font-medium mr-3">
+                      Langkah {process.step}
+                    </span>
+                    <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
+                      {process.duration}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                    {process.title}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    {process.description}
                   </p>
                 </div>
+                {index < processFlow.length - 1 && (
+                  <div className="w-px h-12 bg-gray-300 dark:bg-gray-600 ml-8 mr-6"></div>
+                )}
               </div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </div>
 
-        {/* Format SPPL Section */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Format dan Isi SPPL
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Komponen SPPL
-                </h3>
-                <ul className="list-disc pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                  <li>Identitas penanggung jawab usaha</li>
-                  <li>Informasi detail kegiatan usaha</li>
-                  <li>Dampak lingkungan yang ditimbulkan</li>
-                  <li>Program pengelolaan lingkungan</li>
-                  <li>Program pemantauan lingkungan</li>
-                  <li>Pernyataan kesanggupan</li>
-                </ul>
+      {/* Requirements Section */}
+      <div className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Persyaratan Dokumen
+              </h2>
+              <div className="space-y-3">
+                {requirements.map((req, index) => (
+                  <div key={index} className="flex items-center bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <CheckCircle className="w-6 h-6 text-green-500 mr-3 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">{req}</span>
+                  </div>
+                ))}
               </div>
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Pernyataan Kesanggupan
-                </h3>
-                <ul className="list-disc pl-6 space-y-3 text-gray-700 dark:text-gray-300">
-                  <li>Melakukan pengelolaan limbah</li>
-                  <li>Menjaga kebersihan lingkungan</li>
-                  <li>Melakukan pemantauan berkala</li>
-                  <li>Membuat laporan secara periodik</li>
-                  <li>Mematuhi peraturan lingkungan</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Informasi Layanan Section */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center">
-            Informasi Layanan
-          </h2>
-          <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Lokasi Pelayanan
-                </h3>
-                <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <p>Bidang Tata Lingkungan</p>
-                  <p>Dinas Lingkungan Hidup Kota Tasikmalaya</p>
-                  <p>Jl. Lingkungan Hidup No. 123</p>
-                  <p>Kota Tasikmalaya, Jawa Barat 46111</p>
-                  <p className="mt-4">Jam Layanan:</p>
-                  <p>Senin-Jumat: 08.00-16.00 WIB</p>
-                </div>
-              </div>
-              <div>
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
-                  Kontak Informasi
-                </h3>
-                <div className="space-y-2 text-gray-700 dark:text-gray-300">
-                  <p>Email: sppl@dhl-tasikmalaya.go.id</p>
-                  <p>Telepon: (0265) 123456</p>
-                  <p>WhatsApp: 0812-3456-7890</p>
-                  <p>Website: www.dhl-tasikmalaya.go.id</p>
-                  <p className="mt-4">Biaya:</p>
-                  <p className="font-semibold">GRATIS / Rp 0,-</p>
+              <div className="mt-6 text-center">
+                <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+                  <Clock className="w-12 h-12 text-purple-600 mx-auto mb-3" />
+                  <div className="text-2xl font-bold text-gray-800 dark:text-white">7 Hari</div>
+                  <div className="text-gray-600 dark:text-gray-300">Total Waktu Proses</div>
                 </div>
               </div>
             </div>
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6">
+                Kewajiban Setelah Memperoleh SPPL
+              </h2>
+              <div className="space-y-3">
+                {obligations.map((obligation, index) => (
+                  <div key={index} className="flex items-start bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg">
+                    <AlertCircle className="w-6 h-6 text-yellow-600 mr-3 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 dark:text-gray-300">{obligation}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </section>
-        {/* u can delete to here */}
+        </div>
+      </div>
 
-        {/* Back to Profile */}
-        <section className="max-w-6xl mx-auto mb-12">
-          <div className="text-center">
+      {/* Contact Section */}
+      <div className="bg-purple-600 text-white py-16">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-8">
+            Ajukan Permohonan SPPL
+          </h2>
+          <p className="text-xl mb-8 opacity-90">
+            Proses cepat dan mudah untuk mendukung legalitas usaha Anda
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/pelayanan"
-              className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              href="tel:(0265)331-816"
+              className="bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors duration-300 flex items-center justify-center"
             >
-              Kembali ke Halaman Pelayanan
+              <Phone className="w-5 h-5 mr-2" />
+              Konsultasi Langsung
+            </a>
+            <a
+              href="mailto:dlh@tasikmalayakota.go.id"
+              className="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-purple-600 transition-colors duration-300 flex items-center justify-center"
+            >
+              <Mail className="w-5 h-5 mr-2" />
+              Download Formulir
             </a>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   );
-};
-
-export default PelayananSpplPage;
+}

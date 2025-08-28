@@ -140,8 +140,8 @@ export default function Bidang() {
                     <div className="text-center mt-auto">
                       <Link href={
                         bidang.name === 'Bidang Tata Lingkungan' ? '/bidang/tata-lingkungan'
-                        : bidang.name === 'Bidang Pengendalian Pencemaran' ? '/bidang/pencemaran'
-                        : bidang.name === 'Bidang Pengelolaan Sampah' ? '/bidang/sampah'
+                        : bidang.name === 'Bidang Pengendalian Pencemaran' ? '/bidang/pengendalian-pencemaran'
+                        : bidang.name === 'Bidang Pengelolaan Sampah' ? '/bidang/pengelolaan-sampah'
                         : '#'
                       }>
                         <button className={`${colors.button} items-end text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
@@ -178,11 +178,11 @@ export default function Bidang() {
                     <p className="text-gray-600 dark:text-gray-300 text-sm">Lihat bagan organisasi lengkap</p>
                   </div>
                 </Link>
-                <Link href="/profil/pimpinan" className="group">
+                <Link href="/profil/struktur-organisasi" className="group">
                   <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
                     <Landmark size={36} className="mx-auto mb-3 text-blue-600 dark:text-blue-400" />
-                    <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Profil Pimpinan</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">Kenali para pemimpin kami</p>
+                    <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Struktur Organisasi</h3>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">Struktur organisasi dan profil pimpinan</p>
                   </div>
                 </Link>
                 

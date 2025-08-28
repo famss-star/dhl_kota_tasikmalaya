@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, User, ArrowLeft, Eye, Share2, Loader2 } from "lucide-react";
+import { Calendar, User, Eye, Share2, Loader2, ChevronLeft } from "lucide-react";
 
 interface News {
   id: string;
@@ -158,14 +158,33 @@ const BeritaDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Navigation Bar */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
-        <div className="container mx-auto px-4 py-4">
+      {/* Breadcrumb */}
+      <div className="container mx-auto px-4 pt-6 pb-3">
+        <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md p-4">
+          <nav className="flex items-center space-x-2 text-sm">
+            <Link href="/" className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
+              Beranda
+            </Link>
+            <span className="text-gray-400">/</span>
+            <Link href="/informasi/berita" className="text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300">
+              Berita
+            </Link>
+            <span className="text-gray-400">/</span>
+            <span className="text-gray-600 dark:text-gray-300 truncate max-w-xs">
+              {news.title}
+            </span>
+          </nav>
+        </div>
+      </div>
+
+      {/* Navigation Bar - Floating/Sticky */}
+      <div className="sticky top-20">
+        <div className="container mx-auto px-4 py-3">
           <Link
             href="/informasi/berita"
-            className="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium transition-colors"
+            className="inline-flex items-center text-green-600 dark:text-green-400 hover:text-green-700 dark:hover:text-green-300 font-medium transition-all duration-200 bg-white/80 dark:bg-gray-800/80 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 shadow-sm hover:shadow-md hover:scale-105"
           >
-            <ArrowLeft className="w-5 h-5 mr-2" />
+            <ChevronLeft className="w-5 h-5 mr-2" />
             Kembali ke Daftar Berita
           </Link>
         </div>

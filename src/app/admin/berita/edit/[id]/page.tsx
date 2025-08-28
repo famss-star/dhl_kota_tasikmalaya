@@ -2,23 +2,16 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useParams } from "next/navigation";
-import { ArrowLeft, Save, Newspaper } from "lucide-react";
-
-interface FormData {
-  title: string;
-  content: string;
-  excerpt: string;
-  thumbnail: string;
-  isPublished: boolean;
-}
+import { ArrowLeft, Save, Newspaper, ChevronLeft } from "lucide-react";
 
 interface News {
   id: string;
   title: string;
   slug: string;
   content: string;
-  excerpt?: string;
+  excerpt: string;
   thumbnail?: string;
+  tags?: string[];
   isPublished: boolean;
   authorId: string;
 }
@@ -30,12 +23,16 @@ export default function EditBerita() {
   
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<News>({
+    id: "",
     title: "",
+    slug: "",
     content: "",
     excerpt: "",
     thumbnail: "",
-    isPublished: false
+    tags: [],
+    isPublished: false,
+    authorId: ""
   });
 
   // Fetch news data
@@ -47,11 +44,15 @@ export default function EditBerita() {
       if (data.success) {
         const news: News = data.data;
         setFormData({
+          id: news.id,
           title: news.title,
+          slug: news.slug,
           content: news.content,
           excerpt: news.excerpt || "",
           thumbnail: news.thumbnail || "",
-          isPublished: news.isPublished
+          tags: news.tags || [],
+          isPublished: news.isPublished,
+          authorId: news.authorId
         });
       } else {
         alert(data.error || 'Berita tidak ditemukan');
@@ -72,11 +73,19 @@ export default function EditBerita() {
     }
   }, [newsId]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
+    setFormData(prev => ({
+      ...prev,
+      tags
     }));
   };
 
@@ -100,7 +109,6 @@ export default function EditBerita() {
     try {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('folder', 'news'); // Specify folder for news
 
       const response = await fetch('/api/upload/image', {
         method: 'POST',
@@ -112,7 +120,7 @@ export default function EditBerita() {
       if (result.success) {
         setFormData(prev => ({
           ...prev,
-          thumbnail: result.imageUrl
+          thumbnail: result.data?.url || result.imageUrl || ''
         }));
         alert('Gambar berhasil diupload!');
       } else {
@@ -139,6 +147,7 @@ export default function EditBerita() {
           content: formData.content,
           excerpt: formData.excerpt,
           thumbnail: formData.thumbnail,
+          tags: formData.tags,
           isPublished: formData.isPublished
         })
       });
@@ -163,7 +172,7 @@ export default function EditBerita() {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-yellow-600"></div>
+          <div className="inline-block animate-spin rounded-full h-24 w-24 border-b-2 border-yellow-600"></div>
           <p className="mt-2 text-gray-600 dark:text-gray-400">Memuat berita...</p>
         </div>
       </div>
@@ -185,14 +194,13 @@ export default function EditBerita() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Kembali
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Form Edit Berita</h2>
           </div>
@@ -310,6 +318,24 @@ export default function EditBerita() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Tulis konten berita di sini..."
               />
+            </div>
+
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Tags
+              </label>
+              <input
+                type="text"
+                id="tags"
+                name="tags"
+                value={Array.isArray(formData.tags) ? formData.tags.join(', ') : ''}
+                onChange={handleTagsChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Masukkan tags dipisah koma, contoh: lingkungan, kesehatan, teknologi"
+              />
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Pisahkan dengan koma untuk membuat beberapa tag
+              </p>
             </div>
 
             <div className="flex items-center">

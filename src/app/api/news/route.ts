@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, content, excerpt, thumbnail, isPublished, authorId } = body;
+    const { title, content, excerpt, thumbnail, tags, isPublished, authorId } = body;
 
     // Validation
     if (!title || !content || !authorId) {
@@ -113,6 +113,7 @@ export async function POST(request: NextRequest) {
         content,
         excerpt,
         thumbnail,
+        tags: Array.isArray(tags) ? tags.join(', ') : (tags || ''), // Convert array to string
         isPublished: isPublished || false,
         publishedAt: isPublished ? new Date() : null,
         authorId

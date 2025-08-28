@@ -1,0 +1,8 @@
+<!-- SVG placeholder for TikTok thumbnails -->
+<svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="300" fill="#000000"/>
+  <text x="200" y="150" text-anchor="middle" fill="white" font-family="Arial" font-size="24" font-weight="bold">TikTok</text>
+  <text x="200" y="180" text-anchor="middle" fill="white" font-family="Arial" font-size="14">Thumbnail</text>
+  <circle cx="180" cy="120" r="15" fill="#FF0050"/>
+  <circle cx="220" cy="120" r="15" fill="#00F2EA"/>
+</svg>

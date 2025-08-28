@@ -160,7 +160,7 @@ export default function Profil() {
                     </span>
                   </div>
                 </Link>
-                <Link href="/profil/pimpinan" className="group flex">
+                <Link href="/profil/struktur-organisasi" className="group flex">
                   <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 text-center flex flex-col justify-between w-full transform group-hover:scale-105 transition duration-300 border-2 border-transparent group-hover:border-purple-300 dark:border-gray-700 dark:group-hover:border-purple-600">
                     <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6">
                       <Landmark className="w-10 h-10" />

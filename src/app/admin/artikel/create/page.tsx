@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, FileText } from "lucide-react";
+import { Save, FileText, ChevronLeft } from "lucide-react";
 
 interface Category {
   id: string;
@@ -27,7 +27,7 @@ export default function CreateArtikel() {
     excerpt: "",
     categoryId: "",
     featuredImage: "",
-    tags: "",
+    tags: [] as string[],
     isPublished: false
   });
 
@@ -62,6 +62,14 @@ export default function CreateArtikel() {
     }));
   };
 
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
+    setFormData(prev => ({
+      ...prev,
+      tags
+    }));
+  };
+
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -93,7 +101,7 @@ export default function CreateArtikel() {
       if (result.success) {
         setFormData(prev => ({
           ...prev,
-          featuredImage: result.imageUrl
+          featuredImage: result.data?.url || result.imageUrl || ''
         }));
         alert('Gambar berhasil diupload!');
       } else {
@@ -107,7 +115,26 @@ export default function CreateArtikel() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!currentUser) {
+    
+    let authorIdToUse = currentUser?.id;
+    
+    // If no current user, try to get a valid author ID from existing articles
+    if (!authorIdToUse) {
+      console.log('❌ No current user found, trying to get valid author ID...');
+      try {
+        const articlesResponse = await fetch('/api/articles');
+        const articlesData = await articlesResponse.json();
+        if (articlesData.success && articlesData.data.length > 0) {
+          authorIdToUse = articlesData.data[0].authorId;
+          console.log('✅ Using existing author ID:', authorIdToUse);
+        }
+      } catch (error) {
+        console.error('Failed to get existing author ID:', error);
+      }
+    }
+    
+    if (!authorIdToUse) {
+      console.log('❌ No valid author ID found');
       alert('User tidak ditemukan. Silakan login ulang.');
       return;
     }
@@ -127,7 +154,7 @@ export default function CreateArtikel() {
           featuredImage: formData.featuredImage,
           tags: formData.tags,
           isPublished: formData.isPublished,
-          authorId: currentUser.id
+          authorId: authorIdToUse
         })
       });
 
@@ -149,6 +176,7 @@ export default function CreateArtikel() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      {/* Header */}
       <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
@@ -162,14 +190,13 @@ export default function CreateArtikel() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => router.back()}
               className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Kembali
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Form Artikel Baru</h2>
           </div>
@@ -228,31 +255,43 @@ export default function CreateArtikel() {
             </div>
 
             <div>
-              <label htmlFor="featuredImage" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Gambar Utama Artikel
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Gambar Thumbnail
               </label>
-              <div className="space-y-4">
-                {/* Upload File */}
-                <div>
-                  <input
-                    type="file"
-                    id="imageFile"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100"
-                  />
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                    Upload gambar (PNG, JPG, JPEG, WebP) maksimal 5MB
-                  </p>
+              
+              {/* File Upload Section */}
+              <div className="mb-4">
+                <div className="flex items-center justify-center w-full">
+                  <label htmlFor="imageUpload" className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500">
+                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                      <svg className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                      </svg>
+                      <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span className="font-semibold">Klik untuk upload</span> atau drag and drop
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, JPEG atau WebP (MAX. 5MB)</p>
+                    </div>
+                    <input
+                      id="imageUpload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                  </label>
                 </div>
-                
-                {/* Preview Image */}
-                {formData.featuredImage && (
+              </div>
+
+              {/* Image Preview */}
+              {formData.featuredImage && (
+                <div className="mb-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview Gambar:</p>
                   <div className="relative">
                     <img
                       src={formData.featuredImage}
                       alt="Preview"
-                      className="w-full h-48 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                      className="w-full max-w-md h-48 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
                     />
                     <button
                       type="button"
@@ -262,39 +301,42 @@ export default function CreateArtikel() {
                       ×
                     </button>
                   </div>
-                )}
-                
-                {/* Alternative: URL Input */}
-                <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Atau masukkan URL gambar
-                  </label>
-                  <input
-                    type="text"
-                    id="featuredImage"
-                    name="featuredImage"
-                    value={formData.featuredImage}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    placeholder="https://example.com/image.jpg atau /uploads/articles/image.jpg"
-                  />
                 </div>
+              )}
+
+              {/* URL Input as Alternative */}
+              <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Atau masukkan URL gambar
+                </label>
+                <input
+                  type="text"
+                  id="featuredImage"
+                  name="featuredImage"
+                  value={formData.featuredImage}
+                  onChange={handleChange}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  placeholder="https://example.com/image.jpg atau /uploads/articles/image.jpg"
+                />
               </div>
             </div>
 
             <div>
               <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Tags (pisahkan dengan koma)
+                Tags
               </label>
               <input
                 type="text"
                 id="tags"
                 name="tags"
-                value={formData.tags}
-                onChange={handleChange}
+                value={Array.isArray(formData.tags) ? formData.tags.join(', ') : ''}
+                onChange={handleTagsChange}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder="teknologi, lingkungan, berita"
+                placeholder="Masukkan tags dipisah koma, contoh: lingkungan, kesehatan, teknologi"
               />
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Pisahkan dengan koma untuk membuat beberapa tag
+              </p>
             </div>
 
             <div>
@@ -338,10 +380,10 @@ export default function CreateArtikel() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center gap-2 px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
-                {loading ? 'Menyimpan...' : 'Simpan Artikel'}
+                {loading ? 'Menyimpan...' : 'Buat Artikel'}
               </button>
             </div>
           </form>

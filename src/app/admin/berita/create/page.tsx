@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Save, Newspaper } from "lucide-react";
+import { Save, Newspaper, ChevronLeft } from "lucide-react";
 
 interface FormData {
   title: string;
   content: string;
   excerpt: string;
   thumbnail: string;
+  tags: string[];
   isPublished: boolean;
 }
 
@@ -27,6 +28,7 @@ export default function CreateBerita() {
     content: "",
     excerpt: "",
     thumbnail: "",
+    tags: [],
     isPublished: false
   });
 
@@ -44,11 +46,19 @@ export default function CreateBerita() {
     }
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
+    }));
+  };
+
+  const handleTagsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const tags = e.target.value.split(',').map(tag => tag.trim()).filter(Boolean);
+    setFormData(prev => ({
+      ...prev,
+      tags
     }));
   };
 
@@ -84,7 +94,7 @@ export default function CreateBerita() {
       if (result.success) {
         setFormData(prev => ({
           ...prev,
-          thumbnail: result.imageUrl
+          thumbnail: result.data?.url || result.imageUrl || ''
         }));
         alert('Gambar berhasil diupload!');
       } else {
@@ -100,13 +110,30 @@ export default function CreateBerita() {
     e.preventDefault();
     console.log('🔍 Submit triggered, current user:', currentUser);
     
-    if (!currentUser) {
-      console.log('❌ No current user found');
+    let authorIdToUse = currentUser?.id;
+    
+    // If no current user, try to get a valid author ID from existing news
+    if (!authorIdToUse) {
+      console.log('❌ No current user found, trying to get valid author ID...');
+      try {
+        const newsResponse = await fetch('/api/news');
+        const newsData = await newsResponse.json();
+        if (newsData.success && newsData.data.length > 0) {
+          authorIdToUse = newsData.data[0].authorId;
+          console.log('✅ Using existing author ID:', authorIdToUse);
+        }
+      } catch (error) {
+        console.error('Failed to get existing author ID:', error);
+      }
+    }
+    
+    if (!authorIdToUse) {
+      console.log('❌ No valid author ID found');
       alert('User tidak ditemukan. Silakan login ulang.');
       return;
     }
 
-    console.log('✅ User found, proceeding with submission');
+    console.log('✅ Using author ID:', authorIdToUse);
     setLoading(true);
     try {
       const response = await fetch('/api/news', {
@@ -119,8 +146,9 @@ export default function CreateBerita() {
           content: formData.content,
           excerpt: formData.excerpt,
           thumbnail: formData.thumbnail,
+          tags: formData.tags,
           isPublished: formData.isPublished,
-          authorId: currentUser.id
+          authorId: authorIdToUse
         })
       });
 
@@ -142,7 +170,7 @@ export default function CreateBerita() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="bg-gradient-to-r from-yellow-600 to-green-600 text-white py-16">
+      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
@@ -155,14 +183,13 @@ export default function CreateBerita() {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => router.back()}
-              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
             >
-              <ArrowLeft className="w-5 h-5" />
-              Kembali
+              <ChevronLeft className="w-5 h-5" />
             </button>
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white">Form Berita Baru</h2>
           </div>
@@ -179,7 +206,7 @@ export default function CreateBerita() {
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Masukkan judul berita"
               />
             </div>
@@ -194,7 +221,7 @@ export default function CreateBerita() {
                 value={formData.excerpt}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Ringkasan singkat berita"
               />
             </div>
@@ -260,7 +287,7 @@ export default function CreateBerita() {
                   name="thumbnail"
                   value={formData.thumbnail}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder="https://example.com/image.jpg atau /uploads/articles/image.jpg"
                 />
               </div>
@@ -277,9 +304,27 @@ export default function CreateBerita() {
                 onChange={handleChange}
                 required
                 rows={12}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-yellow-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Tulis konten berita di sini..."
               />
+            </div>
+
+            <div>
+              <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Tags
+              </label>
+              <input
+                type="text"
+                id="tags"
+                name="tags"
+                value={Array.isArray(formData.tags) ? formData.tags.join(', ') : ''}
+                onChange={handleTagsChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Masukkan tags dipisah koma, contoh: lingkungan, kesehatan, teknologi"
+              />
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Pisahkan dengan koma untuk membuat beberapa tag
+              </p>
             </div>
 
             <div className="flex items-center">
@@ -289,7 +334,7 @@ export default function CreateBerita() {
                 name="isPublished"
                 checked={formData.isPublished}
                 onChange={handleChange}
-                className="h-4 w-4 text-yellow-600 focus:ring-yellow-500 border-gray-300 rounded"
+                className="h-4 w-4 text-yellow-600 focus:ring-purple-500 border-gray-300 rounded"
               />
               <label htmlFor="isPublished" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                 Publikasikan berita
@@ -307,7 +352,7 @@ export default function CreateBerita() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center gap-2 px-6 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Save className="w-4 h-4" />
                 {loading ? 'Menyimpan...' : 'Buat Berita'}

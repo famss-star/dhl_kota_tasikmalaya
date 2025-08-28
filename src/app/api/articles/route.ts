@@ -85,11 +85,11 @@ export async function POST(request: NextRequest) {
     const { title, content, excerpt, categoryId, authorId, featuredImage, tags, isPublished } = body;
 
     // Validasi input
-    if (!title || !content || !authorId || !categoryId) {
+    if (!title || !content || !authorId) {
       return NextResponse.json(
         { 
           success: false,
-          error: 'Title, content, author, dan category wajib diisi' 
+          error: 'Title, content, dan author wajib diisi' 
         },
         { status: 400 }
       );
@@ -127,8 +127,9 @@ export async function POST(request: NextRequest) {
         categoryId,
         authorId,
         thumbnail: featuredImage, // Map featuredImage ke thumbnail
-        tags: Array.isArray(tags) ? tags : (tags ? tags.split(',').map((tag: string) => tag.trim()).filter((tag: string) => tag.length > 0) : []),
-        isPublished: isPublished || false
+        tags: Array.isArray(tags) ? tags.join(', ') : (tags || ''), // Convert array to string
+        isPublished: isPublished || false,
+        publishedAt: isPublished ? new Date() : null
       },
       include: {
         category: true,

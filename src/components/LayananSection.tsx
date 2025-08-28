@@ -100,7 +100,7 @@ export default function LayananSection() {
 						</div>
 					</div>
 					<div className="p-6 space-y-4">
-						<Link href="/pelayanan/amdal" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+						<Link href="/perizinan/amdal" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
 							<div className="flex items-center">
 								<div className="bg-purple-100 dark:bg-purple-900/50 rounded-lg p-2 mr-3">
 									<svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@ export default function LayananSection() {
 							</svg>
 						</Link>
 
-						<Link href="/pelayanan/ukl-upl" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+						<Link href="/perizinan/ukl-upl" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
 							<div className="flex items-center">
 								<div className="bg-orange-100 dark:bg-orange-900/50 rounded-lg p-2 mr-3">
 									<svg className="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -134,7 +134,7 @@ export default function LayananSection() {
 							</svg>
 						</Link>
 
-						<Link href="/pelayanan/sppl" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
+						<Link href="/perizinan/sppl" className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors group">
 							<div className="flex items-center">
 								<div className="bg-teal-100 dark:bg-teal-900/50 rounded-lg p-2 mr-3">
                                     <svg className="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">

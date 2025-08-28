@@ -55,14 +55,15 @@ export default function PimpinanSection() {
               {/* Gambar tetap aspect 3/4 */}
               <div className="relative bg-transparent w-full h-full z-10 overflow-hidden">
                 <Image
-                  src={leader?.photo || "/pemimpin.png"}
+                  src={leader?.photo || "/pemimpin-placeholder.svg"}
                   alt="Foto Kepala Dinas"
                   fill
                   className="object-cover object-top"
                   priority
                   onError={(e) => {
+                    console.error('Image error:', e);
                     const target = e.target as HTMLImageElement;
-                    target.src = "/pemimpin.png";
+                    target.src = "/pemimpin-placeholder.svg";
                   }}
                 />
               </div>

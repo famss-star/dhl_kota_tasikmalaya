@@ -8,8 +8,8 @@ interface LogoSettings {
 }
 
 const defaultSettings: LogoSettings = {
-  logoHeader: 'https://portal.tasikmalayakota.go.id/assets/uploads/logo-dlh.png',
-  logoFooter: 'https://www.dlh.tasikmalayakota.go.id/images/logo-white-footer.png',
+  logoHeader: '/logo-dlh.png',
+  logoFooter: '/logo-white-footer.png',
   siteName: 'Dinas Lingkungan Hidup Kota Tasikmalaya',
   siteDescription: 'Website resmi Dinas Lingkungan Hidup Kota Tasikmalaya'
 };

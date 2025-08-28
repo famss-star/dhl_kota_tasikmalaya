@@ -1,267 +1,185 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface Photo {
-  id: number;
+  id: string;
   title: string;
-  category: string;
-  date: string;
-  image: string;
   description: string;
+  filename: string;
+  filepath: string;
+  filesize: number;
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 const PhotoGalleryPage = () => {
-  const [activeCategory, setActiveCategory] = useState("Semua");
+  const [photos, setPhotos] = useState<Photo[]>([]);
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const categories = [
-    "Semua",
-    "Kegiatan",
-    "Event",
-    "Dokumentasi",
-    "Fasilitas"
-  ];
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
 
-  const photos: Photo[] = [
-    {
-      id: 1,
-      title: "Penanaman Pohon di Taman Kota",
-      category: "Kegiatan",
-      date: "2025-07-15",
-      image: "/images/gallery/penanaman-pohon.jpg",
-      description: "Kegiatan penanaman 1000 pohon dalam rangka penghijauan kota"
-    },
-    {
-      id: 2,
-      title: "Bank Sampah Berseri",
-      category: "Fasilitas",
-      date: "2025-07-14",
-      image: "/images/gallery/bank-sampah.jpg",
-      description: "Fasilitas bank sampah yang dikelola masyarakat"
-    },
-    {
-      id: 3,
-      title: "Sosialisasi 3R di Sekolah",
-      category: "Event",
-      date: "2025-07-13",
-      image: "/images/gallery/sosialisasi-3r.jpg",
-      description: "Sosialisasi Reduce, Reuse, Recycle di SDN 1 Tasikmalaya"
-    },
-    {
-      id: 4,
-      title: "IPAL Komunal",
-      category: "Fasilitas",
-      date: "2025-07-12",
-      image: "/images/gallery/ipal-komunal.jpg",
-      description: "Instalasi Pengolahan Air Limbah Komunal di Kelurahan Tugujaya"
-    },
-    {
-      id: 5,
-      title: "Pelatihan Komposting",
-      category: "Kegiatan",
-      date: "2025-07-11",
-      image: "/images/gallery/komposting.jpg",
-      description: "Pelatihan pembuatan kompos dari sampah organik"
-    },
-    {
-      id: 6,
-      title: "Monitoring Kualitas Udara",
-      category: "Dokumentasi",
-      date: "2025-07-10",
-      image: "/images/gallery/monitoring-udara.jpg",
-      description: "Kegiatan monitoring kualitas udara di pusat kota"
-    },
-    {
-      id: 7,
-      title: "Pembersihan Sungai",
-      category: "Kegiatan",
-      date: "2025-07-09",
-      image: "/images/gallery/bersih-sungai.jpg",
-      description: "Aksi bersih sungai bersama komunitas peduli lingkungan"
-    },
-    {
-      id: 8,
-      title: "TPA Ramah Lingkungan",
-      category: "Fasilitas",
-      date: "2025-07-08",
-      image: "/images/gallery/tpa.jpg",
-      description: "Tempat Pemrosesan Akhir dengan sistem sanitary landfill"
-    },
-    {
-      id: 9,
-      title: "Lomba Kebersihan RT",
-      category: "Event",
-      date: "2025-07-07",
-      image: "/images/gallery/lomba-rt.jpg",
-      description: "Penilaian lomba kebersihan antar RT se-Kota Tasikmalaya"
+  const fetchPhotos = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch('/api/gallery/photos?published=true');
+      const result = await response.json();
+      
+      if (result.success) {
+        setPhotos(result.data);
+      } else {
+        console.error('Error fetching photos:', result.error);
+      }
+    } catch (error) {
+      console.error("Error fetching photos:", error);
+    } finally {
+      setIsLoading(false);
     }
-  ];
-
-  const filteredPhotos = activeCategory === "Semua"
-    ? photos
-    : photos.filter(photo => photo.category === activeCategory);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-indigo-600 to-blue-600 text-white py-16">
+      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
-            <div className="flex flex-col items-center justify-center mb-4">
-              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
-                Galeri Foto
-              </h1>
-            </div>
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4">
+              Galeri Foto
+            </h1>
             <p className="text-lg opacity-90 max-w-3xl mx-auto">
-                Dokumentasi foto kegiatan Dinas Lingkungan Hidup Kota Tasikmalaya
+              Dokumentasi kegiatan dan program Dinas Lingkungan Hidup Kota Tasikmalaya
             </p>
           </div>
         </div>
-      </section> 
+      </section>
 
+      {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
-
-        {/* Category Filter */}
-        <div className="max-w-6xl mx-auto mb-8">
-          <div className="flex flex-wrap gap-4 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2 rounded-full text-sm font-medium transition-colors
-                  ${activeCategory === category
-                    ? "bg-indigo-600 text-white"
-                    : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700"
-                  }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Photo Grid */}
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredPhotos.map((photo) => (
-            <div
-              key={photo.id}
-              className="group relative bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden hover:shadow-2xl transition-shadow cursor-pointer"
-              onClick={() => setSelectedPhoto(photo)}
-            >
-              <div className="relative aspect-square">
-                <Image
-                  src={photo.image}
-                  alt={photo.title}
-                  className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                  width={500}
-                  height={500}
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <svg
-                    className="w-12 h-12 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    />
-                  </svg>
-                </div>
-              </div>
-              <div className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-600 dark:text-indigo-300 rounded-full text-sm">
-                    {photo.category}
-                  </span>
-                  <span className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(photo.date).toLocaleDateString()}
-                  </span>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-                  {photo.title}
-                </h3>
-              </div>
+        <div className="mx-auto">
+          
+          {/* Loading State */}
+          {isLoading && (
+            <div className="text-center py-12">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+              <p className="text-gray-600 dark:text-gray-300 mt-4">Memuat galeri foto...</p>
             </div>
-          ))}
-        </div>
+          )}
 
-        {/* Modal for enlarged photo */}
-        {selectedPhoto && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-75 z-50 flex items-center justify-center p-4"
-            onClick={() => setSelectedPhoto(null)}
-          >
-            <div className="relative max-w-4xl w-full bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
-              <button
-                className="absolute top-4 right-4 text-white z-10 hover:text-gray-300"
-                onClick={() => setSelectedPhoto(null)}
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <div className="relative aspect-[4/3]">
-                <Image
-                  src={selectedPhoto.image}
-                  alt={selectedPhoto.title}
-                  className="w-full h-full object-contain"
-                  width={800}
-                  height={600}
-                />
-              </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-                  {selectedPhoto.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-2">
-                  {selectedPhoto.description}
-                </p>
-                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <span>{selectedPhoto.category}</span>
-                  <span>{new Date(selectedPhoto.date).toLocaleDateString()}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Pagination */}
-        <div className="max-w-6xl mx-auto mt-12 flex justify-center">
-          <nav className="flex items-center gap-2">
-            <button className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <div className="flex gap-1">
-              {[1, 2, 3].map((page) => (
-                <button
-                  key={page}
-                  className={`w-10 h-10 rounded-lg text-sm font-medium
-                    ${page === 1
-                      ? "bg-indigo-600 text-white"
-                      : "bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    }`}
+          {/* Photo Grid */}
+          {!isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {photos.map((photo) => (
+                <div
+                  key={photo.id}
+                  className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden border border-gray-200 dark:border-gray-700 group cursor-pointer hover:shadow-lg transition-shadow"
+                  onClick={() => setSelectedPhoto(photo)}
                 >
-                  {page}
-                </button>
+                  <div className="aspect-square relative overflow-hidden bg-gray-200 dark:bg-gray-700">
+                    <img
+                      src={photo.filepath}
+                      alt={photo.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="text-white text-center p-4">
+                        <p className="font-semibold text-sm">Lihat Detail</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="p-4">
+                    <h3 className="font-semibold text-gray-900 dark:text-white mb-2 line-clamp-2">
+                      {photo.title}
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                      {photo.description}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                        {new Date(photo.createdAt).toLocaleDateString('id-ID', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
+                      <a
+                        href={`/galeri/foto/${photo.id}`}
+                        className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-full transition"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        Detail
+                      </a>
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
-            <button className="p-2 rounded-lg bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </nav>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && photos.length === 0 && (
+            <div className="text-center py-12">
+              <div className="w-24 h-24 mx-auto mb-4 text-gray-300">
+                <svg fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M4 4h16v16H4V4zm2 2v12h12V6H6zm2 2h8v8H8V8zm2 2v4h4v-4h-4z"/>
+                </svg>
+              </div>
+              <p className="text-gray-500 dark:text-gray-400 text-lg">
+                Belum ada foto di galeri
+              </p>
+            </div>
+          )}
         </div>
       </div>
+
+      {/* Photo Modal */}
+      {selectedPhoto && (
+        <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="relative">
+              <button
+                onClick={() => setSelectedPhoto(null)}
+                className="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              
+              <div className="aspect-video bg-gray-200 dark:bg-gray-700">
+                <img
+                  src={selectedPhoto.filepath}
+                  alt={selectedPhoto.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                  {selectedPhoto.title}
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {selectedPhoto.description}
+                </p>
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  Dipublikasikan pada {new Date(selectedPhoto.createdAt).toLocaleDateString('id-ID', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

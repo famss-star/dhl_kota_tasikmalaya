@@ -37,7 +37,7 @@ export default function Home() {
 		cards={[
 		  { platform: "tiktok", title: "Video Tiktok DLH", url: "https://www.tiktok.com/@ceritasiaki/video/7514670466817068344" },
 		  { platform: "instagram", title: "Instagram Reel DLH", url: "https://www.instagram.com/p/DMO7ayCu0Q4/" },
-		//   { platform: "youtube", title: "YouTube DLH", url: "https://www.youtube.com/watch?v=SXySxLgCV-8" },
+		  { platform: "youtube", title: "YouTube DLH", url: "https://www.youtube.com/watch?v=SXySxLgCV-8" },
 		]}
 	  />
 	  </div>

@@ -1,22 +1,19 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/profil/pimpinan',
+        destination: '/profil/struktur-organisasi',
+        permanent: true, // 301 redirect untuk SEO
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'dlhkotatasikmalaya.or.id',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'portal.tasikmalayakota.go.id',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.dlh.tasikmalayakota.go.id',
         port: '',
         pathname: '/**',
       },

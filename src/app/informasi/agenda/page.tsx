@@ -1,402 +1,270 @@
 'use client';
 
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, Calendar, Info } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight, Calendar, Info, MapPin, Clock, Users, Eye } from 'lucide-react';
+import Link from 'next/link';
 
 // Type definitions
 interface AgendaItem {
   id: number;
   title: string;
-  time: string;
-  location: string;
-  status: string;
   description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  organizer: string;
+  participants: number;
+  status: 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
+  createdAt: string;
+  updatedAt: string;
 }
 
-type AgendaData = {
-  [key: string]: AgendaItem[];
-};
+export default function InformasiAgenda() {
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [agenda, setAgenda] = useState<AgendaItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [statusFilter, setStatusFilter] = useState<string>('UPCOMING');
 
-// Data agenda
-const agendaData: AgendaData = {
-  '2025-07-16': [
-    {
-      id: 1,
-      title: 'Cimahi Hepi Run 2025',
-      time: '06:00 - 10:00 WIB',
-      location: 'Lapangan Kota Cimahi',
-      status: 'Belum Dimulai',
-      description: 'Event lari marathon tahunan untuk memperingati hari jadi Kota Cimahi'
+  useEffect(() => {
+    fetchAgenda();
+  }, [statusFilter]);
+
+  const fetchAgenda = async () => {
+    setLoading(true);
+    try {
+      const params = new URLSearchParams({
+        page: '1',
+        limit: '20',
+        search: searchTerm,
+        status: statusFilter === 'all' ? '' : statusFilter
+      });
+
+      const response = await fetch(`/api/agenda?${params}`);
+      const data = await response.json();
+
+      if (data.success) {
+        setAgenda(data.data.agenda);
+      } else {
+        console.error('Error fetching agenda:', data.error);
+        setAgenda([]);
+      }
+    } catch (error) {
+      console.error('Error fetching agenda:', error);
+      setAgenda([]);
+    } finally {
+      setLoading(false);
     }
-  ],
-  '2025-07-18': [
-    {
-      id: 2,
-      title: 'Rapat Koordinasi Lingkungan',
-      time: '09:00 - 11:00 WIB',
-      location: 'Ruang Rapat DLH',
-      status: 'Belum Dimulai',
-      description: 'Koordinasi program kebersihan lingkungan bulan Juli'
-    }
-  ],
-  '2025-07-20': [
-    {
-      id: 3,
-      title: 'Sosialisasi Program Hijau',
-      time: '13:00 - 15:00 WIB',
-      location: 'Aula Kecamatan',
-      status: 'Belum Dimulai',
-      description: 'Sosialisasi program penghijauan kepada masyarakat'
-    }
-  ],
-  '2025-07-22': [
-    {
-      id: 4,
-      title: 'Workshop Pengelolaan Sampah',
-      time: '08:00 - 12:00 WIB',
-      location: 'Gedung Serbaguna',
-      status: 'Belum Dimulai',
-      description: 'Pelatihan pengelolaan sampah untuk RT/RW'
-    }
-  ],
-  '2025-07-15': [
-    {
-      id: 5,
-      title: 'Pembersihan Sungai Citanduy',
-      time: '07:00 - 11:00 WIB',
-      location: 'Sungai Citanduy',
-      status: 'Telah Selesai',
-      description: 'Kegiatan gotong royong pembersihan sungai bersama masyarakat'
-    }
-  ]
-};
-
-const monthNames = [
-  'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-  'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-];
-
-const dayNames = ['Ming', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
-
-export default function AgendaPage() {
-  // Set default date to current date (July 16, 2025)
-  const today = new Date(2025, 6, 16); // month is 0-indexed, so 6 = July
-  const [currentDate, setCurrentDate] = useState(today);
-  const [selectedDate, setSelectedDate] = useState(today);
-
-  // Get current month and year
-  const currentMonth = currentDate.getMonth();
-  const currentYear = currentDate.getFullYear();
-
-  // Get first day of month and number of days
-  const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
-  const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0);
-  const firstDayWeekday = firstDayOfMonth.getDay();
-  const daysInMonth = lastDayOfMonth.getDate();
-
-  // Generate calendar days
-  const calendarDays = [];
-  
-  // Add empty cells for days before month starts
-  for (let i = 0; i < firstDayWeekday; i++) {
-    calendarDays.push(null);
-  }
-  
-  // Add days of the month
-  for (let day = 1; day <= daysInMonth; day++) {
-    calendarDays.push(day);
-  }
-
-  // Navigate months
-  const navigateMonth = (direction: 'prev' | 'next') => {
-    const newDate = new Date(currentDate);
-    if (direction === 'prev') {
-      newDate.setMonth(currentMonth - 1);
-    } else {
-      newDate.setMonth(currentMonth + 1);
-    }
-    setCurrentDate(newDate);
   };
 
-  // Get agenda for selected date
-  const formatDateKey = (date: Date) => {
-    return date.toISOString().split('T')[0];
+  const handleSearch = () => {
+    fetchAgenda();
   };
 
-  const selectedDateKey = formatDateKey(selectedDate);
-  const selectedAgenda = agendaData[selectedDateKey] || [];
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      UPCOMING: { color: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200', label: 'Akan Datang' },
+      ONGOING: { color: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200', label: 'Berlangsung' },
+      COMPLETED: { color: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200', label: 'Selesai' },
+      CANCELLED: { color: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200', label: 'Dibatalkan' }
+    };
 
-  // Check if date has agenda
-  const hasAgenda = (day: number) => {
-    const dateKey = formatDateKey(new Date(currentYear, currentMonth, day));
-    return agendaData[dateKey] && agendaData[dateKey].length > 0;
+    const config = statusConfig[status as keyof typeof statusConfig];
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs font-medium ${config.color}`}>
+        {config.label}
+      </span>
+    );
   };
 
-  // Check if date is today (July 16, 2025)
-  const isToday = (day: number) => {
-    const today = new Date(2025, 6, 16); // July 16, 2025
-    return today.getDate() === day && 
-           today.getMonth() === currentMonth && 
-           today.getFullYear() === currentYear;
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
   };
 
-  // Check if date is selected
-  const isSelected = (day: number) => {
-    return selectedDate.getDate() === day &&
-           selectedDate.getMonth() === currentMonth &&
-           selectedDate.getFullYear() === currentYear;
+  const formatTime = (timeString: string) => {
+    return timeString.slice(0, 5); // Format HH:MM
   };
 
-  // Select date
-  const selectDate = (day: number) => {
-    setSelectedDate(new Date(currentYear, currentMonth, day));
-  };
+  const filteredAgenda = agenda.filter(item => 
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.location.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-green-600 to-blue-600 text-white py-16">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-gray-700 to-green-600 text-white py-16">
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center min-h-[120px] flex flex-col justify-center">
-            <div className="flex flex-col items-center justify-center mb-4">
-              <h1 className="text-3xl md:text-5xl font-bold text-center leading-tight">
-                Agenda Kegiatan
-              </h1>
-            </div>
-            <p className="text-lg opacity-90 max-w-3xl mx-auto">
-              Jadwal kegiatan dan acara Dinas Lingkungan Hidup Kota Tasikmalaya
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <Calendar className="w-9 h-9 text-white" />
+              Agenda & Kegiatan
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">
+              Jadwal kegiatan dan agenda Dinas Lingkungan Hidup Kota Tasikmalaya
             </p>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Content */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-6xl mx-auto">
           
-          {/* 📅 Kolom Kiri: Kalender Visual & Informasi Tanggal */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                  <Calendar className="w-6 h-6 text-green-600 dark:text-green-400" />
-                  Kalender {monthNames[currentMonth]} {currentYear}
-                </h2>
-                <div className="inline-flex gap-0">
+          {/* Search and Filter */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8 border border-gray-200 dark:border-gray-700">
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Cari Agenda
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="Cari agenda atau kegiatan..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+                  />
                   <button
-                    onClick={() => navigateMonth('prev')}
-                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 rounded-l-md border border-green-500 border-r-0 transition px-3 flex items-center justify-center outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
-                    aria-label="Bulan sebelumnya"
+                    onClick={handleSearch}
+                    className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
                   >
-                    <ChevronLeft size={20} />
-                  </button>
-                  <button
-                    onClick={() => setCurrentDate(new Date(2025, 6, 16))}
-                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 font-semibold border-t border-b border-green-500 transition px-3 outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
-                    aria-label="Hari ini"
-                  >
-                    Hari Ini
-                  </button>
-                  <button
-                    onClick={() => navigateMonth('next')}
-                    className="text-green-600 bg-white dark:bg-transparent dark:text-green-400 rounded-r-md border border-green-500 border-l-0 transition px-3 flex items-center justify-center outline-none focus:outline-none hover:bg-green-600 hover:text-white hover:border-green-600 hover:scale-110"
-                    aria-label="Bulan berikutnya"
-                  >
-                    <ChevronRight size={20} />
+                    Cari
                   </button>
                 </div>
               </div>
-
-              {/* Week Info */}
-              <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                <p className="text-sm text-blue-700 dark:text-blue-300">
-                  Minggu ke-{Math.ceil(selectedDate.getDate() / 7)} dari bulan {monthNames[currentMonth]}
-                </p>
-                <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
-                  Tanggal dipilih: {selectedDate.toLocaleDateString('id-ID', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </p>
-              </div>
-
-              {/* Calendar Grid */}
-              <div className="grid grid-cols-7 gap-1 mb-4">
-                {/* Day headers */}
-                {dayNames.map((day) => (
-                  <div key={day} className="text-center py-2 text-sm font-medium text-gray-500 dark:text-gray-400">
-                    {day}
-                  </div>
-                ))}
-
-                {/* Calendar days */}
-                {calendarDays.map((day, index) => (
-                  <div key={index} className="aspect-square">
-                    {day ? (
-                      <button
-                        onClick={() => selectDate(day)}
-                        className={`w-full h-full flex items-center justify-center text-sm rounded-md transition-colors relative ${
-                          isToday(day)
-                            ? 'bg-green-500 text-white font-bold'
-                            : isSelected(day)
-                            ? 'bg-blue-500 text-white font-semibold'
-                            : hasAgenda(day)
-                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 hover:bg-blue-200 dark:hover:bg-blue-900/50'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        {day}
-                        {hasAgenda(day) && (
-                          <div className="absolute bottom-1 right-1 w-2 h-2 bg-orange-400 rounded-full"></div>
-                        )}
-                      </button>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
-                ))}
-              </div>
-
-              {/* Legend */}
-              <div className="space-y-2 text-xs text-gray-600 dark:text-gray-400">
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <span>Hari ini</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <span>Tanggal dipilih</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-3 h-3 bg-blue-100 dark:bg-blue-900/30 rounded-full border border-blue-300"></div>
-                  <span>Ada agenda</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full"></div>
-                  <span>Indikator agenda</span>
-                </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Filter Status
+                </label>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                >
+                  <option value="UPCOMING">Akan Datang</option>
+                  <option value="ONGOING">Berlangsung</option>
+                  <option value="COMPLETED">Selesai</option>
+                  <option value="all">Semua Status</option>
+                </select>
               </div>
             </div>
           </div>
 
-          {/* 📝 Kolom Kanan: Daftar Agenda / Event */}
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700">
-            <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
-                📝 Agenda Hari Ini
-              </h2>
-              
-              <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Menampilkan agenda untuk:
-                </p>
-                <p className="font-medium text-gray-900 dark:text-white">
-                  {selectedDate.toLocaleDateString('id-ID', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </p>
-              </div>
-
-              {selectedAgenda.length > 0 ? (
+          {/* Agenda List */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700">
+            {loading ? (
+              <div className="p-8">
                 <div className="space-y-4">
-                  {selectedAgenda.map((agenda: AgendaItem) => (
-                    <div key={agenda.id} className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex items-start justify-between mb-3">
-                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                          {agenda.title}
-                        </h3>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          agenda.status === 'Belum Dimulai'
-                            ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300'
-                            : agenda.status === 'Telah Selesai'
-                            ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
-                            : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
-                        }`}>
-                          {agenda.status}
-                        </span>
-                      </div>
-                      
-                      <div className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                        <div className="flex items-center">
-                          <span className="font-medium w-16">Waktu:</span>
-                          <span>{agenda.time}</span>
-                        </div>
-                        <div className="flex items-center">
-                          <span className="font-medium w-16">Tempat:</span>
-                          <span>{agenda.location}</span>
-                        </div>
-                        <div className="flex items-start">
-                          <span className="font-medium w-16">Detail:</span>
-                          <span className="flex-1">{agenda.description}</span>
-                        </div>
-                      </div>
+                  {[...Array(3)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-gray-200 dark:bg-gray-700 h-32 rounded-lg"></div>
                     </div>
                   ))}
                 </div>
-              ) : (
-                <div className="text-center py-12">
-                  <div className="text-6xl mb-4">📅</div>
-                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                    Tidak Ada Agenda
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Tidak ada kegiatan yang dijadwalkan pada tanggal ini.
-                  </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-500 mt-2">
-                    Pilih tanggal lain pada kalender untuk melihat agenda yang tersedia.
-                  </p>
-                </div>
-              )}
-
-              {/* Quick Navigation */}
-              <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-600">
-                <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-3">
-                  Navigasi Cepat
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {Object.keys(agendaData).map((dateKey) => {
-                    const date = new Date(dateKey);
-                    const day = date.getDate();
-                    const isCurrentMonth = date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-                    
-                    if (!isCurrentMonth) return null;
-                    
-                    return (
-                      <button
-                        key={dateKey}
-                        onClick={() => selectDate(day)}
-                        className="px-3 py-1 text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full hover:bg-blue-200 dark:hover:bg-blue-900/50"
-                      >
-                        {day} {monthNames[currentMonth].substring(0, 3)}
-                      </button>
-                    );
-                  })}
-                </div>
               </div>
-            </div>
+            ) : filteredAgenda.length > 0 ? (
+              <div className="divide-y divide-gray-200 dark:divide-gray-700">
+                {filteredAgenda.map((item) => (
+                  <div key={item.id} className="p-6 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                    <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between mb-3">
+                          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                            {item.title}
+                          </h3>
+                          {getStatusBadge(item.status)}
+                        </div>
+                        
+                        <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
+                          {item.description}
+                        </p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 text-sm text-gray-600 dark:text-gray-300">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-green-600" />
+                            <span>
+                              {formatDate(item.startDate)}
+                              {item.endDate !== item.startDate && ` - ${formatDate(item.endDate)}`}
+                            </span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-blue-600" />
+                            <span>
+                              {formatTime(item.startTime)}
+                              {item.endTime && ` - ${formatTime(item.endTime)}`} WIB
+                            </span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <MapPin className="w-4 h-4 text-red-600" />
+                            <span>{item.location}</span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2">
+                            <Users className="w-4 h-4 text-purple-600" />
+                            <span>{item.participants} peserta</span>
+                          </div>
+                          
+                          <div className="flex items-center gap-2 md:col-span-2 lg:col-span-2">
+                            <Info className="w-4 h-4 text-orange-600" />
+                            <span>Penyelenggara: {item.organizer}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 mt-4 lg:mt-0">
+                        <Link
+                          href={`/informasi/agenda/${item.id}`}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors text-sm"
+                        >
+                          <Eye className="w-4 h-4" />
+                          Lihat Detail
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <Calendar className="w-24 h-24 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  Tidak ada agenda
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300">
+                  {searchTerm ? 'Tidak ditemukan agenda yang sesuai dengan pencarian' : 'Belum ada agenda untuk periode ini'}
+                </p>
+              </div>
+            )}
           </div>
-        </div>
 
-        {/* Info Panel */}
-        <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
-          <div className="flex items-start space-x-3">
-            <Info className="w-7 h-7 text-blue-700 dark:text-blue-300 mt-1" />
-            <div>
-              <h3 className="text-lg font-semibold text-blue-900 dark:text-blue-100 mb-2">
-                Panduan Penggunaan Agenda
-              </h3>
-              <ul className="space-y-1 text-sm text-blue-800 dark:text-blue-200">
-                <li>• Klik pada tanggal di kalender untuk melihat agenda hari tersebut</li>
-                <li>• Tanggal dengan titik oranye menandakan ada agenda pada hari tersebut</li>
-                <li>• Gunakan tombol navigasi (← →) untuk berpindah bulan</li>
-                <li>• Status agenda menunjukkan apakah kegiatan sudah selesai atau belum dimulai</li>
-                <li>• Gunakan navigasi cepat di bawah untuk langsung ke tanggal yang memiliki agenda</li>
-              </ul>
+          {/* Info Box */}
+          <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
+            <div className="flex items-start gap-3">
+              <Info className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="font-semibold text-blue-900 dark:text-blue-200 mb-2">
+                  Informasi Agenda
+                </h4>
+                <ul className="text-sm text-blue-800 dark:text-blue-300 space-y-1">
+                  <li>• Agenda dapat berubah sewaktu-waktu sesuai kondisi dan kebutuhan</li>
+                  <li>• Untuk informasi lebih lanjut, silakan hubungi sekretariat DLH Kota Tasikmalaya</li>
+                  <li>• Kegiatan yang bersifat terbuka untuk umum akan dicantumkan keterangan khusus</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -404,3 +272,4 @@ export default function AgendaPage() {
     </div>
   );
 }
+

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, FileText, Eye, Loader2 } from "lucide-react";
+import { Plus, Edit, Trash2, FileText, Eye } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 interface Article {
   id: string;
@@ -16,7 +17,9 @@ interface Article {
   createdAt: string;
   updatedAt: string;
   author: {
+    id: string;
     name: string;
+    email: string;
   };
   category?: {
     name: string;
@@ -24,25 +27,25 @@ interface Article {
 }
 
 export default function AdminArtikel() {
+  const router = useRouter();
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [search, setSearch] = useState('');
 
   // Fetch articles from database
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/articles');
+      const response = await fetch(`/api/articles?search=${search}`);
       const data = await response.json();
       
       if (data.success) {
         setArticles(data.data);
       } else {
-        setError(data.error || 'Gagal mengambil data artikel');
+        console.error('Failed to fetch articles:', data.error);
       }
-    } catch (err) {
-      setError('Terjadi kesalahan saat mengambil data');
-      console.error('Fetch articles error:', err);
+    } catch (error) {
+      console.error('Fetch articles error:', error);
     } finally {
       setLoading(false);
     }
@@ -53,50 +56,35 @@ export default function AdminArtikel() {
     if (!confirm('Apakah Anda yakin ingin menghapus artikel ini?')) return;
     
     try {
-      const response = await fetch(`/api/articles/${id}?admin=true`, {
+      const response = await fetch(`/api/articles/${id}`, {
         method: 'DELETE',
       });
       
-      if (response.ok) {
-        setArticles(articles.filter(article => article.id !== id));
-        alert('Artikel berhasil dihapus');
+      const data = await response.json();
+      
+      if (data.success) {
+        alert('Artikel berhasil dihapus!');
+        fetchArticles(); // Refresh data
       } else {
-        alert('Gagal menghapus artikel');
+        alert(data.error || 'Gagal menghapus artikel');
       }
-    } catch (err) {
+    } catch (error) {
+      console.error('Delete article error:', error);
       alert('Terjadi kesalahan saat menghapus artikel');
-      console.error('Delete error:', err);
     }
   };
 
-  // Toggle publish status
-  const togglePublish = async (id: string, currentStatus: boolean) => {
-    try {
-      const response = await fetch(`/api/articles/${id}?admin=true`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          isPublished: !currentStatus
-        })
-      });
-      
-      if (response.ok) {
-        setArticles(articles.map(article => 
-          article.id === id 
-            ? { ...article, isPublished: !currentStatus }
-            : article
-        ));
-      }
-    } catch (err) {
-      console.error('Toggle publish error:', err);
-    }
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
   };
 
   useEffect(() => {
     fetchArticles();
-  }, []);
+  }, [search]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -107,7 +95,9 @@ export default function AdminArtikel() {
               <FileText className="w-9 h-9 text-white" />
               Manajemen Artikel
             </h1>
-            <p className="text-xl md:text-2xl opacity-90">Kelola data artikel untuk website DLH Kota Tasikmalaya</p>
+            <p className="text-xl md:text-2xl opacity-90">
+              Kelola data artikel untuk website DLH Kota Tasikmalaya
+            </p>
           </div>
         </div>
       </div>
@@ -116,129 +106,116 @@ export default function AdminArtikel() {
         <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-2">
-              <FileText className="w-7 h-7 text-pink-600 dark:text-pink-400" />
-              Daftar Artikel ({articles.length})
+              <FileText className="w-6 h-6 text-purple-600" />
+              Daftar Artikel
             </h2>
             <button 
-              onClick={() => window.location.href = '/admin/artikel/create'}
+              onClick={() => router.push('/admin/artikel/create')}
               className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
             >
               <Plus className="w-5 h-5" />
               Tambah Artikel
             </button>
           </div>
-          
-          {error && (
-            <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-              {error}
-            </div>
-          )}
+
+          {/* Search Bar */}
+          <div className="mb-6">
+            <input
+              type="text"
+              placeholder="Cari artikel..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            />
+          </div>
           
           {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
-              <span className="ml-2 text-gray-600 dark:text-gray-300">Memuat data artikel...</span>
+            <div className="text-center py-8">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-purple-600"></div>
+              <p className="mt-2 text-gray-600 dark:text-gray-400">Memuat artikel...</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead>
-                  <tr className="bg-gray-100 dark:bg-gray-700">
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Judul</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Tanggal</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Penulis</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Tags</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Status</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 dark:text-gray-300 uppercase tracking-wider">Aksi</th>
+              <table className="w-full border-collapse bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow">
+                <thead className="bg-purple-50 dark:bg-purple-900/20">
+                  <tr>
+                    <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">
+                      Judul
+                    </th>
+                    <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">
+                      Penulis
+                    </th>
+                    <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">
+                      Tanggal
+                    </th>
+                    <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-left font-semibold text-gray-700 dark:text-gray-300">
+                      Status
+                    </th>
+                    <th className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center font-semibold text-gray-700 dark:text-gray-300">
+                      Aksi
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody>
                   {articles.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-                        Belum ada artikel yang tersedia
+                      <td colSpan={5} className="border border-gray-300 dark:border-gray-600 px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+                        Belum ada artikel
                       </td>
                     </tr>
                   ) : (
                     articles.map((article) => (
-                      <tr key={article.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white max-w-xs">
+                      <tr key={article.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+                        <td className="border border-gray-300 dark:border-gray-600 px-4 py-3">
                           <div>
-                            <div className="truncate">{article.title}</div>
+                            <h3 className="font-medium text-gray-900 dark:text-white">{article.title}</h3>
                             {article.excerpt && (
-                              <div className="text-xs text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">
                                 {article.excerpt}
-                              </div>
+                              </p>
                             )}
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
-                          <div className="text-sm">
-                            {new Date(article.createdAt).toLocaleDateString('id-ID')}
-                          </div>
-                          <div className="text-xs text-gray-500">
-                            {new Date(article.createdAt).toLocaleTimeString('id-ID', { 
-                              hour: '2-digit', 
-                              minute: '2-digit' 
-                            })}
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
+                        <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-700 dark:text-gray-300">
                           <div>{article.author.name}</div>
                           {article.category && (
                             <div className="text-xs text-gray-500">{article.category.name}</div>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-gray-700 dark:text-gray-300">
-                          {article.tags && article.tags.length > 0 ? (
-                            <div className="flex flex-wrap gap-1">
-                              {article.tags.map((tag, index) => (
-                                <span 
-                                  key={index}
-                                  className="inline-block bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 text-xs px-2 py-1 rounded-full"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          ) : (
-                            <span className="text-xs text-gray-400 italic">Tidak ada tags</span>
-                          )}
+                        <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-gray-700 dark:text-gray-300">
+                          {formatDate(article.createdAt)}
                         </td>
-                        <td className="px-4 py-3">
-                          <button
-                            onClick={() => togglePublish(article.id, article.isPublished)}
-                            className={`px-3 py-1 rounded-full text-xs font-semibold transition-colors ${
-                              article.isPublished 
-                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300 hover:bg-green-200' 
-                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300 hover:bg-yellow-200'
-                            }`}
-                          >
+                        <td className="border border-gray-300 dark:border-gray-600 px-4 py-3">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            article.isPublished 
+                              ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400' 
+                              : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
+                          }`}>
                             {article.isPublished ? 'Published' : 'Draft'}
-                          </button>
+                          </span>
                         </td>
-                        <td className="px-4 py-3">
-                          <div className="flex gap-2">
-                            <button 
-                              onClick={() => window.location.href = `/admin/artikel/view/${article.id}`}
-                              className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition text-xs"
+                        <td className="border border-gray-300 dark:border-gray-600 px-4 py-3 text-center">
+                          <div className="flex items-center justify-center gap-2">
+                            <button
+                              onClick={() => router.push(`/admin/artikel/view/${article.slug}`)}
+                              className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300"
+                              title="Lihat"
                             >
-                              <Eye className="w-4 h-4" /> 
-                              Lihat
+                              <Eye className="w-4 h-4" />
                             </button>
-                            <button 
-                              onClick={() => window.location.href = `/admin/artikel/edit/${article.id}`}
-                              className="inline-flex items-center gap-1 bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded transition text-xs"
+                            <button
+                              onClick={() => router.push(`/admin/artikel/edit/${article.id}`)}
+                              className="text-purple-600 hover:text-purple-800 dark:text-purple-400 dark:hover:text-purple-300"
+                              title="Edit"
                             >
-                              <Edit className="w-4 h-4" /> 
-                              Edit
+                              <Edit className="w-4 h-4" />
                             </button>
-                            <button 
-                              onClick={() => handleDelete(article.id)} 
-                              className="inline-flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded transition text-xs"
+                            <button
+                              onClick={() => handleDelete(article.id)}
+                              className="text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300"
+                              title="Hapus"
                             >
-                              <Trash2 className="w-4 h-4" /> 
-                              Hapus
+                              <Trash2 className="w-4 h-4" />
                             </button>
                           </div>
                         </td>

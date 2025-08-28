@@ -1,15 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+interface AgendaItem {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  startTime: string;
+  endTime: string;
+  organizer: string;
+  participants: number;
+  status: 'UPCOMING' | 'ONGOING' | 'COMPLETED' | 'CANCELLED';
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function AgendaSection() {
-	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date(2025, 6, 16)); // July 16, 2025
+	const [currentAgendaDate, setCurrentAgendaDate] = useState(new Date());
+	const [agenda, setAgenda] = useState<AgendaItem[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	const agendaMonthNames = [
 		'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
 		'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
 	];
+
+	useEffect(() => {
+		fetchAgenda();
+	}, [currentAgendaDate]);
+
+	const fetchAgenda = async () => {
+		setLoading(true);
+		try {
+			const currentMonth = currentAgendaDate.getMonth() + 1;
+			const currentYear = currentAgendaDate.getFullYear();
+			
+			// Fetch agenda for current month
+			const response = await fetch(`/api/agenda?page=1&limit=50&month=${currentMonth}&year=${currentYear}`);
+			const data = await response.json();
+
+			if (data.success) {
+				setAgenda(data.data.agenda);
+			} else {
+				console.error('Error fetching agenda:', data.error);
+				setAgenda([]);
+			}
+		} catch (error) {
+			console.error('Error fetching agenda:', error);
+			setAgenda([]);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const navigateAgendaMonth = (direction: 'prev' | 'next') => {
 		const newDate = new Date(currentAgendaDate);
@@ -29,141 +75,35 @@ export default function AgendaSection() {
 		];
 	};
 
+	// Get agenda events for current month
+	const getAgendaForMonth = () => {
+		return agenda.filter(item => {
+			const startDate = new Date(item.startDate);
+			return startDate.getMonth() === currentMonth && startDate.getFullYear() === currentYear;
+		});
+	};
 
-const agendaDates: { [key: string]: number[] } = {
-	"2025-07": [15, 16, 22, 25, 28],
-	"2025-08": [5, 12, 18, 24, 30],
-	"2025-06": [8, 15, 20, 27],
-	"2025-09": [3, 10, 17, 25]
-};
+	// Get days that have agenda
+	const getEventDates = () => {
+		return getAgendaForMonth().map(item => new Date(item.startDate).getDate());
+	};
 
-type AgendaEvent = { date: number; title: string; color: string; location?: string };
-const agendaEvents: { [key: string]: AgendaEvent[] } = {
-  "2025-07": [
-	{ 
-		date: 15, 
-		title: "Pelatihan Bank Sampah", 
-		color: "green", 
-		location: "DLH Kota Tasikmalaya" 
-	},
-	{ 
-		date: 16, 
-		title: "Cimahi Hepi Run 2025", 
-		color: "blue", 
-		location: "Lapangan Cimahi" 
-	},
-	{ 
-		date: 22, 
-		title: "Workshop Kompos", 
-		color: "green", 
-		location: "Kantor DLH" 
-	},
-	{ 
-		date: 25, 
-		title: "Sosialisasi AMDAL", 
-		color: "blue", 
-		location: "Aula DLH" 
-	},
-	{ 
-		date: 28, 
-		title: "Monitoring Air Sungai", 
-		color: "purple", 
-		location: "Sungai Ciwulan" 
-	}
-  ],
-  "2025-08": [
-	{ 
-		date: 5, 
-		title: "Pembersihan Pantai", 
-		color: "green", 
-		location: "Pantai Cipatujah" 
-	},
-	{ 
-		date: 12, 
-		title: "Seminar Energi Terbarukan", 
-		color: "blue", 
-		location: "Universitas Siliwangi" 
-	},
-	{ 
-		date: 18, 
-		title: "Penanaman Mangrove", 
-		color: "green", 
-		location: "Muara Cikalong" 
-	},
-	{ 
-		date: 24, 
-		title: "Workshop Daur Ulang", 
-		color: "purple", 
-		location: "DLH Kota Tasikmalaya" 
-	},
-	{ 
-		date: 30, 
-		title: "Monitoring Udara", 
-		color: "blue", 
-		location: "Kota Tasikmalaya" 
-	}
-  ],
-  "2025-06": [
-	{ 
-		date: 8, 
-		title: "Hari Lingkungan Hidup", 
-		color: "green", 
-		location: "Alun-alun Tasikmalaya" 
-	},
-	{ 
-		date: 15, 
-		title: "Sosialisasi UKL-UPL", 
-		color: "blue", 
-		location: "DLH Kota Tasikmalaya" 
-	},
-	{ 
-		date: 20, 
-		title: "Bersih-bersih Sungai", 
-		color: "green", 
-		location: "Sungai Citanduy" 
-	},
-	{ 
-		date: 27, 
-		title: "Edukasi Sampah Plastik", 
-		color: "purple", 
-		location: "Sekolah Dasar" 
-	}
-  ],
-  "2025-09": [
-	{ 
-		date: 3, 
-		title: "Kampanye Hemat Energi", 
-		color: "green", 
-		location: "Kantor DLH" 
-	},
-	{ 
-		date: 10, 
-		title: "Pameran Teknologi Hijau", 
-		color: "blue", 
-		location: "GOR Sukapura" 
-	},
-	{ 
-		date: 17, 
-		title: "Workshop Biogas", 
-		color: "purple", 
-		location: "DLH Kota Tasikmalaya" 
-	},
-	{ 
-		date: 25, 
-		title: "Gerakan Tanam Pohon", 
-		color: "green", 
-		location: "Hutan Kota" 
-	}
-  ]
-};
+	const getStatusColor = (status: string) => {
+		switch (status) {
+			case 'UPCOMING': return 'green';
+			case 'ONGOING': return 'blue';
+			case 'COMPLETED': return 'gray';
+			case 'CANCELLED': return 'red';
+			default: return 'gray';
+		}
+	};
 
-	const monthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, "0")}`;
-const days = generateDays();
-const eventDates: number[] = agendaDates[monthKey] || [];
-const events: AgendaEvent[] = agendaEvents[monthKey] || [];
+	const days = generateDays();
+	const eventDates = getEventDates();
+	const monthAgenda = getAgendaForMonth();
 
 	const isToday = (day: number) => {
-		const today = new Date(2025, 6, 16);
+		const today = new Date();
 		return today.getDate() === day && today.getMonth() === currentMonth && today.getFullYear() === currentYear;
 	};
 
@@ -189,7 +129,7 @@ const events: AgendaEvent[] = agendaEvents[monthKey] || [];
 							<button onClick={() => navigateAgendaMonth("prev")} className="text-green-600 bg-white rounded-l-md hover:scale-110 transition px-3 flex items-center justify-center">
 							<ChevronLeft size={20} />
 							</button>
-							<button onClick={() => setCurrentAgendaDate(new Date(2025, 6, 16))} className="text-green-600 bg-white hover:scale-110 transition px-3 font-semibold">
+							<button onClick={() => setCurrentAgendaDate(new Date())} className="text-green-600 bg-white hover:scale-110 transition px-3 font-semibold">
 							Hari Ini
 							</button>
 							<button onClick={() => navigateAgendaMonth("next")} className="text-green-600 bg-white rounded-r-md hover:scale-110 transition px-3 flex items-center justify-center">
@@ -230,25 +170,74 @@ const events: AgendaEvent[] = agendaEvents[monthKey] || [];
 						<h3 className="text-lg text-center font-bold text-white">Agenda {agendaMonthNames[currentMonth]} {currentYear}</h3>
 					</div>
 					<div className="p-6">
-						{events.length > 0 ? (
-							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-								{events.map((event: AgendaEvent, index: number) => (
-									<div key={index} className="flex items-start text-sm">
-										<div className={`w-2 h-2 rounded-full mr-2 ${
-											event.color === "green" ? "bg-green-600 mt-1" :
-											event.color === "blue" ? "bg-blue-600 mt-1" :
-											event.color === "purple" ? "bg-purple-600 mt-1" : "bg-gray-400"
-										}`}></div>
-										<div>
-											<p className={`font-medium ${event.color === "green" ? "text-green-600" : event.color === "blue" ? "text-blue-600" : event.color === "purple" ? "text-purple-600" : "text-gray-800"} dark:text-gray-200`}>{event.title}</p>
-											<p className="text-xs font-semibold mb-1 text-gray- dark:text-blue-400">{event.location}</p>
-											<p className="text-xs text-gray-500 dark:text-gray-300">Tanggal {event.date}</p>
+						{loading ? (
+							<div className="space-y-4">
+								{Array.from({ length: 4 }).map((_, index) => (
+									<div key={index} className="animate-pulse flex items-start">
+										<div className="w-2 h-2 rounded-full bg-gray-300 dark:bg-gray-600 mr-2 mt-1"></div>
+										<div className="flex-1">
+											<div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+											<div className="h-3 bg-gray-300 dark:bg-gray-600 rounded w-1/2"></div>
 										</div>
 									</div>
 								))}
 							</div>
+						) : monthAgenda.length > 0 ? (
+							<div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+								{monthAgenda.slice(0, 6).map((event) => {
+									const statusColor = getStatusColor(event.status);
+									const eventDate = new Date(event.startDate).getDate();
+									
+									return (
+										<div key={event.id} className="flex items-start text-sm group">
+											<div className={`w-2 h-2 rounded-full mr-2 ${
+												statusColor === "green" ? "bg-green-600 mt-1" :
+												statusColor === "blue" ? "bg-blue-600 mt-1" :
+												statusColor === "gray" ? "bg-gray-600 mt-1" : 
+												statusColor === "red" ? "bg-red-600 mt-1" : "bg-gray-400"
+											}`}></div>
+											<div className="flex-1">
+												<a 
+													href={`/informasi/agenda/${event.id}`}
+													className={`font-medium ${
+														statusColor === "green" ? "text-green-600" : 
+														statusColor === "blue" ? "text-blue-600" : 
+														statusColor === "gray" ? "text-gray-600" :
+														statusColor === "red" ? "text-red-600" : "text-gray-800"
+													} dark:text-gray-200 hover:underline`}
+												>
+													{event.title}
+												</a>
+												<p className="text-xs font-semibold mb-1 text-gray-600 dark:text-blue-400">
+													{event.location}
+												</p>
+												<p className="text-xs text-gray-500 dark:text-gray-300">
+													Tanggal {eventDate} • {event.startTime.slice(0, 5)} WIB
+												</p>
+											</div>
+										</div>
+									);
+								})}
+							</div>
 						) : (
-							<p className="text-sm text-gray-500 dark:text-gray-400">Tidak ada agenda bulan ini.</p>
+							<p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+								Tidak ada agenda bulan ini.
+							</p>
+						)}
+						
+						{/* Link ke halaman agenda lengkap */}
+						{monthAgenda.length > 0 && (
+							<div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center">
+								<a 
+									href="/informasi/agenda" 
+									className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium text-sm inline-flex items-center"
+								>
+									Lihat Semua Agenda
+									<svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+									</svg>
+								</a>
+							</div>
 						)}
 					</div>
 				</div>

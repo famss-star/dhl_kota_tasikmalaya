@@ -11,6 +11,38 @@
 				"$tsc"
 			],
 			"args": []
+		},
+		{
+			"label": "Run Database Seed",
+			"type": "shell",
+			"command": "npx tsx prisma/seed.ts",
+			"group": "build"
+		},
+		{
+			"label": "Dev: Run Next.js App",
+			"type": "shell",
+			"command": "npm run dev",
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Database Seed",
+			"type": "shell",
+			"command": "npx tsx prisma/seed.ts",
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Dev: Run Next.js App",
+			"type": "shell",
+			"command": "npm run dev",
+			"isBackground": true,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
 		}
 	]
 }

@@ -14,7 +14,7 @@ export default function Footer() {
         {/* Kolom 1: Logo & Info */}
         <div className="flex flex-col items-center md:items-start gap-3">
           <Image
-            src={logoSettings.logoFooter}
+            src={logoSettings.logoFooter || '/logo-white-footer.png'}
             alt={logoSettings.siteName}
             width={330}
             height={60}
@@ -23,7 +23,7 @@ export default function Footer() {
             onError={(e) => {
               // Fallback ke logo default jika gagal load
               const target = e.target as HTMLImageElement;
-              target.src = 'https://www.dlh.tasikmalayakota.go.id/images/logo-white-footer.png';
+              target.src = '/logo-white-footer.png';
             }}
           />
           {/* <div className="font-bold text-lg">{logoSettings.siteName}</div> */}

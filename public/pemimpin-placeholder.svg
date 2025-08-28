@@ -1,0 +1,12 @@
+<!-- Placeholder SVG untuk foto pimpinan -->
+<svg width="300" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f3f4f6"/>
+  <circle cx="150" cy="120" r="40" fill="#9ca3af"/>
+  <path d="M120 200 Q150 180 180 200 L180 250 Q150 270 120 250 Z" fill="#9ca3af"/>
+  <text x="150" y="300" text-anchor="middle" fill="#6b7280" font-family="Arial" font-size="14">
+    Foto Pimpinan
+  </text>
+  <text x="150" y="320" text-anchor="middle" fill="#6b7280" font-family="Arial" font-size="12">
+    Akan diupdate
+  </text>
+</svg>
