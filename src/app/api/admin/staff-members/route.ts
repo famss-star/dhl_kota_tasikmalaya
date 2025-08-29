@@ -142,11 +142,14 @@ export async function POST(request: NextRequest) {
       name, 
       position, 
       photo, 
-      type, 
+      type,
+      greeting,
       employmentStatus, 
       education, 
       rank, 
-      birthDate 
+      birthDate,
+      isActive,
+      isPublished
     } = data;
 
     // Define quota limits for each type
@@ -182,10 +185,13 @@ export async function POST(request: NextRequest) {
         position,
         photo,
         type,
+        greeting,
         employmentStatus,
         education,
         rank,
-        birthDate: birthDate ? new Date(birthDate) : null
+        birthDate: birthDate ? new Date(birthDate) : null,
+        isActive: isActive !== undefined ? isActive : true,
+        isPublished: isPublished !== undefined ? isPublished : false
       }
     });
 

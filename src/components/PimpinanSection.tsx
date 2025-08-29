@@ -1,9 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { useLeaderData } from "@/hooks/useLeaderData";
+
+interface StaffMember {
+  id: string;
+  name: string;
+  position: string;
+  type: 'KEPALA_DINAS' | 'WAKIL' | 'SEKRETARIS' | 'KABID' | 'STAFF';
+  greeting?: string;
+  photo?: string;
+  employmentStatus: 'PNS' | 'PPPK' | 'HONORER';
+  education: 'SMP' | 'SMA_SMK' | 'DIPLOMA' | 'S1' | 'S2' | 'S3';
+  rank?: string;
+  birthDate?: string;
+  isActive: boolean;
+  isPublished: boolean;
+}
 
 export default function PimpinanSection() {
-  const { leader, loading, error } = useLeaderData();
+  const [leader, setLeader] = useState<StaffMember | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchLeader = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('/api/admin/staff-members');
+        
+        if (response.ok) {
+          const staffMembers = await response.json();
+          // Find the KEPALA_DINAS staff member who is active and published
+          const kepalaDinas = staffMembers.find((staff: StaffMember) => 
+            staff.type === 'KEPALA_DINAS' && staff.isActive && staff.isPublished
+          );
+          setLeader(kepalaDinas || null);
+        } else {
+          setError('Failed to fetch leader data');
+        }
+      } catch (err) {
+        console.error('Error fetching leader:', err);
+        setError('Failed to fetch leader data');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchLeader();
+  }, []);
 
   if (loading) {
     return (

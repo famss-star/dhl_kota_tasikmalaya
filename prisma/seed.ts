@@ -129,15 +129,18 @@ async function main() {
     })
   }
 
-  // 6. Create leader profile
-  console.log('👑 Creating leader profile...')
-  await prisma.leader.upsert({
+  // 6. Create leader as staff member
+  console.log('👑 Creating leader as staff member...')
+  await prisma.staffMember.upsert({
     where: { id: 'default-leader' },
     update: {},
     create: {
       id: 'default-leader',
       name: 'Dr. H. Ahmad Suherman, M.Si',
       position: 'Kepala Dinas Lingkungan Hidup Kota Tasikmalaya',
+      type: 'KEPALA_DINAS',
+      employmentStatus: 'PNS',
+      education: 'S2',
       greeting: 'Selamat datang di portal resmi Dinas Lingkungan Hidup Kota Tasikmalaya. Kami berkomitmen untuk menjaga kelestarian lingkungan hidup demi masa depan yang berkelanjutan bagi generasi mendatang.',
       photo: '/pemimpin-placeholder.svg',
       isActive: true,
@@ -435,7 +438,7 @@ async function main() {
   console.log(`📝 Articles: ${articles.length} created`)
   console.log(`📰 News: ${news.length} created`)
   console.log(`⚙️ Settings: ${settings.length} created`)
-  console.log(`👑 Leader profile created`)
+  console.log(`👑 Leader staff member created`)
   console.log(`🏢 Bidang: ${bidangData.length} created`)
   console.log(`� Sample staff: ${sampleStaff.length} created`)
   console.log(`�📊 Employee statistics: ${employeeStats.length} created`)

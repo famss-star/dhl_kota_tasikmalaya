@@ -227,7 +227,7 @@ export default function AgendaSection() {
 						
 						{/* Link ke halaman agenda lengkap */}
 						{monthAgenda.length > 0 && (
-							<div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center">
+							<div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center items-end">
 								<a 
 									href="/informasi/agenda" 
 									className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium text-sm inline-flex items-center"

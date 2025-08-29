@@ -519,10 +519,10 @@ export default function AdminPage() {
                 <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola profil organisasi</span>
               </Link>
 
-              <Link href="/admin/pimpinan" className="group bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-blue-200 dark:border-blue-700 hover:scale-105">
+              <Link href="/admin/sdm-organisasi/staff" className="group bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-blue-200 dark:border-blue-700 hover:scale-105">
                 <Users className="w-10 h-10 text-blue-600 dark:text-blue-400 mb-3 group-hover:scale-110 transition" />
-                <span className="font-semibold text-gray-800 dark:text-white mb-2">Profil Pimpinan</span>
-                <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola profil pimpinan</span>
+                <span className="font-semibold text-gray-800 dark:text-white mb-2">Staff & Pimpinan</span>
+                <span className="text-gray-600 dark:text-gray-300 text-sm text-center">Kelola staff dan pimpinan</span>
               </Link>
 
               <Link href="/admin/pengaturan" className="group bg-gradient-to-br from-green-50 to-teal-50 dark:from-green-900/30 dark:to-teal-900/30 rounded-lg p-6 flex flex-col items-center shadow hover:shadow-lg transition border border-green-200 dark:border-green-700 hover:scale-105 ring-2 ring-green-300 dark:ring-green-600">

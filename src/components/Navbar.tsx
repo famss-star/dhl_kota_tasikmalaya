@@ -107,7 +107,7 @@ export default function Navbar() {
 		{ name: t('navbar.wwtp_sop'), href: "/dokumen/sop-ipal" },
 		{ name: t('navbar.emission_sop'), href: "/dokumen/sop-emisi" },
 		{ name: t('navbar.gallery'), href: "/galeri" },
-		{ name: t('navbar.photo_gallery'), href: "/galeri/foto" },
+		{ name: t('navbar.photo_gallery'), href: "/galeri/public" },
 		{ name: t('navbar.video_gallery'), href: "/galeri/video" },
 		{ name: t('navbar.file_downloads'), href: "/file-download" }
 	  ],

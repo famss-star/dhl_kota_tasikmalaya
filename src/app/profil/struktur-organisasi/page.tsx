@@ -11,34 +11,29 @@ interface StaffMember {
   position: string;
   photo?: string;
   type: 'KEPALA_DINAS' | 'WAKIL' | 'SEKRETARIS' | 'KABID' | 'STAFF';
-  employmentStatus: 'PNS' | 'PPPK' | 'HONORER';
-  education: 'SMP' | 'SMA_SMK' | 'DIPLOMA' | 'S1' | 'S2' | 'S3';
-  rank?: string;
-  birthDate?: string;
   isActive: boolean;
   isPublished: boolean;
-  createdAt: string;
-  updatedAt: string;
-  careerHistory?: CareerHistory[];
 }
 
-interface CareerHistory {
+
+interface Bidang {
   id: string;
-  position: string;
-  institution: string;
-  startDate: string;
-  endDate?: string;
-  description?: string;
+  slug: string;
+  name: string;
+  aboutDescription: string;
   isActive: boolean;
-  isPublished: boolean;
 }
 
 const StrukturOrganisasi: React.FC = () => {
   const [staffMembers, setStaffMembers] = useState<StaffMember[]>([]);
+  const [bidangList, setBidangList] = useState<Bidang[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStaffMembers();
+    Promise.all([
+      fetchStaffMembers(),
+      fetchBidangData()
+    ]).finally(() => setLoading(false));
   }, []);
 
   async function fetchStaffMembers() {
@@ -54,8 +49,24 @@ const StrukturOrganisasi: React.FC = () => {
       }
     } catch (error) {
       console.error('Error fetching staff members:', error);
-    } finally {
-      setLoading(false);
+    }
+  }
+
+  async function fetchBidangData() {
+    try {
+      const response = await fetch('/api/bidang');
+      if (response.ok) {
+        const result = await response.json();
+        // API returns { success: true, data: bidang[] }
+        if (result.success && Array.isArray(result.data)) {
+          setBidangList(result.data);
+        } else {
+          setBidangList([]);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching bidang data:', error);
+      setBidangList([]);
     }
   }
 
@@ -354,45 +365,56 @@ const StrukturOrganisasi: React.FC = () => {
             </section>
           )}
 
-          {/* Deskripsi Tugas */}
-          <section className="mb-12">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
-              <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
-                Deskripsi Tugas Masing-Masing Bidang
-              </h2>
-              
-              <div className="grid md:grid-cols-1 gap-8">
-                <div className="space-y-6">
-                  <div className="border-l-4 border-green-500 pl-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Trees size={22} className="text-green-600" />
-                      <h3 className="text-xl font-semibold text-green-600">Bidang Tata Lingkungan</h3>
-                    </div>
-                    <p className="text-gray-700 dark:text-gray-300">Melaksanakan penyusunan baku mutu lingkungan hidup, analisis mengenai dampak lingkungan, dan tata ruang berbasis lingkungan hidup.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-red-500 pl-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Factory size={22} className="text-red-500" />
-                      <h3 className="text-xl font-semibold text-red-600">Bidang Pengendalian Pencemaran</h3>
-                    </div>
-                    <p className="text-gray-700 dark:text-gray-300">Melaksanakan pencegahan dan penanggulangan pencemaran air, udara, tanah, serta pengelolaan bahan berbahaya dan beracun (B3).</p>
-                  </div>
-                </div>
+          {/* Deskripsi Tugas - Only show if bidang data exists */}
+          {bidangList.length > 0 && (
+            <section className="mb-12">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
+                  Deskripsi Tugas Masing-Masing Bidang
+                </h2>
                 
-                <div className="space-y-6">
-                  <div className="border-l-4 border-teal-500 pl-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Trash2 size={22} className="text-teal-600" />
-                      <h3 className="text-xl font-semibold text-teal-600">Bidang Pengelolaan Sampah</h3>
-                    </div>
-                    <p className="text-gray-700 dark:text-gray-300">Melaksanakan pengurangan dan penanganan sampah, termasuk pengembangan teknologi ramah lingkungan dan pemberdayaan masyarakat.</p>
-                  </div>
+                <div className="grid md:grid-cols-1 gap-8">
+                  <div className="space-y-6">
+                    {bidangList.map((bidang, index) => {
+                      // Icon mapping based on bidang name or slug
+                      const getIconAndColor = (name: string, slug: string) => {
+                        const lowerName = name.toLowerCase();
+                        const lowerSlug = slug.toLowerCase();
+                        
+                        if (lowerName.includes('tata') || lowerSlug.includes('tata')) {
+                          return { icon: Trees, color: 'green-500' };
+                        } else if (lowerName.includes('pencemaran') || lowerSlug.includes('pencemaran')) {
+                          return { icon: Factory, color: 'red-500' };
+                        } else if (lowerName.includes('sampah') || lowerSlug.includes('sampah')) {
+                          return { icon: Trash2, color: 'teal-500' };
+                        } else {
+                          // Default colors for additional bidang
+                          const colors = ['blue-500', 'purple-500', 'orange-500', 'indigo-500'];
+                          return { icon: Building2, color: colors[index % colors.length] };
+                        }
+                      };
 
+                      const { icon: IconComponent, color } = getIconAndColor(bidang.name, bidang.slug);
+                      
+                      return (
+                        <div key={bidang.id} className={`border-l-4 border-${color} pl-4`}>
+                          <div className="flex items-center gap-2 mb-2">
+                            <IconComponent size={22} className={`text-${color.replace('500', '600')}`} />
+                            <h3 className={`text-xl font-semibold text-${color.replace('500', '600')}`}>
+                              {bidang.name}
+                            </h3>
+                          </div>
+                          <p className="text-gray-700 dark:text-gray-300">
+                            {bidang.aboutDescription}
+                          </p>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           {/* Back to Profile */}
           <section>

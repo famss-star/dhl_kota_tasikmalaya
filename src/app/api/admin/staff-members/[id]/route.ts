@@ -156,10 +156,13 @@ export async function PUT(
       position, 
       photo, 
       type, 
+      greeting,
       employmentStatus, 
       education, 
       rank, 
-      birthDate 
+      birthDate,
+      isActive,
+      isPublished
     } = data;
 
     // Get current staff member to check if type is changing
@@ -211,10 +214,13 @@ export async function PUT(
         position,
         photo,
         type,
+        greeting,
         employmentStatus,
         education,
         rank,
-        birthDate: birthDate ? new Date(birthDate) : null
+        birthDate: birthDate ? new Date(birthDate) : null,
+        isActive: isActive !== undefined ? isActive : true,
+        isPublished: isPublished !== undefined ? isPublished : false
       }
     });
 

@@ -42,11 +42,11 @@ export default function PhotoDetailPage() {
         setPhoto(result.data);
       } else {
         console.error('Error fetching photo:', result.error);
-        router.push('/galeri/foto');
+        router.push('/galeri/public');
       }
     } catch (error) {
       console.error("Error fetching photo:", error);
-      router.push('/galeri/foto');
+      router.push('/galeri/public');
     } finally {
       setIsLoading(false);
     }
@@ -118,7 +118,7 @@ export default function PhotoDetailPage() {
             Foto yang Anda cari tidak dapat ditemukan.
           </p>
           <button
-            onClick={() => router.push('/galeri/foto')}
+            onClick={() => router.push('/galeri/public')}
             className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"
           >
             Kembali ke Galeri
@@ -283,7 +283,7 @@ export default function PhotoDetailPage() {
                 
                 <div className="space-y-3">
                   <button
-                    onClick={() => router.push('/galeri/foto')}
+                    onClick={() => router.push('/galeri/public')}
                     className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition"
                   >
                     Kembali ke Galeri Foto

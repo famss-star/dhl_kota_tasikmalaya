@@ -309,7 +309,7 @@ export default function VideoDetailPage() {
                   </button>
                   
                   <button
-                    onClick={() => router.push('/galeri/foto')}
+                    onClick={() => router.push('/galeri/public')}
                     className="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition"
                   >
                     Lihat Galeri Foto

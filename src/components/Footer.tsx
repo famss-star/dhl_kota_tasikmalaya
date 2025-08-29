@@ -98,7 +98,7 @@ export default function Footer() {
           <Link href="/" className="hover:underline hover:text-green-300">Home</Link>
           <Link href="/informasi/berita" className="hover:underline hover:text-green-300">Berita & Event</Link>
           <Link href="/informasi/agenda" className="hover:underline hover:text-green-300">Agenda Penting</Link>
-          <Link href="/galeri/foto" className="hover:underline hover:text-green-300">Galeri Photo</Link>
+          <Link href="/galeri/public" className="hover:underline hover:text-green-300">Galeri Photo</Link>
           <Link href="/galeri/video" className="hover:underline hover:text-green-300">Galeri Video</Link>
           <a href="/file-download" className="hover:underline hover:text-green-300">File Download</a>
         </div>

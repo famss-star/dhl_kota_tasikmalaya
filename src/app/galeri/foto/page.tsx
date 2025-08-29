@@ -110,7 +110,7 @@ const PhotoGalleryPage = () => {
                         })}
                       </div>
                       <a
-                        href={`/galeri/foto/${photo.id}`}
+                        href={`/galeri/public/${photo.id}`}
                         className="text-xs bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded-full transition"
                         onClick={(e) => e.stopPropagation()}
                       >

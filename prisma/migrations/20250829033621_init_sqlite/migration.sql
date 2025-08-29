@@ -213,6 +213,128 @@ CREATE TABLE "leaders" (
     "updatedAt" DATETIME NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "staff_members" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "position" TEXT NOT NULL,
+    "photo" TEXT,
+    "type" TEXT NOT NULL,
+    "employmentStatus" TEXT NOT NULL,
+    "education" TEXT NOT NULL,
+    "rank" TEXT,
+    "birthDate" DATETIME,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "isPublished" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "career_history" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "position" TEXT NOT NULL,
+    "institution" TEXT NOT NULL,
+    "startDate" DATETIME NOT NULL,
+    "endDate" DATETIME,
+    "description" TEXT,
+    "isActive" BOOLEAN NOT NULL DEFAULT false,
+    "isPublished" BOOLEAN NOT NULL DEFAULT false,
+    "leaderId" TEXT,
+    "staffMemberId" TEXT,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "career_history_leaderId_fkey" FOREIGN KEY ("leaderId") REFERENCES "leaders" ("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT "career_history_staffMemberId_fkey" FOREIGN KEY ("staffMemberId") REFERENCES "staff_members" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- CreateTable
+CREATE TABLE "carousel_items" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "subtitle" TEXT,
+    "description" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL,
+    "linkUrl" TEXT,
+    "linkText" TEXT,
+    "order" INTEGER NOT NULL DEFAULT 1,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "homepage_settings" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "key" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "type" TEXT NOT NULL DEFAULT 'text',
+    "category" TEXT NOT NULL DEFAULT 'general',
+    "description" TEXT,
+    "order" INTEGER NOT NULL DEFAULT 1,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "layanan_cards" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "icon" TEXT NOT NULL,
+    "linkUrl" TEXT NOT NULL,
+    "category" TEXT NOT NULL DEFAULT 'perizinan',
+    "color" TEXT NOT NULL DEFAULT 'green',
+    "order" INTEGER NOT NULL DEFAULT 1,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "contact_settings" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "type" TEXT NOT NULL,
+    "label" TEXT NOT NULL,
+    "value" TEXT NOT NULL,
+    "icon" TEXT,
+    "url" TEXT,
+    "order" INTEGER NOT NULL DEFAULT 1,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "bidang" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "slug" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "aboutTitle" TEXT NOT NULL,
+    "aboutDescription" TEXT NOT NULL,
+    "tugasPokokTitle" TEXT NOT NULL,
+    "tugasPokok" TEXT NOT NULL,
+    "fungsiTitle" TEXT NOT NULL,
+    "fungsi" TEXT NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
+-- CreateTable
+CREATE TABLE "employee_statistics" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "category" TEXT NOT NULL,
+    "subcategory" TEXT NOT NULL,
+    "count" INTEGER NOT NULL,
+    "description" TEXT,
+    "order" INTEGER NOT NULL DEFAULT 0,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
@@ -233,3 +355,12 @@ CREATE UNIQUE INDEX "permit_applications_applicationNo_key" ON "permit_applicati
 
 -- CreateIndex
 CREATE UNIQUE INDEX "site_settings_key_key" ON "site_settings"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "homepage_settings_key_key" ON "homepage_settings"("key");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "bidang_slug_key" ON "bidang"("slug");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "employee_statistics_category_subcategory_key" ON "employee_statistics"("category", "subcategory");

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,51 +7,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// User Management
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      UserRole @default(USER)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // Relations
-  articles  Article[]
-  news      News[]
+  id         String      @id @default(cuid())
+  email      String      @unique
+  name       String?
+  password   String
+  role       UserRole    @default(USER)
+  isActive   Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  articles   Article[]
   complaints Complaint[]
-  
+  news       News[]
+
   @@map("users")
 }
 
-enum UserRole {
-  ADMIN
-  USER
-  OPERATOR
-}
-
-// Content Management
 model Article {
-  id          String   @id @default(cuid())
+  id          String           @id @default(cuid())
   title       String
-  slug        String   @unique
+  slug        String           @unique
   content     String
   excerpt     String?
   thumbnail   String?
   tags        String?
-  isPublished Boolean  @default(false)
+  isPublished Boolean          @default(false)
   publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relations
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   authorId    String
-  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
   categoryId  String?
   category    ArticleCategory? @relation(fields: [categoryId], references: [id])
-  
+  author      User             @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
   @@map("articles")
 }
 
@@ -65,49 +50,321 @@ model ArticleCategory {
   description String?
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  
-  // Relations
   articles    Article[]
-  
+
   @@map("article_categories")
 }
 
 model News {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   title       String
-  slug        String   @unique
+  slug        String    @unique
   content     String
   excerpt     String?
   thumbnail   String?
   tags        String?
-  isPublished Boolean  @default(false)
+  isPublished Boolean   @default(false)
   publishedAt DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  // Relations
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   authorId    String
-  author      User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
   @@map("news")
 }
 
-// Document Management
 model Document {
-  id          String      @id @default(cuid())
+  id            String           @id @default(cuid())
+  title         String
+  description   String?
+  filename      String
+  filepath      String
+  filesize      Int
+  mimetype      String
+  category      DocumentCategory
+  isPublic      Boolean          @default(true)
+  downloadCount Int              @default(0)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@map("documents")
+}
+
+model PermitApplication {
+  id             String             @id @default(cuid())
+  applicationNo  String             @unique
+  applicantName  String
+  applicantEmail String
+  applicantPhone String
+  companyName    String?
+  permitType     PermitType
+  description    String
+  status         ApplicationStatus  @default(PENDING)
+  submittedAt    DateTime           @default(now())
+  processedAt    DateTime?
+  completedAt    DateTime?
+  notes          String?
+  attachments    PermitAttachment[]
+
+  @@map("permit_applications")
+}
+
+model PermitAttachment {
+  id            String            @id @default(cuid())
+  filename      String
+  filepath      String
+  filesize      Int
+  mimetype      String
+  uploadedAt    DateTime          @default(now())
+  applicationId String
+  application   PermitApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@map("permit_attachments")
+}
+
+model Complaint {
+  id               String                @id @default(cuid())
+  complainantName  String
+  complainantEmail String
+  complainantPhone String?
+  subject          String
+  description      String
+  location         String?
+  status           ComplaintStatus       @default(OPEN)
+  priority         Priority              @default(MEDIUM)
+  submittedAt      DateTime              @default(now())
+  responseAt       DateTime?
+  resolvedAt       DateTime?
+  response         String?
+  assignedToId     String?
+  attachments      ComplaintAttachment[]
+  assignedTo       User?                 @relation(fields: [assignedToId], references: [id])
+
+  @@map("complaints")
+}
+
+model ComplaintAttachment {
+  id          String    @id @default(cuid())
+  filename    String
+  filepath    String
+  filesize    Int
+  mimetype    String
+  uploadedAt  DateTime  @default(now())
+  complaintId String
+  complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+
+  @@map("complaint_attachments")
+}
+
+model GalleryPhoto {
+  id          String   @id @default(cuid())
   title       String
   description String?
   filename    String
   filepath    String
   filesize    Int
-  mimetype    String
-  category    DocumentCategory
-  isPublic    Boolean     @default(true)
-  downloadCount Int       @default(0)
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("gallery_photos")
+}
+
+model GalleryVideo {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  videoUrl    String
+  thumbnail   String?
+  duration    Int?
+  isPublished Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("gallery_videos")
+}
+
+model Event {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  location    String?
+  isPublic    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("events")
+}
+
+model Agenda {
+  id           Int          @id @default(autoincrement())
+  title        String
+  description  String
+  location     String
+  startDate    DateTime
+  endDate      DateTime
+  startTime    String
+  endTime      String?
+  organizer    String
+  participants Int          @default(0)
+  tags         String?
+  status       AgendaStatus @default(UPCOMING)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("agendas")
+}
+
+model SiteSetting {
+  id          String      @id @default(cuid())
+  key         String      @unique
+  value       String
+  type        SettingType @default(STRING)
+  label       String
+  description String?
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  
-  @@map("documents")
+
+  @@map("site_settings")
+}
+
+model StaffMember {
+  id               String           @id @default(cuid())
+  name             String
+  position         String
+  photo            String?
+  type             StaffType
+  employmentStatus EmploymentStatus
+  education        EducationLevel
+  rank             String?
+  birthDate        DateTime?
+  isActive         Boolean          @default(true)
+  isPublished      Boolean          @default(true)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+  greeting         String?
+  careerHistory    CareerHistory[]
+
+  @@map("staff_members")
+}
+
+model CareerHistory {
+  id            String       @id @default(cuid())
+  position      String
+  institution   String
+  startDate     DateTime
+  endDate       DateTime?
+  description   String?
+  isActive      Boolean      @default(false)
+  isPublished   Boolean      @default(false)
+  staffMemberId String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  staffMember   StaffMember? @relation(fields: [staffMemberId], references: [id], onDelete: Cascade)
+
+  @@map("career_history")
+}
+
+model CarouselItem {
+  id          String   @id @default(cuid())
+  title       String
+  subtitle    String?
+  description String
+  imageUrl    String
+  linkUrl     String?
+  linkText    String?
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("carousel_items")
+}
+
+model HomepageSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  type        String   @default("text")
+  category    String   @default("general")
+  description String?
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("homepage_settings")
+}
+
+model LayananCard {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String
+  linkUrl     String
+  category    String   @default("perizinan")
+  color       String   @default("green")
+  order       Int      @default(1)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("layanan_cards")
+}
+
+model ContactSetting {
+  id        String   @id @default(cuid())
+  type      String
+  label     String
+  value     String
+  icon      String?
+  url       String?
+  order     Int      @default(1)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_settings")
+}
+
+model Bidang {
+  id               String   @id @default(cuid())
+  slug             String   @unique
+  name             String
+  aboutTitle       String
+  aboutDescription String
+  tugasPokokTitle  String
+  tugasPokok       String
+  fungsiTitle      String
+  fungsi           String
+  isActive         Boolean  @default(true)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@map("bidang")
+}
+
+model EmployeeStatistic {
+  id          String   @id @default(cuid())
+  category    String
+  subcategory String
+  count       Int
+  description String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([category, subcategory])
+  @@map("employee_statistics")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  OPERATOR
 }
 
 enum DocumentCategory {
@@ -116,28 +373,6 @@ enum DocumentCategory {
   FORM
   REPORT
   OTHER
-}
-
-// Service Management (Perizinan)
-model PermitApplication {
-  id              String            @id @default(cuid())
-  applicationNo   String            @unique
-  applicantName   String
-  applicantEmail  String
-  applicantPhone  String
-  companyName     String?
-  permitType      PermitType
-  description     String
-  status          ApplicationStatus @default(PENDING)
-  submittedAt     DateTime          @default(now())
-  processedAt     DateTime?
-  completedAt     DateTime?
-  notes           String?
-  
-  // File attachments
-  attachments     PermitAttachment[]
-  
-  @@map("permit_applications")
 }
 
 enum PermitType {
@@ -156,45 +391,6 @@ enum ApplicationStatus {
   COMPLETED
 }
 
-model PermitAttachment {
-  id            String           @id @default(cuid())
-  filename      String
-  filepath      String
-  filesize      Int
-  mimetype      String
-  uploadedAt    DateTime         @default(now())
-  
-  // Relations
-  applicationId String
-  application   PermitApplication @relation(fields: [applicationId], references: [id], onDelete: Cascade)
-  
-  @@map("permit_attachments")
-}
-
-// Complaint Management
-model Complaint {
-  id            String          @id @default(cuid())
-  complainantName String
-  complainantEmail String
-  complainantPhone String?
-  subject       String
-  description   String
-  location      String?
-  status        ComplaintStatus @default(OPEN)
-  priority      Priority        @default(MEDIUM)
-  submittedAt   DateTime        @default(now())
-  responseAt    DateTime?
-  resolvedAt    DateTime?
-  response      String?
-  
-  // Relations
-  assignedToId  String?
-  assignedTo    User?           @relation(fields: [assignedToId], references: [id])
-  attachments   ComplaintAttachment[]
-  
-  @@map("complaints")
-}
-
 enum ComplaintStatus {
   OPEN
   IN_PROGRESS
@@ -209,104 +405,11 @@ enum Priority {
   URGENT
 }
 
-model ComplaintAttachment {
-  id          String    @id @default(cuid())
-  filename    String
-  filepath    String
-  filesize    Int
-  mimetype    String
-  uploadedAt  DateTime  @default(now())
-  
-  // Relations
-  complaintId String
-  complaint   Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
-  
-  @@map("complaint_attachments")
-}
-
-// Gallery Management
-model GalleryPhoto {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  filename    String
-  filepath    String
-  filesize    Int
-  isPublished Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  @@map("gallery_photos")
-}
-
-model GalleryVideo {
-  id          String   @id @default(cuid())
-  title       String
-  description String?
-  videoUrl    String
-  thumbnail   String?
-  duration    Int?     // in seconds
-  isPublished Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
-  @@map("gallery_videos")
-}
-
-// Event/Agenda Management
-model Event {
-  id          String    @id @default(cuid())
-  title       String
-  description String?
-  startDate   DateTime
-  endDate     DateTime?
-  location    String?
-  isPublic    Boolean   @default(true)
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  
-  @@map("events")
-}
-
-// Detailed Agenda Management
-model Agenda {
-  id           Int         @id @default(autoincrement())
-  title        String
-  description  String
-  location     String
-  startDate    DateTime
-  endDate      DateTime
-  startTime    String
-  endTime      String?
-  organizer    String
-  participants Int         @default(0)
-  tags         String?
-  status       AgendaStatus @default(UPCOMING)
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  
-  @@map("agendas")
-}
-
 enum AgendaStatus {
   UPCOMING
-  ONGOING  
+  ONGOING
   COMPLETED
   CANCELLED
-}
-
-// Settings/Configuration
-model SiteSetting {
-  id        String      @id @default(cuid())
-  key       String      @unique
-  value     String
-  type      SettingType @default(STRING)
-  label     String
-  description String?
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-
-  @@map("site_settings")
 }
 
 enum SettingType {
@@ -314,48 +417,6 @@ enum SettingType {
   NUMBER
   BOOLEAN
   JSON
-}
-
-// Head of Department/Leader
-model Leader {
-  id          String   @id @default(cuid())
-  name        String
-  position    String
-  greeting    String   // sambutan kepala dinas
-  photo       String?  // URL foto kepala dinas
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  careerHistory CareerHistory[]
-
-  @@map("leaders")
-}
-
-// Staff Members Model
-model StaffMember {
-  id               String             @id @default(cuid())
-  name             String
-  position         String
-  photo            String?
-  type             StaffType          // wakil, sekretaris, kabid
-  
-  // Data Kepegawaian untuk Statistik
-  employmentStatus EmploymentStatus   // PNS, PPPK, Honorer
-  education        EducationLevel     // SMP, SMA/SMK, Diploma, S1, S2
-  rank             String?            // IV/e, IV/d, IV/c, IV/b, IV/a, III/d, III/c, III/b, III/a, II/c, II/b, II/a
-  birthDate        DateTime?          // untuk menghitung usia
-  
-  isActive         Boolean            @default(true)
-  isPublished      Boolean            @default(true) // Status publikasi untuk halaman publik
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-
-  // Relations
-  careerHistory CareerHistory[]
-
-  @@map("staff_members")
 }
 
 enum StaffType {
@@ -379,127 +440,4 @@ enum EducationLevel {
   S1
   S2
   S3
-}
-
-// Career History Model
-model CareerHistory {
-  id          String    @id @default(cuid())
-  position    String    // nama jabatan
-  institution String    // instansi/tempat kerja
-  startDate   DateTime  // tanggal mulai
-  endDate     DateTime? // tanggal selesai (null jika masih aktif)
-  description String?   // deskripsi tugas/pencapaian
-  isActive    Boolean   @default(false) // apakah jabatan saat ini
-  isPublished Boolean   @default(false) // status publikasi
-  
-  // Relations - Either Leader or Staff Member
-  leaderId      String?
-  leader        Leader?      @relation(fields: [leaderId], references: [id], onDelete: Cascade)
-  staffMemberId String?
-  staffMember   StaffMember? @relation(fields: [staffMemberId], references: [id], onDelete: Cascade)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("career_history")
-}
-
-// Carousel Management
-model CarouselItem {
-  id          String   @id @default(cuid())
-  title       String
-  subtitle    String?
-  description String
-  imageUrl    String
-  linkUrl     String?
-  linkText    String?
-  order       Int      @default(1)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("carousel_items")
-}
-
-// Homepage Settings
-model HomepageSetting {
-  id          String   @id @default(cuid())
-  key         String   @unique
-  value       String
-  type        String   @default("text") // text, number, boolean, json
-  category    String   @default("general") // general, ikm, social_media, layanan
-  description String?
-  order       Int      @default(1)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("homepage_settings")
-}
-
-// Layanan Cards Management
-model LayananCard {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  icon        String   // nama icon dari lucide-react
-  linkUrl     String
-  category    String   @default("perizinan") // perizinan, edukasi, layanan
-  color       String   @default("green") // green, blue, yellow, red
-  order       Int      @default(1)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("layanan_cards")
-}
-
-// Contact & Footer Settings
-model ContactSetting {
-  id          String   @id @default(cuid())
-  type        String   // phone, email, address, social, logo_header, logo_footer
-  label       String
-  value       String   // konten utama (nomor, email, alamat, logo url)
-  icon        String?  // nama icon untuk social media
-  url         String?  // link url untuk social media
-  order       Int      @default(1)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("contact_settings")
-}
-
-// Bidang/Department Management
-model Bidang {
-  id                String   @id @default(cuid())
-  slug             String   @unique
-  name             String
-  aboutTitle       String
-  aboutDescription String
-  tugasPokokTitle  String
-  tugasPokok       String   // JSON array as string
-  fungsiTitle      String
-  fungsi           String   // JSON array as string
-  isActive         Boolean  @default(true)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-
-  @@map("bidang")
-}
-
-// Employee Statistics Model  
-model EmployeeStatistic {
-  id          String   @id @default(cuid())
-  category    String   // e.g., "status", "education", "rank", "age"
-  subcategory String   // e.g., "PNS", "PPPK", "S1", "IV/a", etc.
-  count       Int
-  description String?
-  order       Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@unique([category, subcategory])
-  @@map("employee_statistics")
 }

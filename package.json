@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --names \"📊DB,⚡APP\" --prefix-colors \"cyan,green\" \"npx prisma dev\" \"next dev -H 0.0.0.0\"",
+    "dev": "next dev -H 0.0.0.0",
+    "dev:sqlite": "next dev -H 0.0.0.0",
+    "dev:neon": "next dev -H 0.0.0.0",
+    "dev:local": "concurrently --names \"📊DB,⚡APP\" --prefix-colors \"cyan,green\" \"npx prisma dev\" \"next dev -H 0.0.0.0\"",
     "dev:app": "next dev -H 0.0.0.0",
-    "dev:db": "npx prisma dev",
-    "dev:studio": "concurrently --names \"📊DB,🎨STUDIO\" --prefix-colors \"cyan,magenta\" \"npx prisma dev\" \"npx prisma studio\"",
-    "dev:full": "concurrently --names \"📊DB,⚡APP,🎨STUDIO\" --prefix-colors \"cyan,green,magenta\" \"npx prisma dev\" \"next dev -H 0.0.0.0\" \"npx prisma studio\"",
+    "dev:studio": "concurrently --names \"⚡APP,🎨STUDIO\" --prefix-colors \"green,magenta\" \"next dev -H 0.0.0.0\" \"npx prisma studio\"",
+    "dev:full": "concurrently --names \"⚡APP,🎨STUDIO\" --prefix-colors \"green,magenta\" \"next dev -H 0.0.0.0\" \"npx prisma studio\"",
     "build": "prisma generate && next build",
     "postinstall": "prisma generate",
     "start": "next start",
@@ -18,7 +20,7 @@
     "db:reset": "prisma migrate reset --force"
   },
   "dependencies": {
-    "@prisma/client": "^6.13.0",
+    "@prisma/client": "^6.15.0",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "@types/bcryptjs": "^2.4.6",

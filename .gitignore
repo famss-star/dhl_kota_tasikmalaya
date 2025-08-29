@@ -44,6 +44,8 @@ next-env.d.ts
 .github/copilot-instructions.md
 
 # documentation
-dark_mode_guide.md
 /src/generated/prisma
 DEV_GUIDE.md
+DARK_MODE_GUIDE.md
+DEPLOYMENT_GUIDE.md
+API_DOCUMENTATION.md
