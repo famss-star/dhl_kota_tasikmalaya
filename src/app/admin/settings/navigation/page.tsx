@@ -281,7 +281,7 @@ export default function NavigationSettingsPage() {
 
       {navItems.length === 0 && (
         <div className="text-center py-12 text-gray-500">
-          Belum ada menu navigasi. Klik tombol "Tambah Menu" untuk memulai.
+          Belum ada menu navigasi. Klik tombol &quot;Tambah Menu&quot; untuk memulai.
         </div>
       )}
 

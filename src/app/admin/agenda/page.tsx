@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Calendar, Plus, Edit, Trash2, Search, Filter, MapPin, Clock, Users, Eye } from "lucide-react";
+import { Calendar, Plus, Trash2, Search, Filter, MapPin, Clock, Users, Eye } from "lucide-react";
 import Link from "next/link";
 
 interface Agenda {

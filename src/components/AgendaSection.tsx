@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
 
 interface AgendaItem {
   id: number;
@@ -228,7 +229,7 @@ export default function AgendaSection() {
 						{/* Link ke halaman agenda lengkap */}
 						{monthAgenda.length > 0 && (
 							<div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-600 text-center items-end">
-								<a 
+								<Link 
 									href="/informasi/agenda" 
 									className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium text-sm inline-flex items-center"
 								>
@@ -236,7 +237,7 @@ export default function AgendaSection() {
 									<svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
 									</svg>
-								</a>
+								</Link>
 							</div>
 						)}
 					</div>

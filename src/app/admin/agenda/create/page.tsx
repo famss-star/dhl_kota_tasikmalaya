@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, Save, ArrowLeft, MapPin, Clock, Users, FileText, ChevronLeft } from "lucide-react";
+import { Calendar, Save, MapPin, Clock, Users, FileText, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

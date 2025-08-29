@@ -219,7 +219,7 @@ export default function HomepageCarouselPage() {
 
       {carouselItems.length === 0 && (
         <div className="text-center py-12 text-gray-500">
-          Belum ada slide carousel. Klik tombol "Tambah Slide" untuk memulai.
+          Belum ada slide carousel. Klik tombol &quot;Tambah Slide&quot; untuk memulai.
         </div>
       )}
     </div>

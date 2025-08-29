@@ -503,7 +503,7 @@ export default function AdminSEOSettings() {
                   </div>
                   <div className="flex-1">
                     <code className="text-sm font-mono text-gray-800 dark:text-gray-200">
-                      &lt;meta {tag.type === "property" ? "property" : tag.type === "httpEquiv" ? "http-equiv" : "name"}="{tag.name}" content="{tag.content}" /&gt;
+                      &lt;meta {tag.type === "property" ? "property" : tag.type === "httpEquiv" ? "http-equiv" : "name"}=&quot;{tag.name}&quot; content=&quot;{tag.content}&quot; /&gt;
                     </code>
                   </div>
                   <button

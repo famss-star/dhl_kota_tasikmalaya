@@ -9,11 +9,8 @@ export async function GET(request: NextRequest) {
     const staffMemberId = searchParams.get('staffMemberId');
 
     if (leaderId) {
-      const careerHistory = await prisma.careerHistory.findMany({
-        where: { leaderId },
-        orderBy: { startDate: 'desc' }
-      });
-      return NextResponse.json(careerHistory);
+      // leaderId is not part of CareerHistory model, only staffMemberId exists
+      return NextResponse.json([]);
     }
 
     if (staffMemberId) {
@@ -27,7 +24,6 @@ export async function GET(request: NextRequest) {
     // Jika tidak ada parameter, return semua riwayat
     const allCareerHistory = await prisma.careerHistory.findMany({
       include: {
-        leader: true,
         staffMember: true
       },
       orderBy: { startDate: 'desc' }
@@ -55,32 +51,23 @@ export async function POST(request: NextRequest) {
       description, 
       isActive,
       isPublished = false, // Default ke false jika tidak disertakan
-      leaderId,
       staffMemberId 
     } = data;
 
-    // Validasi: harus ada salah satu leaderId atau staffMemberId
-    if (!leaderId && !staffMemberId) {
+    // Validasi: harus ada staffMemberId
+    if (!staffMemberId) {
       return NextResponse.json(
-        { error: 'Harus disertakan leaderId atau staffMemberId' },
+        { error: 'Harus disertakan staffMemberId' },
         { status: 400 }
       );
     }
 
     // Jika isActive true, set semua riwayat lain menjadi false untuk person yang sama
     if (isActive) {
-      if (leaderId) {
-        await prisma.careerHistory.updateMany({
-          where: { leaderId, isActive: true },
-          data: { isActive: false }
-        });
-      }
-      if (staffMemberId) {
-        await prisma.careerHistory.updateMany({
-          where: { staffMemberId, isActive: true },
-          data: { isActive: false }
-        });
-      }
+      await prisma.careerHistory.updateMany({
+        where: { staffMemberId, isActive: true },
+        data: { isActive: false }
+      });
     }
 
     const careerHistory = await prisma.careerHistory.create({
@@ -92,7 +79,6 @@ export async function POST(request: NextRequest) {
         description,
         isActive,
         isPublished,
-        leaderId,
         staffMemberId
       }
     });

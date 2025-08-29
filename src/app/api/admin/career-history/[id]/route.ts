@@ -4,15 +4,16 @@ import prisma from '@/lib/prisma';
 // PUT - Update career history
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const data = await request.json();
     const { position, institution, startDate, endDate, description, isActive, isPublished } = data;
 
     // Get the current career history to know the person
     const currentCareer = await prisma.careerHistory.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!currentCareer) {
@@ -24,22 +25,12 @@ export async function PUT(
 
     // If setting this as active, deactivate others for the same person
     if (isActive) {
-      if (currentCareer.leaderId) {
-        await prisma.careerHistory.updateMany({
-          where: { 
-            leaderId: currentCareer.leaderId, 
-            isActive: true,
-            NOT: { id: params.id }
-          },
-          data: { isActive: false }
-        });
-      }
       if (currentCareer.staffMemberId) {
         await prisma.careerHistory.updateMany({
           where: { 
             staffMemberId: currentCareer.staffMemberId, 
             isActive: true,
-            NOT: { id: params.id }
+            NOT: { id }
           },
           data: { isActive: false }
         });
@@ -47,7 +38,7 @@ export async function PUT(
     }
 
     const updatedCareer = await prisma.careerHistory.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         position,
         institution,
@@ -72,11 +63,12 @@ export async function PUT(
 // DELETE - Delete career history
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.careerHistory.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({ 
