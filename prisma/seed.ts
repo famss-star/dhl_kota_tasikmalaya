@@ -156,23 +156,23 @@ async function main() {
       aboutTitle: 'Tentang Bidang Tata Lingkungan',
       aboutDescription: 'Bidang Tata Lingkungan bertanggung jawab dalam penyusunan kebijakan, perencanaan, dan pelaksanaan program tata lingkungan, konservasi sumber daya alam, serta pengelolaan ruang terbuka hijau di Kota Tasikmalaya.',
       tugasPokokTitle: 'Tugas Pokok',
-      tugasPokok: JSON.stringify([
+      tugasPokok: [
         'Melaksanakan penyusunan rencana tata ruang berbasis lingkungan hidup',
         'Menyelenggarakan inventarisasi dan pemetaan sumber daya alam',
         'Melaksanakan konservasi sumber daya alam dan keanekaragaman hayati',
         'Mengelola dan mengembangkan ruang terbuka hijau (RTH)',
         'Melaksanakan rehabilitasi dan pemulihan ekosistem yang rusak',
         'Menyelenggarakan program penghijauan dan reboisasi'
-      ]),
+      ],
       fungsiTitle: 'Fungsi',
-      fungsi: JSON.stringify([
+      fungsi: [
         'Perumusan kebijakan teknis tata lingkungan dan RTH',
         'Pelaksanaan inventarisasi sumber daya alam',
         'Pengelolaan kawasan konservasi dan perlindungan lingkungan',
         'Pengembangan dan pemeliharaan ruang terbuka hijau',
         'Monitoring dan evaluasi kualitas lingkungan hidup',
         'Koordinasi program konservasi dengan stakeholder'
-      ])
+      ]
     },
     {
       slug: 'pengendalian-pencemaran',
@@ -180,23 +180,23 @@ async function main() {
       aboutTitle: 'Tentang Bidang Pengendalian Pencemaran',
       aboutDescription: 'Bidang Pengendalian Pencemaran bertugas dalam pengendalian dan pengawasan pencemaran lingkungan, monitoring kualitas air, udara, dan tanah, serta penanganan dampak lingkungan di Kota Tasikmalaya.',
       tugasPokokTitle: 'Tugas Pokok',
-      tugasPokok: JSON.stringify([
+      tugasPokok: [
         'Melaksanakan pengendalian pencemaran air, udara, dan tanah',
         'Menyelenggarakan monitoring dan pengukuran kualitas lingkungan',
-        'Melaksanakan pengawasan terhadap kegiatan yang berpotensi mencemari lingkungan',
-        'Menangani keluhan dan pengaduan pencemaran lingkungan',
-        'Melaksanakan penegakan hukum bidang pencemaran lingkungan',
-        'Menyelenggarakan program perbaikan kualitas lingkungan yang tercemar'
-      ]),
+        'Melaksanakan pengawasan dan penegakan hukum lingkungan',
+        'Menangani pengaduan dan keluhan pencemaran lingkungan',
+        'Melaksanakan AMDAL dan UKL-UPL',
+        'Menyelenggarakan program pengendalian dampak lingkungan'
+      ],
       fungsiTitle: 'Fungsi',
-      fungsi: JSON.stringify([
-        'Penyusunan kebijakan pengendalian pencemaran lingkungan',
-        'Pelaksanaan monitoring kualitas air, udara, dan tanah',
-        'Pengawasan dan pengendalian limbah industri',
-        'Penanganan dampak pencemaran lingkungan',
-        'Penegakan peraturan lingkungan hidup',
-        'Koordinasi dengan instansi terkait dalam pengendalian pencemaran'
-      ])
+      fungsi: [
+        'Pengawasan dan pengendalian pencemaran industri',
+        'Monitoring kualitas air, udara, dan tanah',
+        'Penanganan limbah B3 dan non-B3',
+        'Penegakan hukum lingkungan',
+        'Evaluasi dokumen lingkungan (AMDAL, UKL-UPL)',
+        'Koordinasi penanganan darurat pencemaran'
+      ]
     },
     {
       slug: 'pengelolaan-sampah',
@@ -204,23 +204,23 @@ async function main() {
       aboutTitle: 'Tentang Bidang Pengelolaan Sampah',
       aboutDescription: 'Bidang Pengelolaan Sampah bertanggung jawab dalam melaksanakan pengurangan dan penanganan sampah, termasuk pengembangan teknologi ramah lingkungan dan pemberdayaan masyarakat dalam pengelolaan sampah di Kota Tasikmalaya.',
       tugasPokokTitle: 'Tugas Pokok',
-      tugasPokok: JSON.stringify([
+      tugasPokok: [
         'Melaksanakan pengurangan sampah di sumbernya',
         'Menyelenggarakan penanganan sampah yang ramah lingkungan',
         'Melaksanakan pengembangan teknologi pengelolaan sampah',
         'Melaksanakan pemberdayaan masyarakat dalam pengelolaan sampah',
         'Menyelenggarakan pengelolaan TPS dan TPA',
         'Melaksanakan program daur ulang dan 3R (Reduce, Reuse, Recycle)'
-      ]),
+      ],
       fungsiTitle: 'Fungsi',
-      fungsi: JSON.stringify([
+      fungsi: [
         'Penyusunan kebijakan teknis pengelolaan sampah',
         'Pelaksanaan sistem pengumpulan dan pengangkutan sampah',
         'Pengelolaan tempat pengelolaan sampah terpadu (TPST)',
         'Pengembangan teknologi pengolahan sampah',
         'Pemberdayaan masyarakat dalam pengelolaan sampah',
         'Monitoring dan evaluasi pengelolaan sampah'
-      ])
+      ]
     }
   ];
 

@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -27,7 +27,7 @@ model Article {
   id          String           @id @default(cuid())
   title       String
   slug        String           @unique
-  content     String
+  content     String           @db.Text
   excerpt     String?
   thumbnail   String?
   tags        String?
@@ -59,7 +59,7 @@ model News {
   id          String    @id @default(cuid())
   title       String
   slug        String    @unique
-  content     String
+  content     String    @db.Text
   excerpt     String?
   thumbnail   String?
   tags        String?
@@ -128,14 +128,14 @@ model Complaint {
   complainantEmail String
   complainantPhone String?
   subject          String
-  description      String
+  description      String                @db.Text
   location         String?
   status           ComplaintStatus       @default(OPEN)
   priority         Priority              @default(MEDIUM)
   submittedAt      DateTime              @default(now())
   responseAt       DateTime?
   resolvedAt       DateTime?
-  response         String?
+  response         String?               @db.Text
   assignedToId     String?
   attachments      ComplaintAttachment[]
   assignedTo       User?                 @relation(fields: [assignedToId], references: [id])
@@ -334,11 +334,11 @@ model Bidang {
   slug             String   @unique
   name             String
   aboutTitle       String
-  aboutDescription String
+  aboutDescription String   @db.Text
   tugasPokokTitle  String
-  tugasPokok       String
+  tugasPokok       Json
   fungsiTitle      String
-  fungsi           String
+  fungsi           Json
   isActive         Boolean  @default(true)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
