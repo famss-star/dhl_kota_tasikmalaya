@@ -267,7 +267,7 @@ npx prisma studio
 
 ### Development Servers
 ```bash
-# Main development (Next.js + SQLite)
+# Main development (Next.js + MySQL)
 npm run dev
 
 # Development + Prisma Studio
@@ -276,9 +276,9 @@ npm run dev:studio
 # Only Next.js app
 npm run dev:app
 
-# Alternative database options
-npm run dev:sqlite    # Explicit SQLite mode
-npm run dev:neon      # PostgreSQL (if configured)
+# Alternative development modes
+npm run dev:mysql     # Explicit MySQL mode
+npm run dev:docker    # Docker-based development
 ```
 
 ### Building for Production
@@ -350,13 +350,13 @@ npm start
 - **AWS** dengan RDS MySQL
 - **VPS** dengan MySQL Server
 
-### Database Migration ke Production
-Jika ingin upgrade ke PostgreSQL di production:
-1. Update `DATABASE_URL` ke PostgreSQL connection string
-2. Update `provider = "postgresql"` di `schema.prisma`
-3. Run `npx prisma generate`
-4. Run `npx prisma migrate dev`
-5. Run `npx tsx prisma/seed.ts`
+### Database Scaling untuk Production
+Untuk production scale yang lebih besar:
+1. **MySQL Cluster** - Setup master-slave replication
+2. **Connection Pooling** - Optimize database connections
+3. **Database Indexing** - Add performance indexes
+4. **Query Optimization** - Optimize slow queries
+5. **Backup Strategy** - Automated daily backups
 
 ## 🧪 Testing
 
