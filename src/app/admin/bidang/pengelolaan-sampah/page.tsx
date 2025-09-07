@@ -193,14 +193,14 @@ export default function AdminBidangPengelolaanSampahPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <Recycle className="w-8 h-8 text-emerald-600" />
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <Recycle className="w-9 h-9 text-white" />
               {bidangData.name}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-xl md:text-2xl opacity-90">
               Kelola informasi {bidangData.name} {DINAS_NAME}
             </p>
           </div>
@@ -508,7 +508,8 @@ export default function AdminBidangPengelolaanSampahPage() {
                         {bidangData.aboutTitle}
                       </h2>
                       <p className="text-gray-700 dark:text-gray-300 mb-0 indent-8">
-                        <span className="font-bold">{bidangData.name}</span> {bidangData.aboutDescription}
+                        <span className="font-bold">{bidangData.name}</span>{" "}
+                        {bidangData.aboutDescription}
                       </p>
                     </div>
                   </div>
@@ -530,7 +531,8 @@ export default function AdminBidangPengelolaanSampahPage() {
                         style={{
                           height: showAll ? height : "400px",
                           overflow: "hidden",
-                          transition: "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+                          transition:
+                            "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
                         }}
                       >
                         <ul
@@ -571,7 +573,9 @@ export default function AdminBidangPengelolaanSampahPage() {
                         className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition duration-300"
                         onClick={() => setShowAll((v) => !v)}
                       >
-                        {showAll ? "Tampilkan Lebih Sedikit" : "Tampilkan Semua"}
+                        {showAll
+                          ? "Tampilkan Lebih Sedikit"
+                          : "Tampilkan Semua"}
                       </button>
                     </div>
                   </div>
@@ -588,7 +592,10 @@ export default function AdminBidangPengelolaanSampahPage() {
                     </h3>
                     <div className="grid md:grid-cols-2 gap-4">
                       {bidangData.fungsi.map((fungsiItem, index) => (
-                        <div key={index} className="flex items-start gap-3 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg">
+                        <div
+                          key={index}
+                          className="flex items-start gap-3 p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg"
+                        >
                           <span className="bg-emerald-100 dark:bg-emerald-900 text-emerald-600 dark:text-emerald-400 rounded-full min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center text-xs font-bold mt-0.5">
                             {index + 1}
                           </span>
@@ -604,11 +611,14 @@ export default function AdminBidangPengelolaanSampahPage() {
                 {/* Back to Bidang */}
                 <section>
                   <div className="text-center">
-                    <a href="/bidang" className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <a
+                      href="/bidang"
+                      className="inline-block bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
                       Kembali ke Daftar Bidang
                     </a>
                   </div>
-                </section>        
+                </section>
               </div>
             </div>
           )}

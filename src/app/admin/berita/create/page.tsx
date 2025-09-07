@@ -170,7 +170,7 @@ export default function CreateBerita() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="bg-gradient-to-r from-purple-600 to-pink-600 text-white py-16">
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
@@ -182,12 +182,12 @@ export default function CreateBerita() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-12">
+      <div className="py-12">
         <div className="mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => router.back()}
-              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -206,7 +206,7 @@ export default function CreateBerita() {
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Masukkan judul berita"
               />
             </div>
@@ -221,7 +221,7 @@ export default function CreateBerita() {
                 value={formData.excerpt}
                 onChange={handleChange}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Ringkasan singkat berita"
               />
             </div>
@@ -287,7 +287,7 @@ export default function CreateBerita() {
                   name="thumbnail"
                   value={formData.thumbnail}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder="https://example.com/image.jpg atau /uploads/articles/image.jpg"
                 />
               </div>
@@ -304,7 +304,7 @@ export default function CreateBerita() {
                 onChange={handleChange}
                 required
                 rows={12}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Tulis konten berita di sini..."
               />
             </div>
@@ -319,7 +319,7 @@ export default function CreateBerita() {
                 name="tags"
                 value={Array.isArray(formData.tags) ? formData.tags.join(', ') : ''}
                 onChange={handleTagsChange}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                 placeholder="Masukkan tags dipisah koma, contoh: lingkungan, kesehatan, teknologi"
               />
               <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -334,7 +334,7 @@ export default function CreateBerita() {
                 name="isPublished"
                 checked={formData.isPublished}
                 onChange={handleChange}
-                className="h-4 w-4 text-yellow-600 focus:ring-purple-500 border-gray-300 rounded"
+                className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
               />
               <label htmlFor="isPublished" className="ml-2 block text-sm text-gray-700 dark:text-gray-300">
                 Publikasikan berita

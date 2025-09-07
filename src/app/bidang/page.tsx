@@ -164,32 +164,6 @@ export default function Bidang() {
             />
           </section>
 
-          {/* Navigation */}
-          <section>
-            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-              <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
-                Jelajahi Lebih Lanjut
-              </h2>
-              <div className="grid md:grid-cols-2 gap-6">
-                <Link href="/profil/struktur-organisasi" className="group">
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
-                    <Network size={36} className="mx-auto mb-3 text-green-600 dark:text-green-400" />
-                    <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Struktur Organisasi</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">Lihat bagan organisasi lengkap</p>
-                  </div>
-                </Link>
-                <Link href="/profil/struktur-organisasi" className="group">
-                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6 text-center group-hover:bg-gray-100 dark:group-hover:bg-gray-600 transition duration-300">
-                    <Landmark size={36} className="mx-auto mb-3 text-blue-600 dark:text-blue-400" />
-                    <h3 className="font-semibold text-gray-800 dark:text-white mb-2">Struktur Organisasi</h3>
-                    <p className="text-gray-600 dark:text-gray-300 text-sm">Struktur organisasi dan profil pimpinan</p>
-                  </div>
-                </Link>
-                
-              </div>
-            </div>
-          </section>
-
         </div>
       </div>
     </div>

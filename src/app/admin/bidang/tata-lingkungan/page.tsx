@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { TreePine, Save, Trash2, Plus, Award, AlertTriangle } from "lucide-react";
+import {
+  TreePine,
+  Save,
+  Trash2,
+  Plus,
+  Award,
+  AlertTriangle,
+} from "lucide-react";
 import { useBidangData } from "@/hooks/useBidangData";
 
 export default function AdminBidangTataLingkunganPage() {
@@ -10,7 +17,13 @@ export default function AdminBidangTataLingkunganPage() {
   const [showAll, setShowAll] = useState(false);
   const [height, setHeight] = useState<number>(250);
   const contentRef = useRef<HTMLUListElement>(null);
-  const { bidangData, setBidangData, isLoading: isLoadingData, error, updateBidangData } = useBidangData('tata-lingkungan');
+  const {
+    bidangData,
+    setBidangData,
+    isLoading: isLoadingData,
+    error,
+    updateBidangData,
+  } = useBidangData("tata-lingkungan");
 
   const DINAS_NAME = "Dinas Lingkungan Hidup Kota Tasikmalaya";
 
@@ -30,13 +43,17 @@ export default function AdminBidangTataLingkunganPage() {
 
   const handleSave = async () => {
     if (!bidangData) return;
-    
+
     setIsLoading(true);
     try {
       await updateBidangData(bidangData);
       alert("Data Bidang Tata Lingkungan berhasil disimpan!");
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Gagal menyimpan data Bidang Tata Lingkungan");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "Gagal menyimpan data Bidang Tata Lingkungan"
+      );
     } finally {
       setIsLoading(false);
     }
@@ -44,50 +61,78 @@ export default function AdminBidangTataLingkunganPage() {
 
   const addTugas = () => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      tugasPokok: [...prev.tugasPokok, ""],
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            tugasPokok: [...prev.tugasPokok, ""],
+          }
+        : null
+    );
   };
 
   const removeTugas = (index: number) => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      tugasPokok: prev.tugasPokok.filter((_, i) => i !== index),
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            tugasPokok: prev.tugasPokok.filter((_, i) => i !== index),
+          }
+        : null
+    );
   };
 
   const updateTugas = (index: number, value: string) => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      tugasPokok: prev.tugasPokok.map((tugas, i) => (i === index ? value : tugas)),
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            tugasPokok: prev.tugasPokok.map((tugas, i) =>
+              i === index ? value : tugas
+            ),
+          }
+        : null
+    );
   };
 
   const addFungsi = () => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      fungsi: [...prev.fungsi, ""],
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            fungsi: [...prev.fungsi, ""],
+          }
+        : null
+    );
   };
 
   const removeFungsi = (index: number) => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      fungsi: prev.fungsi.filter((_, i) => i !== index),
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            fungsi: prev.fungsi.filter((_, i) => i !== index),
+          }
+        : null
+    );
   };
 
   const updateFungsi = (index: number, value: string) => {
     if (!bidangData) return;
-    setBidangData(prev => prev ? {
-      ...prev,
-      fungsi: prev.fungsi.map((fungsiItem, i) => (i === index ? value : fungsiItem)),
-    } : null);
+    setBidangData((prev) =>
+      prev
+        ? {
+            ...prev,
+            fungsi: prev.fungsi.map((fungsiItem, i) =>
+              i === index ? value : fungsiItem
+            ),
+          }
+        : null
+    );
   };
 
   // Loading state
@@ -113,7 +158,9 @@ export default function AdminBidangTataLingkunganPage() {
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-6 h-6 text-red-600" />
             <div>
-              <h3 className="text-lg font-semibold text-red-800 dark:text-red-300">Error</h3>
+              <h3 className="text-lg font-semibold text-red-800 dark:text-red-300">
+                Error
+              </h3>
               <p className="text-red-700 dark:text-red-400">{error}</p>
             </div>
           </div>
@@ -130,8 +177,12 @@ export default function AdminBidangTataLingkunganPage() {
           <div className="flex items-center gap-3">
             <AlertTriangle className="w-6 h-6 text-yellow-600" />
             <div>
-              <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-300">Data Tidak Ditemukan</h3>
-              <p className="text-yellow-700 dark:text-yellow-400">Data bidang tata lingkungan tidak ditemukan.</p>
+              <h3 className="text-lg font-semibold text-yellow-800 dark:text-yellow-300">
+                Data Tidak Ditemukan
+              </h3>
+              <p className="text-yellow-700 dark:text-yellow-400">
+                Data bidang tata lingkungan tidak ditemukan.
+              </p>
             </div>
           </div>
         </div>
@@ -142,14 +193,14 @@ export default function AdminBidangTataLingkunganPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <TreePine className="w-8 h-8 text-green-600" />
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <TreePine className="w-9 h-9 text-white" />
               {bidangData.name}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-xl md:text-2xl opacity-90">
               Kelola informasi {bidangData.name} {DINAS_NAME}
             </p>
           </div>
@@ -198,10 +249,14 @@ export default function AdminBidangTataLingkunganPage() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                     value={bidangData.name}
                     onChange={(e) =>
-                      setBidangData(prev => prev ? {
-                        ...prev,
-                        name: e.target.value,
-                      } : null)
+                      setBidangData((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              name: e.target.value,
+                            }
+                          : null
+                      )
                     }
                     placeholder="Nama bidang..."
                   />
@@ -213,12 +268,16 @@ export default function AdminBidangTataLingkunganPage() {
                   </label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    value={bidangData.active ? 'aktif' : 'non-aktif'}
+                    value={bidangData.active ? "aktif" : "non-aktif"}
                     onChange={(e) =>
-                      setBidangData(prev => prev ? {
-                        ...prev,
-                        active: e.target.value === 'aktif',
-                      } : null)
+                      setBidangData((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              active: e.target.value === "aktif",
+                            }
+                          : null
+                      )
                     }
                   >
                     <option value="aktif">Aktif</option>
@@ -237,10 +296,14 @@ export default function AdminBidangTataLingkunganPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   value={bidangData.aboutTitle}
                   onChange={(e) =>
-                    setBidangData(prev => prev ? {
-                      ...prev,
-                      aboutTitle: e.target.value,
-                    } : null)
+                    setBidangData((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            aboutTitle: e.target.value,
+                          }
+                        : null
+                    )
                   }
                   placeholder="Tentang bidang..."
                 />
@@ -256,10 +319,14 @@ export default function AdminBidangTataLingkunganPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   value={bidangData.aboutDescription}
                   onChange={(e) =>
-                    setBidangData(prev => prev ? {
-                      ...prev,
-                      aboutDescription: e.target.value,
-                    } : null)
+                    setBidangData((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            aboutDescription: e.target.value,
+                          }
+                        : null
+                    )
                   }
                   placeholder="Deskripsi tentang bidang..."
                 />
@@ -275,10 +342,14 @@ export default function AdminBidangTataLingkunganPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   value={bidangData.tugasPokokTitle}
                   onChange={(e) =>
-                    setBidangData(prev => prev ? {
-                      ...prev,
-                      tugasPokokTitle: e.target.value,
-                    } : null)
+                    setBidangData((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            tugasPokokTitle: e.target.value,
+                          }
+                        : null
+                    )
                   }
                   placeholder="Tugas Pokok"
                 />
@@ -334,10 +405,14 @@ export default function AdminBidangTataLingkunganPage() {
                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   value={bidangData.fungsiTitle}
                   onChange={(e) =>
-                    setBidangData(prev => prev ? {
-                      ...prev,
-                      fungsiTitle: e.target.value,
-                    } : null)
+                    setBidangData((prev) =>
+                      prev
+                        ? {
+                            ...prev,
+                            fungsiTitle: e.target.value,
+                          }
+                        : null
+                    )
                   }
                   placeholder="Fungsi"
                 />
@@ -433,7 +508,8 @@ export default function AdminBidangTataLingkunganPage() {
                         {bidangData.aboutTitle}
                       </h2>
                       <p className="text-gray-700 dark:text-gray-300 mb-0 indent-8">
-                        <span className="font-bold">{bidangData.name}</span> {bidangData.aboutDescription}
+                        <span className="font-bold">{bidangData.name}</span>{" "}
+                        {bidangData.aboutDescription}
                       </p>
                     </div>
                   </div>
@@ -455,7 +531,8 @@ export default function AdminBidangTataLingkunganPage() {
                         style={{
                           height: showAll ? height : "400px",
                           overflow: "hidden",
-                          transition: "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+                          transition:
+                            "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
                         }}
                       >
                         <ul
@@ -496,7 +573,9 @@ export default function AdminBidangTataLingkunganPage() {
                         className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
                         onClick={() => setShowAll((v) => !v)}
                       >
-                        {showAll ? "Tampilkan Lebih Sedikit" : "Tampilkan Semua"}
+                        {showAll
+                          ? "Tampilkan Lebih Sedikit"
+                          : "Tampilkan Semua"}
                       </button>
                     </div>
                   </div>
@@ -513,7 +592,10 @@ export default function AdminBidangTataLingkunganPage() {
                     </h3>
                     <div className="grid md:grid-cols-2 gap-4">
                       {bidangData.fungsi.map((fungsiItem, index) => (
-                        <div key={index} className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg">
+                        <div
+                          key={index}
+                          className="flex items-start gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg"
+                        >
                           <span className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full min-w-[1.5rem] min-h-[1.5rem] flex items-center justify-center text-xs font-bold mt-0.5">
                             {index + 1}
                           </span>
@@ -529,11 +611,14 @@ export default function AdminBidangTataLingkunganPage() {
                 {/* Back to Bidang */}
                 <section>
                   <div className="text-center">
-                    <a href="/bidang" className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <a
+                      href="/bidang"
+                      className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
                       Kembali ke Daftar Bidang
                     </a>
                   </div>
-                </section>        
+                </section>
               </div>
             </div>
           )}

@@ -1,25 +1,39 @@
 "use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
-import StatisticsSection, { StatisticsItem} from "@/components/StatisticsSection";
-import { Building2, Save, Eye, Target, Trees, Factory, Trash2, Network, Landmark } from "lucide-react";
+import StatisticsSection, {
+  StatisticsItem,
+} from "@/components/StatisticsSection";
+import {
+  Building2,
+  Save,
+  Eye,
+  Target,
+  Trees,
+  Factory,
+  Trash2,
+  Network,
+  Landmark,
+} from "lucide-react";
 
 interface BidangKerja {
   id: number;
   nama_bidang: string;
   deskripsi: string;
   struktur_organisasi: string;
-  status: 'aktif' | 'non-aktif';
+  status: "aktif" | "non-aktif";
 }
 
 export default function AdminBidangUmumPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"info" | "tugas" | "preview">("info");
+  const [activeTab, setActiveTab] = useState<"info" | "tugas" | "preview">(
+    "info"
+  );
   const [showAll, setShowAll] = useState(false);
   const [height, setHeight] = useState<number>(250);
   const contentRef = useRef<HTMLDivElement>(null);
-  
+
   // Constants
   const DINAS_NAME = "Dinas Lingkungan Hidup Kota Tasikmalaya";
 
@@ -32,9 +46,9 @@ export default function AdminBidangUmumPage() {
   const PLACEHOLDER_TEXTS = {
     namaBidang: "Nama bidang...",
     deskripsi: "Deskripsi tugas dan tanggung jawab bidang...",
-    strukturOrganisasi: "Struktur organisasi dalam bidang..."
+    strukturOrganisasi: "Struktur organisasi dalam bidang...",
   };
-  
+
   const PREVIEW_TEXTS = {
     exploreTitle: "Jelajahi Lebih Lanjut",
     statisticsTitle: "Pencapaian Kinerja 2025",
@@ -43,60 +57,63 @@ export default function AdminBidangUmumPage() {
     navItems: {
       strukturOrganisasi: "Struktur Organisasi",
       strukturOrganisasiDesc: "Lihat bagan organisasi lengkap",
-      strukturOrganisasiDesc2: "Struktur organisasi dan profil pimpinan"
-    }
+      strukturOrganisasiDesc2: "Struktur organisasi dan profil pimpinan",
+    },
   };
-  
+
   const [bidangData, setBidangData] = useState<BidangKerja>({
     id: 1,
     nama_bidang: "Bidang Kerja",
     deskripsi: "Struktur Organisasi Dinas Lingkungan Hidup Kota Tasikmalaya",
-    struktur_organisasi: "Dinas Lingkungan Hidup Kota Tasikmalaya memiliki 3 bidang utama yang bekerja secara sinergis untuk mewujudkan lingkungan hidup yang lestari, bersih, dan sehat.",
-    status: "aktif"
+    struktur_organisasi:
+      "Dinas Lingkungan Hidup Kota Tasikmalaya memiliki 3 bidang utama yang bekerja secara sinergis untuk mewujudkan lingkungan hidup yang lestari, bersih, dan sehat.",
+    status: "aktif",
   });
 
   const bidangList = [
     {
       id: 1,
-      name: 'Bidang Tata Lingkungan',
-      description: 'Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).',
+      name: "Bidang Tata Lingkungan",
+      description:
+        "Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).",
       icon: <Trees size={40} className="text-green-600 dark:text-green-400" />,
-      color: 'green',
+      color: "green",
       features: [
-        'Penyusunan dan penetapan RPPLH dan dokumen daya dukung dan daya tampung',
-        'Penyusunan Kajian Lingkungan Hidup Strategis (KLHS)',
-        'Pemeriksaan UKL-UPL dan fasilitasi penilaian AMDAL',
-        'Pengelolaan keanekaragaman hayati dan ruang terbuka hijau',
-        'Pengelolaan sarana prasarana keanekaragaman hayati dan RTH',
-        'Pengembangan kapasitas kelembagaan dan SDM'
-      ]
+        "Penyusunan dan penetapan RPPLH dan dokumen daya dukung dan daya tampung",
+        "Penyusunan Kajian Lingkungan Hidup Strategis (KLHS)",
+        "Pemeriksaan UKL-UPL dan fasilitasi penilaian AMDAL",
+        "Pengelolaan keanekaragaman hayati dan ruang terbuka hijau",
+        "Pengelolaan sarana prasarana keanekaragaman hayati dan RTH",
+        "Pengembangan kapasitas kelembagaan dan SDM",
+      ],
     },
     {
       id: 2,
-      name: 'Bidang Pengendalian Pencemaran',
-      description: 'Mengawasi dan mengendalikan pencemaran air, udara, dan tanah',
+      name: "Bidang Pengendalian Pencemaran",
+      description:
+        "Mengawasi dan mengendalikan pencemaran air, udara, dan tanah",
       icon: <Factory size={40} className="text-red-600 dark:text-red-400" />,
-      color: 'red',
+      color: "red",
       features: [
-        'Monitoring Kualitas Air',
-        'Pengawasan Emisi Gas Buang',
-        'Pengendalian Limbah B3',
-        'Pengujian Kualitas Udara'
-      ]
+        "Monitoring Kualitas Air",
+        "Pengawasan Emisi Gas Buang",
+        "Pengendalian Limbah B3",
+        "Pengujian Kualitas Udara",
+      ],
     },
     {
       id: 3,
-      name: 'Bidang Pengelolaan Sampah',
-      description: 'Mengelola sistem persampahan kota secara terintegrasi',
+      name: "Bidang Pengelolaan Sampah",
+      description: "Mengelola sistem persampahan kota secara terintegrasi",
       icon: <Trash2 size={40} className="text-teal-600 dark:text-teal-400" />,
-      color: 'teal',
+      color: "teal",
       features: [
-        'Pengumpulan dan Pengangkutan Sampah',
-        'Pengelolaan TPA Regional',
-        'Program 3R (Reduce, Reuse, Recycle)',
-        'Bank Sampah dan Komposter'
-      ]
-    }
+        "Pengumpulan dan Pengangkutan Sampah",
+        "Pengelolaan TPA Regional",
+        "Program 3R (Reduce, Reuse, Recycle)",
+        "Bank Sampah dan Komposter",
+      ],
+    },
   ];
 
   const handleSave = async () => {
@@ -146,14 +163,14 @@ export default function AdminBidangUmumPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-              <Building2 className="w-8 h-8 text-blue-600" />
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <Building2 className="w-9 h-9 text-white" />
               {bidangData.nama_bidang}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-xl md:text-2xl opacity-90">
               Kelola informasi {bidangData.nama_bidang} {DINAS_NAME}
             </p>
           </div>
@@ -173,7 +190,7 @@ export default function AdminBidangUmumPage() {
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`flex items-center gap-2 px-6 py-3 text-sm font-medium border-b-2 transition-colors duration-200 ${
                   activeTab === tab.id
-                    ? "border-blue-500 text-blue-600 dark:text-blue-400"
+                    ? "border-green-500 text-green-600 dark:text-green-400"
                     : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-300"
                 }`}
               >
@@ -202,7 +219,7 @@ export default function AdminBidangUmumPage() {
                         nama_bidang: e.target.value,
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                     placeholder={PLACEHOLDER_TEXTS.namaBidang}
                   />
                 </div>
@@ -219,7 +236,7 @@ export default function AdminBidangUmumPage() {
                         status: e.target.value as "aktif" | "non-aktif",
                       }))
                     }
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   >
                     <option value="aktif">Aktif</option>
                     <option value="non-aktif">Non-Aktif</option>
@@ -240,7 +257,7 @@ export default function AdminBidangUmumPage() {
                     }))
                   }
                   rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder={PLACEHOLDER_TEXTS.deskripsi}
                 />
               </div>
@@ -258,7 +275,7 @@ export default function AdminBidangUmumPage() {
                     }))
                   }
                   rows={3}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                   placeholder={PLACEHOLDER_TEXTS.strukturOrganisasi}
                 />
               </div>
@@ -267,7 +284,7 @@ export default function AdminBidangUmumPage() {
                 <button
                   onClick={handleSave}
                   disabled={isLoading}
-                  className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200"
+                  className="flex items-center gap-2 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 transition-colors duration-200"
                 >
                   <Save className="w-4 h-4" />
                   {isLoading ? "Menyimpan..." : "Simpan Informasi"}
@@ -304,7 +321,10 @@ export default function AdminBidangUmumPage() {
                         Tentang Bidang Umum
                       </h2>
                       <p className="text-gray-700 dark:text-gray-300 mb-0 indent-8">
-                        <span className="font-bold">{bidangData.nama_bidang}</span> {bidangData.deskripsi}
+                        <span className="font-bold">
+                          {bidangData.nama_bidang}
+                        </span>{" "}
+                        {bidangData.deskripsi}
                       </p>
                     </div>
                   </div>
@@ -327,7 +347,8 @@ export default function AdminBidangUmumPage() {
                         style={{
                           height: showAll ? height : "250px",
                           overflow: "hidden",
-                          transition: "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+                          transition:
+                            "height 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
                         }}
                       >
                         <div className="text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -349,7 +370,9 @@ export default function AdminBidangUmumPage() {
                         className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-lg transition duration-300"
                         onClick={() => setShowAll((v) => !v)}
                       >
-                        {showAll ? "Tampilkan Lebih Sedikit" : "Tampilkan Semua"}
+                        {showAll
+                          ? "Tampilkan Lebih Sedikit"
+                          : "Tampilkan Semua"}
                       </button>
                     </div>
                   </div>
@@ -392,9 +415,11 @@ export default function AdminBidangUmumPage() {
                                 href={
                                   bidang.name === "Bidang Tata Lingkungan"
                                     ? "/bidang/tata-lingkungan"
-                                    : bidang.name === "Bidang Pengendalian Pencemaran"
+                                    : bidang.name ===
+                                      "Bidang Pengendalian Pencemaran"
                                     ? "/bidang/pengendalian-pencemaran"
-                                    : bidang.name === "Bidang Pengelolaan Sampah"
+                                    : bidang.name ===
+                                      "Bidang Pengelolaan Sampah"
                                     ? "/bidang/pengelolaan-sampah"
                                     : "#"
                                 }
@@ -425,11 +450,14 @@ export default function AdminBidangUmumPage() {
                 {/* Back to Bidang */}
                 <section>
                   <div className="text-center">
-                    <a href="/bidang" className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    <a
+                      href="/bidang"
+                      className="inline-block bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                    >
                       Kembali ke Daftar Bidang
                     </a>
                   </div>
-                </section>        
+                </section>
               </div>
             </div>
           )}

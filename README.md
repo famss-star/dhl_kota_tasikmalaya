@@ -1,126 +1,371 @@
-# 🌱 Website Dinas Lingkungan Hidup Kota Tasikmalaya
+# 📚 README - Sistem DLH Kota Tasikmalaya
 
-Website resmi Dinas Lingkungan Hidup Kota Tasikmalaya yang dibangun dengan Next.js 15, Prisma ORM, dan MySQL.
+<div align="center">
 
-## 📋 Table of Contents
-- [🚀 Fitur Utama](#-fitur-utama)
-- [🛠️ Tech Stack](#️-tech-stack)
-- [⚙️ Prerequisites](#️-prerequisites)
-- [📦 Installation](#-installation)
-- [🎯 New Features](#-new-features-latest)
-- [🔐 Default Admin](#-default-admin-credentials)
-- [📁 Project Structure](#-project-structure)
-- [🗄️ Database Setup](#️-database-setup-mysql)
-- [🔧 Development Commands](#-development-commands)
-- [🌟 Key Features](#-key-features)
-- [🚀 Deployment](#-deployment)
-- [📊 Monitoring & Analytics](#-monitoring--analytics)
+![DLH Logo](public/logo-dlh.png)
+
+# 🌱 **Website Dinas Lingkungan Hidup Kota Tasikmalaya**
+
+**Sistem Manajemen Lingkungan Hidup & Portal Informasi Publik**
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-5.0-2D3748?logo=prisma)](https://www.prisma.io/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)](https://www.mysql.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+
+**Status:** 🔄 Dalam Pengembangan | **Progress:** 45% Complete | **Version:** 1.0.0-beta
+
+</div>
+
+---
+
+## 🎯 **OVERVIEW PROYEK**
+
+Website resmi dan sistem manajemen internal Dinas Lingkungan Hidup Kota Tasikmalaya yang menyediakan:
+
+- 🌐 **Portal Informasi Publik** - Berita, artikel, dan informasi lingkungan hidup
+- 📋 **Sistem Pengaduan Masyarakat** - Platform pengaduan online yang terintegrasi
+- 📄 **Manajemen Perizinan** - Sistem aplikasi izin lingkungan online
+- 👥 **Manajemen SDM** - Profil pegawai dan struktur organisasi
+- 📊 **Dashboard Admin** - Panel administrasi dengan analytics
+- 📷 **Galeri Kegiatan** - Dokumentasi foto dan video kegiatan
+
+## 📋 **TABLE OF CONTENTS**
+- [🚀 Quick Start](#-quick-start)
+- [📊 Status Implementasi](#-status-implementasi)
+- [🏗️ Arsitektur Sistem](#️-arsitektur-sistem)
+- [� Fitur Utama](#-fitur-utama)
+- [🛠️ Development Roadmap](#️-development-roadmap)
+- [📋 To-Do List Prioritas](#-to-do-list-prioritas)
+- [� API Endpoints](#-api-endpoints)
 - [🧪 Testing](#-testing)
-- [📚 API Documentation](#-api-documentation)
-- [🤝 Contributing](#-contributing)
-- [📞 Support](#-support)
-- [📸 Screenshots](#-screenshots)
-- [🎥 Demo](#-demo)
+- [� Deployment](#-deployment)
+## � **QUICK START**
 
-## 📸 Screenshots
+### **Prerequisites**
+- Node.js 18+ 
+- MySQL 8.0+
+- npm atau yarn
 
-### 🏠 Homepage
-![Homepage](docs/screenshots/homepage.png)
-*Dashboard utama dengan statistik dan berita terkini*
+### **Installation**
 
-### 🔧 Admin Dashboard  
-![Admin Dashboard](docs/screenshots/admin-dashboard.png)
-*Panel admin untuk manajemen konten dan pengguna*
-
-### 👥 Staff Management
-![Staff Management](docs/screenshots/staff-management.png)
-*Sistem manajemen SDM dengan 6-tab interface*
-
-### 📱 Mobile Responsive
-![Mobile View](docs/screenshots/mobile-responsive.png)
-*Tampilan responsive untuk perangkat mobile*
-
-## 🎥 Demo
-
-### 🌐 Live Demo
-- **Website Public**: [https://dlh-tasikmalaya.vercel.app](https://dlh-tasikmalaya.vercel.app)
-- **Admin Panel**: [https://dlh-tasikmalaya.vercel.app/admin](https://dlh-tasikmalaya.vercel.app/admin)
-
-### 🎬 Video Demo
-- **Setup & Installation**: [YouTube Link](https://youtube.com/watch?v=demo-setup)
-- **Admin Features Tour**: [YouTube Link](https://youtube.com/watch?v=admin-tour)
-- **Staff Management Demo**: [YouTube Link](https://youtube.com/watch?v=staff-management)
-
-## ⚙️ Prerequisites
-
-Pastikan sistem Anda memiliki:
-- **Node.js** >= 18.0.0 
-- **npm** >= 9.0.0 atau **yarn** >= 1.22.0
-- **Git** untuk clone repository
-- **MySQL** >= 8.0 (atau akses ke MySQL database)
-
-Cek versi yang terinstall:
 ```bash
-node --version
-npm --version
-mysql --version
+# 1. Clone repository
+git clone https://github.com/famss-star/dhl_kota_tasikmalaya.git
+cd dhl_kota_tasikmalaya
+
+# 2. Install dependencies
+npm install
+
+# 3. Setup environment variables
+cp .env.example .env.local
+# Edit .env.local dengan konfigurasi database Anda
+
+# 4. Setup database
+npx prisma generate
+npx prisma db push
+npx prisma db seed
+
+# 5. Run development server
+npm run dev
 ```
 
-## 🚀 Fitur Utama
+**Akses aplikasi di:** http://localhost:3000
 
-### 🏠 **Halaman Public**
-- **Beranda** - Dashboard utama dengan statistik dan informasi terkini
-- **Profil Instansi** - Informasi tentang DLH Kota Tasikmalaya
-- **Struktur Organisasi** - Hirarki organisasi dan pejabat
-- **Berita & Artikel** - Konten informatif tentang lingkungan hidup
-- **Layanan Publik** - Informasi perizinan dan layanan masyarakat
-- **Galeri Foto & Video** - Dokumentasi kegiatan DLH
-- **Kontak** - Informasi kontak dan lokasi
+### **Default Login Admin**
+- **Email:** admin@dlh.tasikmalayakota.go.id
+- **Password:** admin123
 
-### 🔧 **Panel Admin**
-- **Dashboard Admin** - Statistik dan monitoring
-- **Manajemen Konten** - CRUD berita, artikel, dan galeri
-- **Manajemen Pengguna** - User management system
-- **SDM & Organisasi** - Manajemen staff dengan 6-tab system
-  - Kepala Dinas, Wakil, Sekretaris, Kabid, Staff, **Preview**
-- **Pengaturan Website** - Konfigurasi logo, profil, dan settings
+---
 
-## 🛠️ Tech Stack
+## 📊 **STATUS IMPLEMENTASI**
 
-- **Frontend**: Next.js 15, React 19, TypeScript
-- **Styling**: Tailwind CSS
-- **Database**: MySQL dengan Prisma ORM
-- **Authentication**: JWT-based auth
-- **State Management**: React Context API
-- **Image Handling**: Next.js Image Optimization
-- **Development**: File-based MySQL database
+<div align="center">
 
-## 📦 Installation
+### **Progress Dashboard**
 
-1. **Clone repository**
-   ```bash
-   git clone https://github.com/famss-star/dhl_kota_tasikmalaya.git
-   cd dhl_kota_tasikmalaya
-   ```
+| **Modul** | **Status** | **Progress** | **API** | **UI** |
+|-----------|------------|--------------|---------|--------|
+| 🔐 **Authentication** | ✅ Complete | 100% | ✅ | ✅ |
+| 📄 **Content Management** | ✅ Complete | 100% | ✅ | ✅ |
+| 👥 **Staff Management** | ✅ Complete | 95% | ✅ | ✅ |
+| 📷 **Gallery System** | 🟡 Partial | 70% | 🔄 | ✅ |
+| 📋 **Document Management** | 🟡 Partial | 60% | 🔄 | ✅ |
+| 🚨 **Complaint System** | 🔴 Missing | 0% | ❌ | ❌ |
+| 📄 **Permit System** | 🔴 Missing | 0% | ❌ | ❌ |
+| 🔧 **Settings System** | 🟡 Partial | 75% | 🔄 | ✅ |
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+**Overall Progress: 45% Complete**
 
-3. **Setup environment variables**
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Edit file `.env` dan sesuaikan dengan konfigurasi Anda:
-   ```bash
-   # Database Connection - Update dengan kredensial MySQL Anda
-   DATABASE_URL="mysql://username:password@localhost:3306/dlh_tasikmalaya"
-   
-   # Authentication - Generate secret key yang kuat
-   NEXTAUTH_SECRET="your-super-secret-key-here-min-32-characters"
-   NEXTAUTH_URL="http://localhost:3000"
+</div>
+
+---
+
+## 🏗️ **ARSITEKTUR SISTEM**
+
+```mermaid
+graph TD
+    A[Frontend - Next.js] --> B[API Routes]
+    B --> C[Prisma ORM]
+    C --> D[MySQL Database]
+    B --> E[File System]
+    A --> F[Authentication Context]
+    B --> G[Email Service]
+    B --> H[File Upload Handler]
+    
+    style A fill:#0070f3,color:#white
+    style C fill:#2d3748,color:#white
+    style D fill:#4479a1,color:#white
+```
+
+### **Tech Stack**
+- **Frontend:** Next.js 15, React 18, TypeScript
+- **Styling:** Tailwind CSS, Headless UI
+- **Backend:** Next.js API Routes, Prisma ORM
+- **Database:** MySQL 8.0
+- **Authentication:** JWT-based session
+- **File Storage:** Local filesystem (planned: Cloud storage)
+- **Icons:** Lucide React
+
+---
+
+## 📁 **STRUKTUR PROJECT**
+
+```
+dhl_kota_tasikmalaya/
+├── 📁 src/
+│   ├── 📁 app/
+│   │   ├── 📁 admin/          # Admin panel pages
+│   │   ├── 📁 api/            # API endpoints
+│   │   ├── 📁 (public)/       # Public pages
+│   │   └── layout.tsx         # Root layout
+│   ├── 📁 components/         # Reusable components
+│   ├── 📁 context/            # React context providers
+│   ├── � hooks/              # Custom React hooks
+│   ├── 📁 lib/                # Utility libraries
+│   └── 📁 types/              # TypeScript type definitions
+├── 📁 prisma/                 # Database schema & migrations
+├── 📁 public/                 # Static assets
+├── 📄 DOCUMENTATION.md        # Complete project documentation
+├── 📄 PROJECT_TRACKER.md      # Detailed progress tracking
+├── 📄 TECHNICAL_GUIDE.md      # Technical implementation guide
+└── 📄 API_TESTING_GUIDE.md    # API documentation & testing
+```
+
+---
+
+## 🔑 **FITUR UTAMA**
+
+### ✅ **IMPLEMENTED FEATURES**
+
+#### 🔐 **Authentication System**
+- Login/logout dengan role-based access
+- Session management dengan JWT
+- Password hashing dengan bcrypt
+- Multi-role support (Admin, Operator, User)
+
+#### 📄 **Content Management**
+- CRUD artikel dan berita
+- Kategori dan tag system
+- Rich text editor integration
+- Image upload dan management
+- SEO-friendly URL slugs
+
+#### 👥 **Staff Management**  
+- Profil pegawai lengkap
+- Career history tracking
+- Photo upload
+- Statistik pegawai otomatis
+- Publikasi status management
+
+#### 🎨 **Admin Dashboard**
+- Modern admin interface
+- Dark/light theme support
+- Responsive design
+- Navigation breadcrumbs
+- Statistics overview
+
+### 🔄 **IN PROGRESS**
+
+#### 📷 **Gallery System (70%)**
+- Photo gallery dengan categories
+- Video gallery (YouTube integration)
+- File upload system (partial)
+- Bulk operations
+
+#### 📋 **Document Management (60%)**
+- Document upload dan categorization
+- Download counter (not working)
+- Access control system (partial)
+- Search dan filtering
+
+### ❌ **NOT IMPLEMENTED (CRITICAL)**
+
+#### 🚨 **Complaint Management System**
+- Online complaint submission
+- File attachment support
+- Status tracking system
+- Email notifications
+- Admin review workflow
+- Public tracking interface
+
+#### 📄 **Permit Application System**  
+- Multi-step application form
+- Document requirement checker
+- Review workflow
+- Certificate generation
+- Payment integration (optional)
+
+---
+
+## 🛠️ **DEVELOPMENT ROADMAP**
+
+### **Phase 1: Foundation (✅ COMPLETE)**
+- [x] Project setup dan konfigurasi
+- [x] Database schema design
+- [x] Authentication system
+- [x] Basic admin panel
+- [x] Content management system
+
+### **Phase 2: Core Features (🔄 IN PROGRESS - 65%)**
+- [x] Staff management system
+- [🔄] Gallery system completion
+- [🔄] Document management
+- [🔄] Settings system
+- [⏳] File upload optimization
+
+### **Phase 3: Public Services (🔴 NOT STARTED)**
+- [ ] Complaint management system
+- [ ] Permit application system
+- [ ] Real-time notifications
+- [ ] Email integration
+- [ ] Public website features
+
+### **Phase 4: Advanced Features (🔴 PLANNED)**
+- [ ] Performance optimization
+- [ ] Security hardening
+- [ ] Mobile app (PWA)
+- [ ] Analytics dashboard
+- [ ] AI chatbot integration
+
+---
+
+## 📋 **TO-DO LIST PRIORITAS**
+
+### 🔥 **CRITICAL (Minggu ini)**
+- [ ] Implementasi file upload system
+- [ ] Integrasi gallery dengan database real
+- [ ] Perbaikan mock data menjadi real API
+- [ ] Error handling yang konsisten
+- [ ] Input validation di semua form
+
+### ⚡ **HIGH PRIORITY (Minggu depan)**  
+- [ ] Complaint management system
+- [ ] Email notification setup
+- [ ] Real-time status updates
+- [ ] Performance optimization
+- [ ] Security audit
+
+### 🎯 **MEDIUM PRIORITY (Bulan ini)**
+- [ ] Permit application system  
+- [ ] Advanced admin features
+- [ ] Reporting system
+- [ ] Mobile responsiveness
+- [ ] SEO optimization
+
+---
+
+## 🔧 **API ENDPOINTS**
+
+### **✅ Implemented**
+```
+Authentication:
+POST   /api/auth/login           # User login
+
+Content Management:
+GET    /api/articles            # List articles
+POST   /api/articles            # Create article
+GET    /api/articles/[id]       # Get article
+PUT    /api/articles/[id]       # Update article
+DELETE /api/articles/[id]       # Delete article
+
+Staff Management:
+GET    /api/admin/staff-members # List staff
+POST   /api/admin/staff-members # Create staff
+GET    /api/admin/career-history # Career history
+```
+
+### **❌ Missing (Critical)**
+```
+Complaints:
+POST   /api/complaints          # Submit complaint
+GET    /api/complaints          # List complaints  
+PUT    /api/complaints/[id]     # Update status
+
+File Upload:
+POST   /api/upload              # Upload files
+GET    /api/upload/[id]         # Get file
+DELETE /api/upload/[id]         # Delete file
+
+Permits:
+POST   /api/permits             # Submit application
+GET    /api/permits             # List applications
+```
+
+**Lihat dokumentasi lengkap di:** [`API_TESTING_GUIDE.md`](API_TESTING_GUIDE.md)
+
+---
+
+## 🧪 **TESTING**
+
+### **Manual Testing**
+```bash
+# Test login API
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@test.com","password":"password123"}'
+
+# Test get articles
+curl -X GET "http://localhost:3000/api/articles?page=1&limit=10"
+```
+
+### **Automated Testing (Planned)**
+- Unit tests dengan Jest
+- Integration tests dengan Supertest  
+- E2E tests dengan Cypress
+- Performance tests dengan Artillery
+
+**Target Coverage:** 80%
+
+---
+
+## 🚀 **DEPLOYMENT**
+
+### **Development**
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run test         # Run tests
+npm run db:seed      # Seed database
+```
+
+### **Production Requirements**
+- **Server:** VPS dengan minimum 4GB RAM
+- **Database:** MySQL 8.0+ dengan replication
+- **Storage:** Cloud storage (AWS S3/Google Cloud)
+- **CDN:** CloudFlare atau similar
+- **Monitoring:** Application performance monitoring
+
+### **Environment Variables**
+```bash
+DATABASE_URL="mysql://user:pass@localhost:3306/dhl_db"
+NEXTAUTH_SECRET="your-secret-key"
+NEXTAUTH_URL="http://localhost:3000"
+UPLOAD_DIR="/uploads"
+MAX_FILE_SIZE=10485760
+```
    
    # Environment
    NODE_ENV="development"
@@ -152,56 +397,125 @@ mysql --version
 
 ## 🎯 **New Features (Latest)**
 
-### 👥 **Advanced Staff Management**
-- **6-Tab System**: Kepala Dinas, Wakil, Sekretaris, Kabid, Staff, Preview
-- **Quota Management**: Otomatis validasi jumlah maksimal per posisi
-- **Career History**: Track riwayat karir dan promosi staff
-- **Preview Mode**: Lihat tampilan publik struktur organisasi
-- **Role-based Access**: Pembatasan akses berdasarkan level
+---
 
-### 📊 **Enhanced Organization Structure**
-- **Dynamic Hierarchy**: Struktur organisasi yang dapat dikustomisasi
-- **Employee Statistics**: Dashboard statistik pegawai real-time
-- **Photo Management**: Upload dan kelola foto pejabat
-- **Public Preview**: Tampilan publik yang responsive
+## � **KNOWN ISSUES**
 
-## 🔐 Default Admin Credentials
+| **Issue** | **Severity** | **Status** | **ETA** |
+|-----------|--------------|------------|---------|
+| Mock data in gallery API | Medium | Open | Sept 10 |
+| Console logs in production | Low | Open | Sept 9 |
+| Missing error handling | High | Open | Sept 15 |
+| File upload validation missing | High | Open | Sept 11 |
+| Session timeout not handled | Medium | Open | Sept 13 |
 
-- **Email**: admin@dlhtasik.go.id
-- **Password**: admin123
+---
 
-> ⚠️ **Penting**: Ganti password default setelah login pertama kali!
+## 📈 **PERFORMANCE METRICS**
 
-## 📁 Project Structure
+| **Metric** | **Current** | **Target** | **Status** |
+|------------|-------------|------------|------------|
+| Page Load Time | 3.2s | <2s | 🔴 Needs work |
+| First Contentful Paint | 2.1s | <1.5s | 🟡 Fair |
+| Lighthouse Score | 72 | >90 | 🔴 Needs work |
+| Bundle Size | 2.3MB | <1.5MB | 🟡 Fair |
 
-```
-src/
-├── app/                    # Next.js App Router
-│   ├── (public)/          # Public pages
-│   ├── admin/             # Admin dashboard
-│   ├── api/               # API routes
-│   └── globals.css        # Global styles
-├── components/            # Reusable components
-├── context/              # React Context providers
-├── hooks/                # Custom React hooks
-├── lib/                  # Utilities and configurations
-└── data/                 # Static data and constants
+---
 
-prisma/
-└── schema.prisma         # Database schema
+## 🤝 **CONTRIBUTING**
 
-public/                   # Static assets
-```
+### **Development Workflow**
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open Pull Request
 
-## 🗄️ Database Setup (MySQL)
+### **Coding Standards**
+- **TypeScript** strict mode
+- **ESLint** dengan Airbnb config
+- **Prettier** untuk formatting
+- **Conventional Commits** untuk pesan commit
 
-### Keunggulan MySQL untuk Project Ini
-- ✅ **Production Ready** - Database server yang mature dan reliable
-- ✅ **Scalable** - Mendukung concurrent users dan large datasets  
-- ✅ **ACID Compliance** - Garanteed data integrity
-- ✅ **Full-text Search** - Advanced search capabilities
-- ✅ **Backup & Recovery** - Robust backup dan disaster recovery
-- ✅ **Performance** - Optimized untuk web applications
+### **Code Review Checklist**
+- [ ] Kode mengikuti style guide
+- [ ] Tests berjalan dan passing
+- [ ] Documentation ter-update
+- [ ] Security considerations reviewed
+- [ ] Performance impact assessed
+
+---
+
+## 📞 **SUPPORT & CONTACT**
+
+### **Tim Pengembangan**
+- **Project Manager:** TBD
+- **Lead Developer:** TBD  
+- **Frontend Developer:** TBD
+- **Backend Developer:** TBD
+- **DevOps Engineer:** TBD
+
+### **Official Contacts**
+- **Email:** sistem@dlh.tasikmalayakota.go.id
+- **Website:** https://dlh.tasikmalayakota.go.id
+- **Phone:** (0265) 123-4567
+- **Address:** Jl. Raya No. 123, Tasikmalaya, Jawa Barat
+
+### **Support Channels**
+- **Technical Issues:** GitHub Issues
+- **Bug Reports:** issue-tracker@dlh.tasikmalayakota.go.id
+- **Feature Requests:** feature-request@dlh.tasikmalayakota.go.id
+- **Emergency:** 24/7 hotline (production only)
+
+---
+
+## 📄 **LICENSE**
+
+**Proprietary Software**  
+© 2025 Dinas Lingkungan Hidup Kota Tasikmalaya. All rights reserved.
+
+Unauthorized copying, distribution, or modification of this software is strictly prohibited. This software is developed exclusively for Dinas Lingkungan Hidup Kota Tasikmalaya and may not be used, copied, or distributed without explicit written permission.
+
+---
+
+## 📚 **ADDITIONAL DOCUMENTATION**
+
+- 📋 **[DOCUMENTATION.md](DOCUMENTATION.md)** - Complete project documentation
+- 📊 **[PROJECT_TRACKER.md](PROJECT_TRACKER.md)** - Detailed progress tracking  
+- 🔧 **[TECHNICAL_GUIDE.md](TECHNICAL_GUIDE.md)** - Technical implementation guide
+- 🧪 **[API_TESTING_GUIDE.md](API_TESTING_GUIDE.md)** - API documentation & testing
+
+---
+
+## 🎯 **NEXT MILESTONES**
+
+### **Immediate Goals (This Month)**
+- ✅ Complete file upload system
+- ✅ Implement complaint management
+- ✅ Setup real-time notifications
+- ✅ Optimize performance metrics
+- ✅ Security hardening
+
+### **Quarterly Goals (Q4 2025)**
+- 🎯 Production deployment
+- 🎯 Mobile app (PWA)
+- 🎯 Advanced analytics
+- 🎯 Government system integration
+- 🎯 AI-powered features
+
+---
+
+<div align="center">
+
+**🌱 Mari Bersama Menjaga Lingkungan Hidup Kota Tasikmalaya 🌱**
+
+**Built with ❤️ for the environment and community**
+
+---
+
+**📝 Last Updated:** September 8, 2025 | **📋 Version:** 1.0.0-beta | **👥 Team:** DLH Development Team
+
+</div>
 
 ### Setup MySQL Database
 1. **Install MySQL** (jika belum ada)

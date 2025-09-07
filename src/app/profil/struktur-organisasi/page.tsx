@@ -370,7 +370,7 @@ const StrukturOrganisasi: React.FC = () => {
             <section className="mb-12">
               <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
                 <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-6 border-b-4 border-green-500 pb-2">
-                  Deskripsi Tugas Masing-Masing Bidang
+                  Deskripsi Singkat Tugas Masing-Masing Bidang
                 </h2>
                 
                 <div className="grid md:grid-cols-1 gap-8">

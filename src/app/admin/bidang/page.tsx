@@ -196,57 +196,66 @@ export default function AdminBidangOverviewPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-          <Building2 className="w-8 h-8 text-blue-600" />
-          Overview Bidang Kerja
-        </h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-2">
-          Ringkasan semua bidang kerja di DLH Kota Tasikmalaya
-        </p>
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <Building2 className="w-9 h-9 text-white" />
+              Manajemen Bidang Kerja
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">Kelola semua bidang kerja di DLH Kota Tasikmalaya</p>
+          </div>
+        </div>
       </div>
 
-      {/* Statistics Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-lg p-6 border border-blue-200 dark:border-blue-700">
-          <div className="flex items-center gap-3 mb-4">
-            <Building2 className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-            <h3 className="text-lg font-semibold text-blue-800 dark:text-blue-300">Total Bidang</h3>
-          </div>
-          <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">{bidangData.length}</div>
-          <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">Bidang Aktif</p>
-        </div>
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-8xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 md:p-12 border border-gray-200 dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 flex items-center gap-2">
+            <Building2 className="w-6 h-6 text-green-600" />
+            Ringkasan Semua Bidang
+          </h2>
 
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-gradient-to-r from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-lg p-6 border border-green-200 dark:border-green-700">
           <div className="flex items-center gap-3 mb-4">
-            <Users className="w-8 h-8 text-green-600 dark:text-green-400" />
-            <h3 className="text-lg font-semibold text-green-800 dark:text-green-300">Total Pegawai</h3>
+            <Building2 className="w-8 h-8 text-green-600 dark:text-green-400" />
+            <h3 className="text-lg font-semibold text-green-800 dark:text-green-300">Total Bidang</h3>
           </div>
-          <div className="text-3xl font-bold text-green-600 dark:text-green-400">{totalPegawai}</div>
-          <p className="text-sm text-green-700 dark:text-green-300 mt-1">Semua Bidang</p>
+          <div className="text-3xl font-bold text-green-600 dark:text-green-400">{bidangData.length}</div>
+          <p className="text-sm text-green-700 dark:text-green-300 mt-1">Bidang Aktif</p>
         </div>
 
-        <div className="bg-gradient-to-r from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-lg p-6 border border-purple-200 dark:border-purple-700">
+        <div className="bg-gradient-to-r from-emerald-50 to-emerald-100 dark:from-emerald-900/20 dark:to-emerald-800/20 rounded-lg p-6 border border-emerald-200 dark:border-emerald-700">
           <div className="flex items-center gap-3 mb-4">
-            <TrendingUp className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-            <h3 className="text-lg font-semibold text-purple-800 dark:text-purple-300">Total Tugas</h3>
+            <Users className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
+            <h3 className="text-lg font-semibold text-emerald-800 dark:text-emerald-300">Total Pegawai</h3>
           </div>
-          <div className="text-3xl font-bold text-purple-600 dark:text-purple-400">{totalTugas}</div>
-          <p className="text-sm text-purple-700 dark:text-purple-300 mt-1">Tugas Pokok</p>
+          <div className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">{totalPegawai}</div>
+          <p className="text-sm text-emerald-700 dark:text-emerald-300 mt-1">Semua Bidang</p>
         </div>
 
-        <div className="bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg p-6 border border-orange-200 dark:border-orange-700">
+        <div className="bg-gradient-to-r from-teal-50 to-teal-100 dark:from-teal-900/20 dark:to-teal-800/20 rounded-lg p-6 border border-teal-200 dark:border-teal-700">
           <div className="flex items-center gap-3 mb-4">
-            <Award className="w-8 h-8 text-orange-600 dark:text-orange-400" />
-            <h3 className="text-lg font-semibold text-orange-800 dark:text-orange-300">Total Fungsi</h3>
+            <TrendingUp className="w-8 h-8 text-teal-600 dark:text-teal-400" />
+            <h3 className="text-lg font-semibold text-teal-800 dark:text-teal-300">Total Tugas</h3>
           </div>
-          <div className="text-3xl font-bold text-orange-600 dark:text-orange-400">{totalFungsi}</div>
-          <p className="text-sm text-orange-700 dark:text-orange-300 mt-1">Fungsi Bidang</p>
+          <div className="text-3xl font-bold text-teal-600 dark:text-teal-400">{totalTugas}</div>
+          <p className="text-sm text-teal-700 dark:text-teal-300 mt-1">Tugas Pokok</p>
+        </div>
+
+        <div className="bg-gradient-to-r from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 rounded-lg p-6 border border-cyan-200 dark:border-cyan-700">
+          <div className="flex items-center gap-3 mb-4">
+            <Award className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
+            <h3 className="text-lg font-semibold text-cyan-800 dark:text-cyan-300">Total Fungsi</h3>
+          </div>
+          <div className="text-3xl font-bold text-cyan-600 dark:text-cyan-400">{totalFungsi}</div>
+          <p className="text-sm text-cyan-700 dark:text-cyan-300 mt-1">Fungsi Bidang</p>
         </div>
       </div>
 
       {/* Bidang Cards */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         {bidangData.map((bidang) => {
           const IconComponent = bidang.icon;
           const colors = getColorClasses(bidang.color);
@@ -314,16 +323,17 @@ export default function AdminBidangOverviewPage() {
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-600/50 rounded-lg p-8 mb-8">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <BarChart3 className="w-6 h-6 text-green-600" />
           Aksi Cepat
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link 
             href="/admin/profil/struktur-organisasi"
-            className="flex items-center gap-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors duration-200"
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 border border-gray-200 dark:border-gray-600 hover:border-green-300 dark:hover:border-green-600 transition-colors duration-200"
           >
-            <Building2 className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <Building2 className="w-6 h-6 text-green-600 dark:text-green-400" />
             <div>
               <div className="font-medium text-gray-900 dark:text-white">Struktur Organisasi</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Kelola bagan organisasi</div>
@@ -332,9 +342,9 @@ export default function AdminBidangOverviewPage() {
 
           <Link 
             href="/admin/profil/pegawai"
-            className="flex items-center gap-3 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/30 transition-colors duration-200"
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20 border border-gray-200 dark:border-gray-600 hover:border-emerald-300 dark:hover:border-emerald-600 transition-colors duration-200"
           >
-            <Users className="w-6 h-6 text-green-600 dark:text-green-400" />
+            <Users className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
             <div>
               <div className="font-medium text-gray-900 dark:text-white">Manajemen Pegawai</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Kelola data pegawai</div>
@@ -343,9 +353,9 @@ export default function AdminBidangOverviewPage() {
 
           <Link 
             href="/admin/profil/statistik-pegawai"
-            className="flex items-center gap-3 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/30 transition-colors duration-200"
+            className="flex items-center gap-3 p-4 bg-white dark:bg-gray-800 rounded-lg hover:bg-teal-50 dark:hover:bg-teal-900/20 border border-gray-200 dark:border-gray-600 hover:border-teal-300 dark:hover:border-teal-600 transition-colors duration-200"
           >
-            <BarChart3 className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+            <BarChart3 className="w-6 h-6 text-teal-600 dark:text-teal-400" />
             <div>
               <div className="font-medium text-gray-900 dark:text-white">Statistik Pegawai</div>
               <div className="text-sm text-gray-600 dark:text-gray-300">Kelola data statistik</div>
@@ -355,8 +365,9 @@ export default function AdminBidangOverviewPage() {
       </div>
 
       {/* Performance Overview */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+      <div className="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700/50 dark:to-gray-600/50 rounded-lg p-8">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <TrendingUp className="w-6 h-6 text-green-600" />
           Ringkasan Kinerja Bidang
         </h3>
         <div className="space-y-4">
@@ -366,7 +377,7 @@ export default function AdminBidangOverviewPage() {
             const efficiency = Math.round(((bidang.jumlah_pegawai || 0) / (bidang.jumlah_tugas + bidang.jumlah_fungsi)) * 100);
             
             return (
-              <div key={bidang.id} className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div key={bidang.id} className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-600">
                 <div className="flex items-center gap-4">
                   <div className={`p-3 rounded-full bg-gradient-to-r ${colors.bg}`}>
                     <IconComponent className="w-6 h-6 text-white" />
@@ -383,6 +394,8 @@ export default function AdminBidangOverviewPage() {
               </div>
             );
           })}
+        </div>
+      </div>
         </div>
       </div>
     </div>

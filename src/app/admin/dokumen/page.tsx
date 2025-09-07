@@ -1,7 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Edit, Trash2, FileText, Download, X, Save, Upload } from "lucide-react";
+import {
+  Plus,
+  Edit,
+  Trash2,
+  FileText,
+  Download,
+  X,
+  Save,
+  Upload,
+} from "lucide-react";
 
 interface Document {
   id: string;
@@ -24,7 +33,7 @@ export default function DokumenPage() {
     description: "",
     fileUrl: "",
     fileName: "",
-    category: "umum"
+    category: "umum",
   });
   const [selectedCategory, setSelectedCategory] = useState("semua");
 
@@ -48,25 +57,27 @@ export default function DokumenPage() {
         {
           id: "1",
           title: "Panduan Pengelolaan Limbah B3",
-          description: "Panduan lengkap pengelolaan limbah bahan berbahaya dan beracun untuk industri",
+          description:
+            "Panduan lengkap pengelolaan limbah bahan berbahaya dan beracun untuk industri",
           fileUrl: "/documents/panduan-limbah-b3.pdf",
           fileName: "panduan-limbah-b3.pdf",
           fileSize: "2.5 MB",
           category: "panduan",
           date: "2024-08-20",
-          downloadCount: 45
+          downloadCount: 45,
         },
         {
           id: "2",
           title: "Formulir Izin Lingkungan",
-          description: "Formulir pengajuan izin lingkungan untuk kegiatan usaha",
+          description:
+            "Formulir pengajuan izin lingkungan untuk kegiatan usaha",
           fileUrl: "/documents/formulir-izin-lingkungan.pdf",
           fileName: "formulir-izin-lingkungan.pdf",
           fileSize: "1.2 MB",
           category: "formulir",
           date: "2024-08-19",
-          downloadCount: 128
-        }
+          downloadCount: 128,
+        },
       ];
       setDocuments(mockData);
     } catch (error) {
@@ -82,10 +93,16 @@ export default function DokumenPage() {
       } else {
         console.log("Creating document:", formData);
       }
-      
+
       setIsModalOpen(false);
       setEditingDocument(null);
-      setFormData({ title: "", description: "", fileUrl: "", fileName: "", category: "umum" });
+      setFormData({
+        title: "",
+        description: "",
+        fileUrl: "",
+        fileName: "",
+        category: "umum",
+      });
       fetchDocuments();
     } catch (error) {
       console.error("Error saving document:", error);
@@ -99,7 +116,7 @@ export default function DokumenPage() {
       description: document.description,
       fileUrl: document.fileUrl,
       fileName: document.fileName,
-      category: document.category
+      category: document.category,
     });
     setIsModalOpen(true);
   };
@@ -117,13 +134,20 @@ export default function DokumenPage() {
 
   const openCreateModal = () => {
     setEditingDocument(null);
-    setFormData({ title: "", description: "", fileUrl: "", fileName: "", category: "umum" });
+    setFormData({
+      title: "",
+      description: "",
+      fileUrl: "",
+      fileName: "",
+      category: "umum",
+    });
     setIsModalOpen(true);
   };
 
-  const filteredDocuments = selectedCategory === "semua" 
-    ? documents 
-    : documents.filter(doc => doc.category === selectedCategory);
+  const filteredDocuments =
+    selectedCategory === "semua"
+      ? documents
+      : documents.filter((doc) => doc.category === selectedCategory);
 
   const handleDownload = (document: Document) => {
     // TODO: Implement actual download and increment counter
@@ -193,7 +217,10 @@ export default function DokumenPage() {
             </thead>
             <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
               {filteredDocuments.map((document) => (
-                <tr key={document.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <tr
+                  key={document.id}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10">
@@ -216,7 +243,11 @@ export default function DokumenPage() {
                   </td>
                   <td className="px-6 py-4">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                      {categories.find(cat => cat.value === document.category)?.label}
+                      {
+                        categories.find(
+                          (cat) => cat.value === document.category
+                        )?.label
+                      }
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
@@ -226,7 +257,7 @@ export default function DokumenPage() {
                     {document.downloadCount}x
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-900 dark:text-white">
-                    {new Date(document.date).toLocaleDateString('id-ID')}
+                    {new Date(document.date).toLocaleDateString("id-ID")}
                   </td>
                   <td className="px-6 py-4 text-sm font-medium">
                     <div className="flex gap-2">
@@ -294,7 +325,9 @@ export default function DokumenPage() {
                   <input
                     type="text"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
                     required
                   />
@@ -306,7 +339,9 @@ export default function DokumenPage() {
                   </label>
                   <textarea
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
                     rows={3}
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
                   />
@@ -319,7 +354,9 @@ export default function DokumenPage() {
                   <input
                     type="url"
                     value={formData.fileUrl}
-                    onChange={(e) => setFormData({ ...formData, fileUrl: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fileUrl: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
                     required
                   />
@@ -332,7 +369,9 @@ export default function DokumenPage() {
                   <input
                     type="text"
                     value={formData.fileName}
-                    onChange={(e) => setFormData({ ...formData, fileName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fileName: e.target.value })
+                    }
                     placeholder="contoh: dokumen.pdf"
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
                     required
@@ -345,15 +384,19 @@ export default function DokumenPage() {
                   </label>
                   <select
                     value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, category: e.target.value })
+                    }
                     className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white"
                     required
                   >
-                    {categories.filter(cat => cat.value !== "semua").map((category) => (
-                      <option key={category.value} value={category.value}>
-                        {category.label}
-                      </option>
-                    ))}
+                    {categories
+                      .filter((cat) => cat.value !== "semua")
+                      .map((category) => (
+                        <option key={category.value} value={category.value}>
+                          {category.label}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>

@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:8.0
     container_name: dhl_mysql
-    restart: always
+    restart: "unless-stopped"
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: dhl_kota_tasikmalaya
@@ -20,7 +20,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: dhl_phpmyadmin
-    restart: always
+    restart: "unless-stopped"
     ports:
       - "0.0.0.0:8080:80"
     environment:
