@@ -401,6 +401,8 @@ MAX_FILE_SIZE=10485760
 
 ## � **KNOWN ISSUES**
 
+<div align="center">
+
 | **Issue** | **Severity** | **Status** | **ETA** |
 |-----------|--------------|------------|---------|
 | Mock data in gallery API | Medium | Open | Sept 10 |
@@ -409,9 +411,13 @@ MAX_FILE_SIZE=10485760
 | File upload validation missing | High | Open | Sept 11 |
 | Session timeout not handled | Medium | Open | Sept 13 |
 
+</div>
+
 ---
 
 ## 📈 **PERFORMANCE METRICS**
+
+<div align="center">
 
 | **Metric** | **Current** | **Target** | **Status** |
 |------------|-------------|------------|------------|
@@ -419,6 +425,8 @@ MAX_FILE_SIZE=10485760
 | First Contentful Paint | 2.1s | <1.5s | 🟡 Fair |
 | Lighthouse Score | 72 | >90 | 🔴 Needs work |
 | Bundle Size | 2.3MB | <1.5MB | 🟡 Fair |
+
+</div>
 
 ---
 
