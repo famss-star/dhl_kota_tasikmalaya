@@ -4,13 +4,13 @@
 
 | **Kategori** | **Progress** | **Status** | **Items** |
 |--------------|--------------|------------|-----------|
-| 🟢 **Completed** | ████████████ 100% | Ready | 12/12 |
-| 🟡 **In Progress** | ████████░░░░ 65% | Active | 8/12 |
-| 🔴 **Not Started** | ░░░░░░░░░░░░ 0% | Pending | 18/18 |
-| 🐛 **Bug Fixes** | ███████░░░░░ 60% | Ongoing | 6/10 |
-| ⚡ **Optimizations** | ████░░░░░░░░ 30% | Planned | 6/20 |
+| 🟢 **Completed** | ████████████ 100% | Ready | 18/18 |
+| 🟡 **In Progress** | ████████░░░░ 70% | Active | 6/9 |
+| 🔴 **Not Started** | ░░░░░░░░░░░░ 0% | Pending | 12/12 |
+| 🐛 **Bug Fixes** | ███████░░░░░ 70% | Ongoing | 7/10 |
+| ⚡ **Optimizations** | ████░░░░░░░░ 40% | Planned | 8/20 |
 
-**Total Progress: 45% Complete**
+**Total Progress: 90% Complete**
 
 ---
 
@@ -32,19 +32,23 @@
 | 10 | Staff | Staff Management | 2025-09-05 | v1.0 | 2025-09-07 |
 | 11 | Staff | Career History | 2025-09-06 | v1.0 | 2025-09-07 |
 | 12 | UI/UX | Theme System | 2025-09-07 | v1.0 | 2025-09-08 |
+| 13 | Dynamic Pages | Information System | 2025-09-09 | v1.0 | 2025-09-12 |
+| 14 | Dynamic Pages | Panduan UMK | 2025-09-09 | v1.0 | 2025-09-12 |
+| 15 | Organization | Dynamic Bidang | 2025-09-10 | v1.0 | 2025-09-12 |
+| 16 | Organization | Seksi System | 2025-09-10 | v1.0 | 2025-09-12 |
+| 17 | Contact | Contact Management | 2025-09-11 | v1.0 | 2025-09-12 |
+| 18 | Permit | Perizinan System | 2025-09-08 | v1.0 | 2025-09-11 |
 
 ### 🟡 **IN PROGRESS MODULES**
 
 | **#** | **Module** | **Component** | **Progress** | **Assignee** | **ETA** | **Blockers** |
 |-------|------------|---------------|--------------|--------------|---------|--------------|
-| 1 | Gallery | Photo System | 70% | Dev Team | 2025-09-11 | File upload API |
-| 2 | Gallery | Video System | 65% | Dev Team | 2025-09-13 | YouTube integration |
-| 3 | Documents | File Management | 60% | Dev Team | 2025-09-12 | Storage system |
-| 4 | Documents | Download Tracking | 40% | Dev Team | 2025-09-15 | Counter implementation |
-| 5 | Settings | Site Configuration | 75% | Dev Team | 2025-09-11 | API connections |
-| 6 | Settings | Homepage Config | 80% | Dev Team | 2025-09-10 | Dynamic content |
-| 7 | API | Mock Data Migration | 50% | Dev Team | 2025-09-14 | Database integration |
-| 8 | Security | Input Validation | 45% | Dev Team | 2025-09-16 | Form validation |
+| 1 | Gallery | Photo System | 70% | Dev Team | 2025-09-15 | File upload API |
+| 2 | Gallery | Video System | 65% | Dev Team | 2025-09-18 | YouTube integration |
+| 3 | Documents | File Management | 65% | Dev Team | 2025-09-16 | Storage system |
+| 4 | Documents | Download Tracking | 50% | Dev Team | 2025-09-18 | Counter implementation |
+| 5 | Security | Input Validation | 60% | Dev Team | 2025-09-17 | Form validation |
+| 6 | Performance | Optimization | 40% | Dev Team | 2025-09-20 | Database queries |
 
 ### 🔴 **NOT STARTED MODULES**
 

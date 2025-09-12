@@ -1,637 +1,459 @@
 "use client";
 
-import { useState } from "react";
-import { 
-  FileText, 
-  Save, 
-  Eye, 
-  Plus, 
-  Trash2, 
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import {
+  FileText,
+  Plus,
+  Search,
+  Filter,
+  Eye,
+  Edit3,
+  Trash2,
   Download,
   Upload,
-  CheckCircle,
-  AlertCircle,
+  Calendar,
   Clock,
-  FileCheck
+  CheckCircle,
+  AlertTriangle,
+  XCircle,
+  BarChart3,
+  Building,
+  User,
+  MapPin,
 } from "lucide-react";
 
-interface FormField {
+interface PerizinanUmumData {
   id: string;
-  label: string;
-  type: 'text' | 'textarea' | 'file' | 'select' | 'date' | 'number';
-  required: boolean;
-  placeholder?: string;
-  options?: string[];
-  validation?: string;
-}
-
-interface PerizinanTemplate {
-  id: number;
-  nama_perizinan: string;
-  deskripsi: string;
-  persyaratan: string[];
-  form_fields: FormField[];
-  dokumen_template: string[];
-  waktu_proses: number;
-  biaya: number;
-  dasar_hukum: string[];
-  status: 'aktif' | 'non-aktif';
+  nomor_surat: string;
+  pemohon: string;
+  jenis_usaha: string;
+  nama_kegiatan: string;
+  lokasi: string;
+  tanggal_pengajuan: string;
+  tanggal_terbit?: string;
+  masa_berlaku?: string;
+  status: "pending" | "approved" | "rejected" | "review";
+  nilai_investasi: number;
+  luas_area: number;
+  persyaratan_terpenuhi: boolean;
+  catatan?: string;
+  dokumen_pendukung?: string[];
 }
 
 export default function AdminPerizinanUmumPage() {
-  const [activeTab, setActiveTab] = useState<'info' | 'persyaratan' | 'preview'>('info');
-  const [perizinanData, setPerizinanData] = useState<PerizinanTemplate>({
-    id: 1,
-    nama_perizinan: "Perizinan Umum & Surat Keterangan Lingkungan",
-    deskripsi: "Perizinan untuk kegiatan umum yang berkaitan dengan lingkungan hidup dan surat keterangan lingkungan untuk berbagai keperluan administratif.",
-    persyaratan: [
-      "Surat permohonan resmi",
-      "KTP pemohon yang masih berlaku",
-      "Surat kuasa (jika dikuasakan)",
-      "Fotokopi NPWP",
-      "Denah lokasi kegiatan",
-      "Deskripsi rencana kegiatan",
-      "Bukti pembayaran retribusi"
-    ],
-    form_fields: [
-      {
-        id: "nama_pemohon",
-        label: "Nama Lengkap Pemohon",
-        type: "text",
-        required: true,
-        placeholder: "Masukkan nama lengkap pemohon"
-      },
-      {
-        id: "nik",
-        label: "NIK",
-        type: "text",
-        required: true,
-        placeholder: "Nomor Induk Kependudukan"
-      },
-      {
-        id: "alamat",
-        label: "Alamat Lengkap",
-        type: "textarea",
-        required: true,
-        placeholder: "Alamat lengkap pemohon"
-      },
-      {
-        id: "no_telepon",
-        label: "Nomor Telepon",
-        type: "text",
-        required: true,
-        placeholder: "Nomor telepon yang dapat dihubungi"
-      },
-      {
-        id: "jenis_perizinan",
-        label: "Jenis Perizinan",
-        type: "select",
-        required: true,
-        options: [
-          "Surat Keterangan Tidak Keberatan Lingkungan",
-          "Izin Gangguan Lingkungan",
-          "Rekomendasi Lingkungan",
-          "Surat Pernyataan Pengelolaan Lingkungan"
-        ]
-      },
-      {
-        id: "lokasi_kegiatan",
-        label: "Lokasi Kegiatan",
-        type: "textarea",
-        required: true,
-        placeholder: "Alamat lokasi kegiatan yang akan dilakukan"
-      },
-      {
-        id: "deskripsi_kegiatan",
-        label: "Deskripsi Kegiatan",
-        type: "textarea",
-        required: true,
-        placeholder: "Jelaskan detail kegiatan yang akan dilakukan"
+  const router = useRouter();
+  const [perizinanData, setPerizinanData] = useState<PerizinanUmumData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [jenisFilter, setJenisFilter] = useState<string>("all");
+
+  useEffect(() => {
+    fetchPerizinanData();
+  }, []);
+
+  const fetchPerizinanData = async () => {
+    try {
+      setIsLoading(true);
+      const response = await fetch("/api/perizinan/umum");
+      const result = await response.json();
+
+      if (result.success) {
+        setPerizinanData(result.data);
+      } else {
+        console.error("Error fetching perizinan data:", result.error);
       }
-    ],
-    dokumen_template: [
-      "Template Surat Permohonan",
-      "Format Deskripsi Kegiatan",
-      "Contoh Denah Lokasi",
-      "Template Surat Pernyataan"
-    ],
-    waktu_proses: 5,
-    biaya: 50000,
-    dasar_hukum: [
-      "UU No. 32 Tahun 2009 tentang Perlindungan dan Pengelolaan Lingkungan Hidup",
-      "Perda Kota Tasikmalaya No. 8 Tahun 2018 tentang Retribusi Perizinan Tertentu",
-      "Perwali Tasikmalaya tentang Tata Cara Perizinan Lingkungan"
-    ],
-    status: 'aktif'
-  });
-
-  const [newPersyaratan, setNewPersyaratan] = useState("");
-  const [newDasarHukum, setNewDasarHukum] = useState("");
-  const [newFormField, setNewFormField] = useState<FormField>({
-    id: "",
-    label: "",
-    type: "text",
-    required: false,
-    placeholder: ""
-  });
-
-  // Functions for managing arrays
-  const addPersyaratan = () => {
-    if (newPersyaratan.trim()) {
-      setPerizinanData(prev => ({
-        ...prev,
-        persyaratan: [...prev.persyaratan, newPersyaratan.trim()]
-      }));
-      setNewPersyaratan("");
+    } catch (error) {
+      console.error("Error fetching perizinan data:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const removePersyaratan = (index: number) => {
-    setPerizinanData(prev => ({
-      ...prev,
-      persyaratan: prev.persyaratan.filter((_, i) => i !== index)
-    }));
-  };
-
-  const addDasarHukum = () => {
-    if (newDasarHukum.trim()) {
-      setPerizinanData(prev => ({
-        ...prev,
-        dasar_hukum: [...prev.dasar_hukum, newDasarHukum.trim()]
-      }));
-      setNewDasarHukum("");
-    }
-  };
-
-  const removeDasarHukum = (index: number) => {
-    setPerizinanData(prev => ({
-      ...prev,
-      dasar_hukum: prev.dasar_hukum.filter((_, i) => i !== index)
-    }));
-  };
-
-  const addFormField = () => {
-    if (newFormField.label && newFormField.id) {
-      setPerizinanData(prev => ({
-        ...prev,
-        form_fields: [...prev.form_fields, { ...newFormField }]
-      }));
-      setNewFormField({
-        id: "",
-        label: "",
-        type: "text",
-        required: false,
-        placeholder: ""
-      });
-    }
-  };
-
-  const removeFormField = (id: string) => {
-    setPerizinanData(prev => ({
-      ...prev,
-      form_fields: prev.form_fields.filter(field => field.id !== id)
-    }));
-  };
-
-  const handleSave = () => {
-    console.log("Data perizinan disimpan:", perizinanData);
-    alert("Data perizinan berhasil disimpan!");
-  };
-
-  const renderFormField = (field: FormField, value: string = "") => {
-    const baseClasses = "w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white";
-    
-    switch (field.type) {
-      case 'textarea':
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "approved":
         return (
-          <textarea
-            className={`${baseClasses} h-24 resize-none`}
-            placeholder={field.placeholder}
-            value={value}
-            readOnly
-          />
+          <span className="flex items-center gap-1 px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
+            <CheckCircle className="w-4 h-4" />
+            Disetujui
+          </span>
         );
-      case 'select':
+      case "pending":
         return (
-          <select className={baseClasses} value={value} disabled>
-            <option value="">Pilih {field.label}</option>
-            {field.options?.map((option, idx) => (
-              <option key={idx} value={option}>{option}</option>
-            ))}
-          </select>
+          <span className="flex items-center gap-1 px-3 py-1 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-800 dark:text-yellow-300 rounded-full text-sm font-medium">
+            <Clock className="w-4 h-4" />
+            Menunggu
+          </span>
         );
-      case 'file':
+      case "review":
         return (
-          <div className="flex items-center gap-2">
-            <input type="file" className={baseClasses} disabled />
-            <Upload className="w-5 h-5 text-gray-400" />
-          </div>
+          <span className="flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 rounded-full text-sm font-medium">
+            <Eye className="w-4 h-4" />
+            Review
+          </span>
+        );
+      case "rejected":
+        return (
+          <span className="flex items-center gap-1 px-3 py-1 bg-red-100 dark:bg-red-900/20 text-red-800 dark:text-red-300 rounded-full text-sm font-medium">
+            <XCircle className="w-4 h-4" />
+            Ditolak
+          </span>
         );
       default:
-        return (
-          <input
-            type={field.type}
-            className={baseClasses}
-            placeholder={field.placeholder}
-            value={value}
-            readOnly
-          />
-        );
+        return null;
     }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(amount);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  };
+
+  const filteredData = perizinanData.filter((item) => {
+    const matchesSearch =
+      item.pemohon.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.nomor_surat.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.nama_kegiatan.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || item.status === statusFilter;
+    const matchesJenis =
+      jenisFilter === "all" ||
+      item.jenis_usaha.toLowerCase().includes(jenisFilter.toLowerCase());
+    return matchesSearch && matchesStatus && matchesJenis;
+  });
+
+  const stats = {
+    total: perizinanData.length,
+    approved: perizinanData.filter((item) => item.status === "approved").length,
+    pending: perizinanData.filter((item) => item.status === "pending").length,
+    review: perizinanData.filter((item) => item.status === "review").length,
+    rejected: perizinanData.filter((item) => item.status === "rejected").length,
   };
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg p-6">
-        <div className="flex items-center gap-4">
-          <div className="bg-white/20 p-3 rounded-full">
-            <FileText className="w-8 h-8 text-white" />
-          </div>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold">Admin Perizinan Umum</h1>
-            <p className="text-blue-100">Kelola perizinan umum dan surat keterangan lingkungan</p>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle className="w-5 h-5" />
-            <span className="capitalize">{perizinanData.status}</span>
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <FileText className="w-9 h-9 text-white" />
+              Perizinan Umum
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">
+              Kelola perizinan umum lingkungan hidup
+            </p>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
-        <div className="border-b border-gray-200 dark:border-gray-700">
-          <div className="flex">
-            {[
-              { id: 'info', label: 'Informasi Umum', icon: FileText },
-              { id: 'persyaratan', label: 'Persyaratan & Form', icon: FileCheck },
-              { id: 'preview', label: 'Preview', icon: Eye }
-            ].map((tab) => {
-              const IconComponent = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm transition-colors duration-200 ${
-                    activeTab === tab.id
-                      ? 'border-blue-500 text-blue-600 dark:text-blue-400'
-                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
-                  }`}
-                >
-                  <IconComponent className="w-4 h-4" />
-                  {tab.label}
-                </button>
-              );
-            })}
+      {/* Statistics Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <BarChart3 className="w-8 h-8 text-blue-600" />
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Total Perizinan
+              </p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                {stats.total}
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="p-6">
-          {/* Tab: Informasi Umum */}
-          {activeTab === 'info' && (
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Nama Perizinan
-                  </label>
-                  <input
-                    type="text"
-                    value={perizinanData.nama_perizinan}
-                    onChange={(e) => setPerizinanData(prev => ({ ...prev, nama_perizinan: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Waktu Proses (hari)
-                    </label>
-                    <input
-                      type="number"
-                      value={perizinanData.waktu_proses}
-                      onChange={(e) => setPerizinanData(prev => ({ ...prev, waktu_proses: parseInt(e.target.value) || 0 }))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Biaya (Rp)
-                    </label>
-                    <input
-                      type="number"
-                      value={perizinanData.biaya}
-                      onChange={(e) => setPerizinanData(prev => ({ ...prev, biaya: parseInt(e.target.value) || 0 }))}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Deskripsi
-                </label>
-                <textarea
-                  value={perizinanData.deskripsi}
-                  onChange={(e) => setPerizinanData(prev => ({ ...prev, deskripsi: e.target.value }))}
-                  rows={4}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white resize-none"
-                />
-              </div>
-
-              {/* Dasar Hukum */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Dasar Hukum
-                </label>
-                <div className="space-y-2 mb-3">
-                  {perizinanData.dasar_hukum.map((hukum, index) => (
-                    <div key={index} className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                      <span className="flex-1 text-sm text-gray-900 dark:text-white">{hukum}</span>
-                      <button
-                        onClick={() => removeDasarHukum(index)}
-                        className="text-red-600 hover:text-red-700 transition-colors duration-200"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newDasarHukum}
-                    onChange={(e) => setNewDasarHukum(e.target.value)}
-                    placeholder="Tambah dasar hukum baru..."
-                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    onKeyPress={(e) => e.key === 'Enter' && addDasarHukum()}
-                  />
-                  <button
-                    onClick={addDasarHukum}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <CheckCircle className="w-8 h-8 text-green-600" />
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Disetujui
+              </p>
+              <p className="text-2xl font-bold text-green-600">
+                {stats.approved}
+              </p>
             </div>
-          )}
+          </div>
+        </div>
 
-          {/* Tab: Persyaratan & Form */}
-          {activeTab === 'persyaratan' && (
-            <div className="space-y-8">
-              {/* Persyaratan */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Persyaratan Dokumen</h3>
-                <div className="space-y-2 mb-4">
-                  {perizinanData.persyaratan.map((req, index) => (
-                    <div key={index} className="flex items-center gap-2 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
-                      <CheckCircle className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0" />
-                      <span className="flex-1 text-sm text-gray-900 dark:text-white">{req}</span>
-                      <button
-                        onClick={() => removePersyaratan(index)}
-                        className="text-red-600 hover:text-red-700 transition-colors duration-200"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newPersyaratan}
-                    onChange={(e) => setNewPersyaratan(e.target.value)}
-                    placeholder="Tambah persyaratan baru..."
-                    className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                    onKeyPress={(e) => e.key === 'Enter' && addPersyaratan()}
-                  />
-                  <button
-                    onClick={addPersyaratan}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Form Fields */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Field Formulir</h3>
-                <div className="space-y-3 mb-4">
-                  {perizinanData.form_fields.map((field, index) => (
-                    <div key={field.id} className="p-4 border border-gray-200 dark:border-gray-600 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="font-medium text-gray-900 dark:text-white">{field.label}</span>
-                          {field.required && <span className="text-red-500 text-sm">*</span>}
-                        </div>
-                        <button
-                          onClick={() => removeFormField(field.id)}
-                          className="text-red-600 hover:text-red-700 transition-colors duration-200"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-300 mb-2">
-                        Tipe: <span className="font-medium">{field.type}</span>
-                      </div>
-                      {renderFormField(field)}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Add New Field */}
-                <div className="p-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg">
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-3">Tambah Field Baru</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        ID Field
-                      </label>
-                      <input
-                        type="text"
-                        value={newFormField.id}
-                        onChange={(e) => setNewFormField(prev => ({ ...prev, id: e.target.value }))}
-                        placeholder="field_id"
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Label
-                      </label>
-                      <input
-                        type="text"
-                        value={newFormField.label}
-                        onChange={(e) => setNewFormField(prev => ({ ...prev, label: e.target.value }))}
-                        placeholder="Label Field"
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Tipe
-                      </label>
-                      <select
-                        value={newFormField.type}
-                        onChange={(e) => setNewFormField(prev => ({ ...prev, type: e.target.value as any }))}
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      >
-                        <option value="text">Text</option>
-                        <option value="textarea">Textarea</option>
-                        <option value="select">Select</option>
-                        <option value="file">File</option>
-                        <option value="date">Date</option>
-                        <option value="number">Number</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Placeholder
-                      </label>
-                      <input
-                        type="text"
-                        value={newFormField.placeholder}
-                        onChange={(e) => setNewFormField(prev => ({ ...prev, placeholder: e.target.value }))}
-                        placeholder="Placeholder text"
-                        className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 mb-4">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={newFormField.required}
-                        onChange={(e) => setNewFormField(prev => ({ ...prev, required: e.target.checked }))}
-                        className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                      />
-                      <span className="text-sm text-gray-700 dark:text-gray-300">Wajib diisi</span>
-                    </label>
-                  </div>
-                  <button
-                    onClick={addFormField}
-                    className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-                  >
-                    <Plus className="w-4 h-4" />
-                    Tambah Field
-                  </button>
-                </div>
-              </div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <Clock className="w-8 h-8 text-yellow-600" />
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Menunggu
+              </p>
+              <p className="text-2xl font-bold text-yellow-600">
+                {stats.pending}
+              </p>
             </div>
-          )}
+          </div>
+        </div>
 
-          {/* Tab: Preview */}
-          {activeTab === 'preview' && (
-            <div className="space-y-6">
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{perizinanData.nama_perizinan}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{perizinanData.deskripsi}</p>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-5 h-5 text-blue-600" />
-                      <span className="font-medium text-gray-900 dark:text-white">Waktu Proses</span>
-                    </div>
-                    <div className="text-2xl font-bold text-blue-600">{perizinanData.waktu_proses} hari</div>
-                  </div>
-                  
-                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <FileText className="w-5 h-5 text-green-600" />
-                      <span className="font-medium text-gray-900 dark:text-white">Biaya</span>
-                    </div>
-                    <div className="text-2xl font-bold text-green-600">Rp {perizinanData.biaya.toLocaleString()}</div>
-                  </div>
-                  
-                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle className="w-5 h-5 text-purple-600" />
-                      <span className="font-medium text-gray-900 dark:text-white">Status</span>
-                    </div>
-                    <div className="text-2xl font-bold text-purple-600 capitalize">{perizinanData.status}</div>
-                  </div>
-                </div>
-
-                {/* Persyaratan */}
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Persyaratan Dokumen</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                    {perizinanData.persyaratan.map((req, index) => (
-                      <div key={index} className="flex items-center gap-2 p-2 bg-white dark:bg-gray-800 rounded">
-                        <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />
-                        <span className="text-sm text-gray-900 dark:text-white">{req}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Form Preview */}
-                <div className="mb-6">
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Form Permohonan</h4>
-                  <div className="bg-white dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-600">
-                    <div className="space-y-4">
-                      {perizinanData.form_fields.map((field) => (
-                        <div key={field.id}>
-                          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                            {field.label}
-                            {field.required && <span className="text-red-500 ml-1">*</span>}
-                          </label>
-                          {renderFormField(field)}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Dasar Hukum */}
-                <div>
-                  <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Dasar Hukum</h4>
-                  <div className="space-y-2">
-                    {perizinanData.dasar_hukum.map((hukum, index) => (
-                      <div key={index} className="p-3 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-600">
-                        <span className="text-sm text-gray-900 dark:text-white">{hukum}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <Eye className="w-8 h-8 text-blue-600" />
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Review</p>
+              <p className="text-2xl font-bold text-blue-600">{stats.review}</p>
             </div>
-          )}
+          </div>
+        </div>
+
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-3">
+            <XCircle className="w-8 h-8 text-red-600" />
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">
+                Ditolak
+              </p>
+              <p className="text-2xl font-bold text-red-600">
+                {stats.rejected}
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center justify-between bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex items-center gap-4">
-          <button className="flex items-center gap-2 px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors duration-200">
-            <Download className="w-4 h-4" />
-            Export Template
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
-            <Upload className="w-4 h-4" />
-            Import Data
-          </button>
+      {/* Filters and Search */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+          <div className="flex flex-col md:flex-row gap-4 flex-1">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Cari pemohon, nomor surat, atau nama kegiatan..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              />
+            </div>
+
+            <div className="relative">
+              <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                className="pl-10 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option value="all">Semua Status</option>
+                <option value="pending">Menunggu</option>
+                <option value="review">Review</option>
+                <option value="approved">Disetujui</option>
+                <option value="rejected">Ditolak</option>
+              </select>
+            </div>
+
+            <div className="relative">
+              <Building className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <select
+                value={jenisFilter}
+                onChange={(e) => setJenisFilter(e.target.value)}
+                className="pl-10 pr-8 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              >
+                <option value="all">Semua Jenis</option>
+                <option value="industri">Industri</option>
+                <option value="pengolahan">Pengolahan</option>
+                <option value="energi">Energi</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200">
+              <Download className="w-4 h-4" />
+              Export
+            </button>
+            <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200">
+              <Upload className="w-4 h-4" />
+              Import
+            </button>
+            <button
+              onClick={() => router.push("/admin/perizinan/umum/create")}
+              className="flex items-center gap-2 bg-gray-200 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-300 transition-colors duration-200 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700"
+            >
+              <Plus className="w-5 h-5" />
+              Tambah Perizinan
+            </button>
+          </div>
         </div>
-        
-        <div className="flex items-center gap-3">
-          <button className="px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200">
-            Reset
-          </button>
-          <button 
-            onClick={handleSave}
-            className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200"
-          >
-            <Save className="w-4 h-4" />
-            Simpan Perubahan
-          </button>
+      </div>
+
+      {/* Data Table */}
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow border border-gray-200 dark:border-gray-700 overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Nomor & Pemohon
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Nama Kegiatan
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Lokasi & Area
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Investasi
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                  Aksi
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              {isLoading
+                ? Array.from({ length: 5 }).map((_, index) => (
+                    <tr key={index}>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse">
+                          <div className="h-4 bg-gray-300 rounded w-3/4 mb-2"></div>
+                          <div className="h-3 bg-gray-300 rounded w-1/2"></div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse h-4 bg-gray-300 rounded w-3/4"></div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse h-4 bg-gray-300 rounded w-full"></div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse h-4 bg-gray-300 rounded w-2/3"></div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse h-6 bg-gray-300 rounded-full w-20"></div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="animate-pulse flex gap-2">
+                          <div className="h-8 w-8 bg-gray-300 rounded"></div>
+                          <div className="h-8 w-8 bg-gray-300 rounded"></div>
+                          <div className="h-8 w-8 bg-gray-300 rounded"></div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                : filteredData.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-700"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div>
+                          <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            {item.nomor_surat}
+                          </div>
+                          <div className="text-sm text-gray-500 dark:text-gray-400">
+                            {item.pemohon}
+                          </div>
+                          <div className="text-xs text-gray-400 dark:text-gray-500">
+                            {item.jenis_usaha}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 dark:text-white max-w-xs">
+                          {item.nama_kegiatan}
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {formatDate(item.tanggal_pengajuan)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="text-sm text-gray-900 dark:text-white flex items-center gap-1">
+                          <MapPin className="w-3 h-3 text-gray-400" />
+                          <span className="truncate max-w-xs">
+                            {item.lokasi}
+                          </span>
+                        </div>
+                        <div className="text-sm text-gray-500 dark:text-gray-400">
+                          {item.luas_area.toLocaleString()} m²
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-900 dark:text-white font-medium">
+                          {formatCurrency(item.nilai_investasi)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        {getStatusBadge(item.status)}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() =>
+                              router.push(
+                                `/admin/perizinan/umum/view/${item.id}`
+                              )
+                            }
+                            className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300 p-1 rounded"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() =>
+                              router.push(
+                                `/admin/perizinan/umum/edit/${item.id}`
+                              )
+                            }
+                            className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 p-1 rounded"
+                          >
+                            <Edit3 className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              if (
+                                confirm(
+                                  "Apakah Anda yakin ingin menghapus perizinan ini?"
+                                )
+                              ) {
+                                // TODO: Implement delete function
+                                console.log("Delete perizinan:", item.id);
+                              }
+                            }}
+                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 p-1 rounded"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
         </div>
+
+        {filteredData.length === 0 && !isLoading && (
+          <div className="text-center py-12">
+            <FileText className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+              Tidak ada data perizinan
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              {searchTerm || statusFilter !== "all" || jenisFilter !== "all"
+                ? "Tidak ada data yang sesuai dengan filter yang dipilih."
+                : "Belum ada data perizinan yang diajukan."}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

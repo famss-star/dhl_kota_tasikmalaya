@@ -1,8 +1,8 @@
 # 📋 DOKUMENTASI LENGKAP - SISTEM DHL KOTA TASIKMALAYA
 
 > **Project:** Website & Sistem Manajemen Dinas Lingkungan Hidup Kota Tasikmalaya  
-> **Version:** 1.0.0  
-> **Last Updated:** September 8, 2025  
+> **Version:** 1.5.0-stable  
+> **Last Updated:** September 12, 2025  
 > **Tech Stack:** Next.js 15, TypeScript, Prisma, MySQL, Tailwind CSS
 
 ---
@@ -44,9 +44,18 @@ Frontend (Next.js) ↔️ API Routes ↔️ Database (MySQL via Prisma)
 | **Database Schema** | Core Models | ✅ Complete | 95% | All entities defined |
 | | Relationships | ✅ Complete | 90% | Foreign keys properly set |
 | | Migrations | ✅ Complete | 85% | Initial migration complete |
-| **Staff Management** | Staff CRUD | ✅ Complete | 90% | Employee management system |
-| | Career History | ✅ Complete | 85% | Position tracking |
-| | Statistics | ✅ Complete | 80% | Employee statistics dashboard |
+| **Staff Management** | Staff CRUD | ✅ Complete | 100% | Employee management system |
+| | Career History | ✅ Complete | 100% | Position tracking |
+| | Statistics | ✅ Complete | 100% | Employee statistics dashboard |
+| **Dynamic Pages** | Information System | ✅ Complete | 100% | Dynamic information pages |
+| | Panduan UMK | ✅ Complete | 100% | UMK guidelines system |
+| | Organization Structure | ✅ Complete | 100% | Dynamic bidang & seksi |
+| **Contact System** | Contact Management | ✅ Complete | 100% | Dynamic contact settings |
+| | Social Media Integration | ✅ Complete | 95% | Multi-platform integration |
+| **Permit System** | AMDAL Applications | ✅ Complete | 95% | Application workflow |
+| | UKL-UPL System | ✅ Complete | 95% | Permit management |
+| | SPPL System | ✅ Complete | 95% | Application process |
+| | IPLC System | ✅ Complete | 95% | Permit handling |
 
 ### **🟡 IN PROGRESS (Sedang Dikerjakan)**
 
@@ -54,13 +63,10 @@ Frontend (Next.js) ↔️ API Routes ↔️ Database (MySQL via Prisma)
 |-----------|--------------|------------|--------------|------------|----------|
 | **Gallery System** | Photo Gallery | 🔄 Partial | 70% | Mock data, need real API | 3 days |
 | | Video Gallery | 🔄 Partial | 65% | YouTube integration partial | 5 days |
-| | File Upload | 🔄 Partial | 50% | Storage system incomplete | 1 week |
-| **Document Management** | File CRUD | 🔄 Partial | 60% | Download tracking missing | 4 days |
+| | File Upload | 🔄 Partial | 60% | Storage system needs optimization | 1 week |
+| **Document Management** | File CRUD | 🔄 Partial | 65% | Download tracking missing | 4 days |
 | | Category System | 🔄 Partial | 70% | API integration needed | 3 days |
-| | Permission System | 🔄 Partial | 40% | Access control incomplete | 1 week |
-| **Settings System** | Site Settings | 🔄 Partial | 75% | Some APIs not connected | 3 days |
-| | Homepage Config | 🔄 Partial | 80% | Dynamic content partial | 2 days |
-| | Contact Settings | 🔄 Partial | 70% | Integration incomplete | 3 days |
+| | Permission System | 🔄 Partial | 50% | Access control incomplete | 1 week |
 
 ### **🔴 NOT STARTED (Belum Dimulai)**
 

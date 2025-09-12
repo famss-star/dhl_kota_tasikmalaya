@@ -25,8 +25,22 @@
 | `GET` | `/api/dashboard/stats` | Dashboard statistics | ✅ Complete | Yes | 2025-09-05 |
 | `GET` | `/api/agenda` | Get agenda items | ✅ Complete | No | 2025-09-06 |
 | `POST` | `/api/agenda` | Create agenda | ✅ Complete | Yes | 2025-09-06 |
-| `GET` | `/api/bidang` | Get department info | ✅ Complete | No | 2025-09-06 |
-| `POST` | `/api/bidang` | Create department | ✅ Complete | Yes | 2025-09-06 |
+| `GET` | `/api/bidang` | Get department info | ✅ Complete | No | 2025-09-12 |
+| `POST` | `/api/bidang` | Create department | ✅ Complete | Yes | 2025-09-12 |
+| `GET` | `/api/kontak` | Get contact information | ✅ Complete | No | 2025-09-12 |
+| `POST` | `/api/kontak` | Update contact settings | ✅ Complete | Yes | 2025-09-12 |
+| `GET` | `/api/logo-settings` | Get logo settings | ✅ Complete | No | 2025-09-11 |
+| `POST` | `/api/logo-settings` | Update logo settings | ✅ Complete | Yes | 2025-09-11 |
+| `GET` | `/api/tentang` | Get organization info | ✅ Complete | No | 2025-09-10 |
+| `POST` | `/api/tentang` | Update organization info | ✅ Complete | Yes | 2025-09-10 |
+| `GET` | `/api/profil` | Get profile settings | ✅ Complete | No | 2025-09-10 |
+| `POST` | `/api/profil` | Update profile settings | ✅ Complete | Yes | 2025-09-10 |
+| `GET` | `/api/informasi-pages` | Get information pages | ✅ Complete | No | 2025-09-12 |
+| `GET` | `/api/panduan-umk` | Get UMK guidelines | ✅ Complete | No | 2025-09-12 |
+| `GET` | `/api/perizinan/amdal` | Get AMDAL permits | ✅ Complete | No | 2025-09-11 |
+| `GET` | `/api/perizinan/uklupl` | Get UKL-UPL permits | ✅ Complete | No | 2025-09-11 |
+| `GET` | `/api/perizinan/sppl` | Get SPPL permits | ✅ Complete | No | 2025-09-11 |
+| `GET` | `/api/perizinan/iplc` | Get IPLC permits | ✅ Complete | No | 2025-09-11 |
 
 ### 🔴 **MISSING ENDPOINTS (High Priority)**
 

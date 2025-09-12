@@ -1,0 +1,659 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { Save, FileText, ChevronLeft, Upload, Calendar } from "lucide-react";
+
+interface FormData {
+  nomor_surat: string;
+  pemohon: string;
+  jenis_usaha: string;
+  nama_kegiatan: string;
+  lokasi: string;
+  tanggal_pengajuan: string;
+  tanggal_terbit: string;
+  masa_berlaku: string;
+  status: "pending" | "approved" | "rejected" | "review";
+  nilai_investasi: number;
+  luas_area: number;
+  persyaratan_terpenuhi: boolean;
+  catatan: string;
+  dokumen_pendukung: string[];
+}
+
+export default function EditPerizinanUmum() {
+  const router = useRouter();
+  const params = useParams();
+  const perizinanId = params.id as string;
+
+  const [loading, setLoading] = useState(false);
+  const [fetchLoading, setFetchLoading] = useState(true);
+  const [formData, setFormData] = useState<FormData>({
+    nomor_surat: "",
+    pemohon: "",
+    jenis_usaha: "",
+    nama_kegiatan: "",
+    lokasi: "",
+    tanggal_pengajuan: "",
+    tanggal_terbit: "",
+    masa_berlaku: "",
+    status: "pending",
+    nilai_investasi: 0,
+    luas_area: 0,
+    persyaratan_terpenuhi: false,
+    catatan: "",
+    dokumen_pendukung: [],
+  });
+
+  // Fetch existing data
+  useEffect(() => {
+    const fetchPerizinan = async () => {
+      try {
+        const response = await fetch(`/api/perizinan/umum/${perizinanId}`);
+        const data = await response.json();
+
+        if (data.success) {
+          const perizinan = data.data;
+          setFormData({
+            nomor_surat: perizinan.nomor_surat || "",
+            pemohon: perizinan.pemohon || "",
+            jenis_usaha: perizinan.jenis_usaha || "",
+            nama_kegiatan: perizinan.nama_kegiatan || "",
+            lokasi: perizinan.lokasi || "",
+            tanggal_pengajuan: perizinan.tanggal_pengajuan
+              ? perizinan.tanggal_pengajuan.split("T")[0]
+              : "",
+            tanggal_terbit: perizinan.tanggal_terbit
+              ? perizinan.tanggal_terbit.split("T")[0]
+              : "",
+            masa_berlaku: perizinan.masa_berlaku
+              ? perizinan.masa_berlaku.split("T")[0]
+              : "",
+            status: perizinan.status || "pending",
+            nilai_investasi: perizinan.nilai_investasi || 0,
+            luas_area: perizinan.luas_area || 0,
+            persyaratan_terpenuhi: perizinan.persyaratan_terpenuhi || false,
+            catatan: perizinan.catatan || "",
+            dokumen_pendukung: perizinan.dokumen_pendukung || [],
+          });
+        } else {
+          alert("Gagal memuat data perizinan");
+          router.push("/admin/perizinan/umum");
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+        alert("Terjadi kesalahan saat memuat data");
+        router.push("/admin/perizinan/umum");
+      } finally {
+        setFetchLoading(false);
+      }
+    };
+
+    if (perizinanId) {
+      fetchPerizinan();
+    }
+  }, [perizinanId, router]);
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value, type } = e.target;
+
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: (e.target as HTMLInputElement).checked,
+      }));
+    } else if (type === "number") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: parseFloat(value) || 0,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleDocumentUpload = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files;
+    if (!files) return;
+
+    const uploadedDocs: string[] = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      // Validasi ukuran file (10MB)
+      if (file.size > 10 * 1024 * 1024) {
+        alert(`File ${file.name} terlalu besar. Maksimal 10MB.`);
+        continue;
+      }
+
+      // Validasi tipe file
+      const allowedTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/jpg",
+      ];
+      if (!allowedTypes.includes(file.type)) {
+        alert(
+          `File ${file.name} tidak didukung. Gunakan PDF, PNG, JPG, atau JPEG.`
+        );
+        continue;
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("folder", "perizinan-umum");
+
+        const response = await fetch("/api/upload/document", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          uploadedDocs.push(result.data?.url || result.documentUrl || "");
+        } else {
+          alert(`Gagal mengupload ${file.name}: ${result.error}`);
+        }
+      } catch (error) {
+        console.error("Upload error:", error);
+        alert(`Terjadi kesalahan saat mengupload ${file.name}`);
+      }
+    }
+
+    if (uploadedDocs.length > 0) {
+      setFormData((prev) => ({
+        ...prev,
+        dokumen_pendukung: [...prev.dokumen_pendukung, ...uploadedDocs],
+      }));
+      alert(`${uploadedDocs.length} dokumen berhasil diupload!`);
+    }
+  };
+
+  const removeDocument = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      dokumen_pendukung: prev.dokumen_pendukung.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const response = await fetch(`/api/perizinan/umum/${perizinanId}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        alert("Perizinan umum berhasil diperbarui!");
+        router.push(`/admin/perizinan/umum/view/${perizinanId}`);
+      } else {
+        alert(data.error || "Gagal memperbarui perizinan umum");
+      }
+    } catch (error) {
+      console.error("Update perizinan error:", error);
+      alert("Terjadi kesalahan saat memperbarui perizinan umum");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (fetchLoading) {
+    return (
+      <div className="space-y-6">
+        {/* Header Loading */}
+        <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="animate-pulse">
+                <div className="h-12 bg-white/20 rounded mb-4 mx-auto w-64"></div>
+                <div className="h-6 bg-white/20 rounded mx-auto w-48"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="py-6">
+          {/* Form Header Loading */}
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+            <div className="flex items-center gap-4 mb-8 animate-pulse">
+              <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
+              <div className="h-8 bg-gray-300 dark:bg-gray-600 rounded w-64"></div>
+            </div>
+
+            {/* Form Loading */}
+            <div className="space-y-6">
+              {/* Form fields skeleton */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                  <div className="h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                </div>
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                  <div className="h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                  <div className="h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                </div>
+                <div className="animate-pulse">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-24 mb-2"></div>
+                  <div className="h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                </div>
+              </div>
+
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded w-32 mb-2"></div>
+                  <div className="h-12 bg-gray-300 dark:bg-gray-600 rounded"></div>
+                </div>
+              ))}
+
+              {/* Action buttons loading */}
+              <div className="flex gap-4 pt-6 animate-pulse">
+                <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded w-20"></div>
+                <div className="h-10 bg-gray-300 dark:bg-gray-600 rounded w-32"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 flex items-center justify-center gap-3">
+              <FileText className="w-9 h-9 text-white" />
+              Edit Perizinan Umum
+            </h1>
+            <p className="text-xl md:text-2xl opacity-90">
+              Perbarui data perizinan umum
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-4 mb-8">
+          <button
+            onClick={() => router.back()}
+            className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
+            Form Edit Perizinan Umum
+          </h2>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Informasi Dasar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="nomor_surat"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Nomor Surat *
+              </label>
+              <input
+                type="text"
+                id="nomor_surat"
+                name="nomor_surat"
+                value={formData.nomor_surat}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Contoh: PU/001/2025"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="pemohon"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Pemohon *
+              </label>
+              <input
+                type="text"
+                id="pemohon"
+                name="pemohon"
+                value={formData.pemohon}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Nama pemohon atau perusahaan"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="jenis_usaha"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Jenis Usaha *
+              </label>
+              <input
+                type="text"
+                id="jenis_usaha"
+                name="jenis_usaha"
+                value={formData.jenis_usaha}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="Contoh: Industri Makanan"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="status"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              >
+                <option value="pending">Menunggu</option>
+                <option value="review">Review</option>
+                <option value="approved">Disetujui</option>
+                <option value="rejected">Ditolak</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="nama_kegiatan"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Nama Kegiatan *
+            </label>
+            <input
+              type="text"
+              id="nama_kegiatan"
+              name="nama_kegiatan"
+              value={formData.nama_kegiatan}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Nama kegiatan yang akan dilakukan"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="lokasi"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Lokasi *
+            </label>
+            <textarea
+              id="lokasi"
+              name="lokasi"
+              value={formData.lokasi}
+              onChange={handleChange}
+              required
+              rows={3}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Alamat lengkap lokasi kegiatan"
+            />
+          </div>
+
+          {/* Tanggal */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div>
+              <label
+                htmlFor="tanggal_pengajuan"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                <Calendar className="w-4 h-4 inline mr-1" />
+                Tanggal Pengajuan *
+              </label>
+              <input
+                type="date"
+                id="tanggal_pengajuan"
+                name="tanggal_pengajuan"
+                value={formData.tanggal_pengajuan}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="tanggal_terbit"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                <Calendar className="w-4 h-4 inline mr-1" />
+                Tanggal Terbit
+              </label>
+              <input
+                type="date"
+                id="tanggal_terbit"
+                name="tanggal_terbit"
+                value={formData.tanggal_terbit}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="masa_berlaku"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                <Calendar className="w-4 h-4 inline mr-1" />
+                Masa Berlaku
+              </label>
+              <input
+                type="date"
+                id="masa_berlaku"
+                name="masa_berlaku"
+                value={formData.masa_berlaku}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+
+          {/* Detail Teknis */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label
+                htmlFor="nilai_investasi"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Nilai Investasi (Rp)
+              </label>
+              <input
+                type="number"
+                id="nilai_investasi"
+                name="nilai_investasi"
+                value={formData.nilai_investasi}
+                onChange={handleChange}
+                min="0"
+                step="1000"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="0"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="luas_area"
+                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+              >
+                Luas Area (m²)
+              </label>
+              <input
+                type="number"
+                id="luas_area"
+                name="luas_area"
+                value={formData.luas_area}
+                onChange={handleChange}
+                min="0"
+                step="0.1"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                placeholder="0"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="catatan"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+            >
+              Catatan
+            </label>
+            <textarea
+              id="catatan"
+              name="catatan"
+              value={formData.catatan}
+              onChange={handleChange}
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="Catatan tambahan atau keterangan"
+            />
+          </div>
+
+          {/* Upload Dokumen */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <Upload className="w-4 h-4 inline mr-1" />
+              Dokumen Pendukung
+            </label>
+
+            <div className="mb-4">
+              <div className="flex items-center justify-center w-full">
+                <label
+                  htmlFor="documentUpload"
+                  className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500"
+                >
+                  <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                    <Upload className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" />
+                    <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                      <span className="font-semibold">Klik untuk upload</span>{" "}
+                      dokumen tambahan
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      PDF, PNG, JPG, JPEG (MAX. 10MB per file)
+                    </p>
+                  </div>
+                  <input
+                    id="documentUpload"
+                    type="file"
+                    accept="application/pdf,image/*"
+                    multiple
+                    onChange={handleDocumentUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+            </div>
+
+            {/* Document List */}
+            {formData.dokumen_pendukung.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Dokumen yang telah diupload:
+                </p>
+                {formData.dokumen_pendukung.map((doc, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                  >
+                    <span className="text-sm text-gray-700 dark:text-gray-300 truncate">
+                      {doc.split("/").pop() || `Dokumen ${index + 1}`}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeDocument(index)}
+                      className="text-red-500 hover:text-red-700 ml-2"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="persyaratan_terpenuhi"
+              name="persyaratan_terpenuhi"
+              checked={formData.persyaratan_terpenuhi}
+              onChange={handleChange}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label
+              htmlFor="persyaratan_terpenuhi"
+              className="ml-2 block text-sm text-gray-700 dark:text-gray-300"
+            >
+              Persyaratan telah terpenuhi
+            </label>
+          </div>
+
+          <div className="flex gap-4 pt-6">
+            <button
+              type="button"
+              onClick={() => router.back()}
+              className="flex items-center gap-2 px-6 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+            >
+              Batal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex items-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Save className="w-4 h-4" />
+              {loading ? "Menyimpan..." : "Perbarui Perizinan"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

@@ -226,7 +226,7 @@ model Agenda {
 model SiteSetting {
   id          String      @id @default(cuid())
   key         String      @unique
-  value       String
+  value       String      @db.Text
   type        SettingType @default(STRING)
   label       String
   description String?
@@ -293,7 +293,7 @@ model CarouselItem {
 model HomepageSetting {
   id          String   @id @default(cuid())
   key         String   @unique
-  value       String
+  value       String   @db.Text
   type        String   @default("text")
   category    String   @default("general")
   description String?
@@ -322,16 +322,46 @@ model LayananCard {
 }
 
 model ContactSetting {
-  id        String   @id @default(cuid())
-  type      String
-  label     String
-  value     String
-  icon      String?
-  url       String?
-  order     Int      @default(1)
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(cuid())
+  // For flexible key-value pairs (existing structure)
+  type            String?  // "contact", "hours", "social", etc.
+  label           String?  // Display label
+  value           String?  // The actual value
+  icon            String?
+  url             String?
+  order           Int      @default(1)
+  
+  // Extended fields for detailed contact info
+  officeName      String?  // "Dinas Lingkungan Hidup Kota Tasikmalaya" 
+  address         String?  @db.Text
+  phone           String?
+  fax             String?
+  whatsapp        String?
+  email           String?
+  emailPrimary    String?
+  emailSecondary  String?
+  
+  // Operating Hours
+  mondayThursday  String?  // "08:00 - 16:00 WIB"
+  friday          String?  // "08:00 - 11:30 WIB"
+  weekend         String?  // "Tutup"
+  holiday         String?  // "Tutup"
+  
+  // Social Media
+  facebook        String?
+  twitter         String?
+  instagram       String?
+  youtube         String?
+  tiktok          String?
+  
+  // Map & Location
+  mapUrl          String?  @db.Text
+  latitude        Float?
+  longitude       Float?
+  
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
   @@map("contact_settings")
 }
@@ -346,11 +376,41 @@ model Bidang {
   tugasPokok       Json
   fungsiTitle      String
   fungsi           Json
+  seksi            Json?    // Array of seksi objects
   isActive         Boolean  @default(true)
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 
   @@map("bidang")
+}
+
+model PanduanUMK {
+  id          String   @id @default(cuid())
+  category    String   // e.g., "Dasar-dasar UMK", "Implementasi UMK"
+  title       String
+  description String   @db.Text
+  content     String?  @db.Text
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("panduan_umk")
+}
+
+model InformasiPage {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  icon        String   // Icon name for frontend mapping
+  link        String
+  color       String   // Color scheme identifier
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("informasi_pages")
 }
 
 model EmployeeStatistic {
@@ -447,4 +507,126 @@ enum EducationLevel {
   S1
   S2
   S3
+}
+
+// Models untuk Perizinan
+model Amdal {
+  id                         String   @id @default(cuid())
+  nomor_surat               String   @unique
+  pemohon                   String
+  nama_rencana_kegiatan     String
+  jenis_rencana_kegiatan    String
+  skala_kegiatan            String   @default("menengah")
+  lokasi                    String
+  deskripsi_kegiatan        String   @db.Text
+  tanggal_pengajuan         DateTime
+  tanggal_terbit            DateTime?
+  masa_berlaku              DateTime?
+  status                    String   @default("pending")
+  nilai_investasi           Decimal  @default(0) @db.Decimal(15,2)
+  luas_area                 Decimal  @default(0) @db.Decimal(10,2)
+  rona_lingkungan_hidup     String   @db.Text
+  prakiraan_dampak          String   @db.Text
+  evaluasi_dampak           String   @db.Text
+  rencana_pengelolaan       String   @db.Text
+  rencana_pemantauan        String   @db.Text
+  persyaratan_terpenuhi     Boolean  @default(false)
+  catatan                   String?  @db.Text
+  dokumen_pendukung         Json?
+  createdAt                 DateTime @default(now())
+  updatedAt                 DateTime @updatedAt
+
+  @@map("amdal")
+}
+
+model Iplc {
+  id                    String   @id @default(cuid())
+  nomor_surat          String   @unique
+  pemohon              String
+  nama_kegiatan        String
+  jenis_kegiatan       String
+  kategori_usaha       String   @default("wajib_iplc")
+  lokasi               String
+  deskripsi_kegiatan   String   @db.Text
+  tanggal_pengajuan    DateTime
+  tanggal_terbit       DateTime?
+  masa_berlaku         DateTime?
+  status               String   @default("pending")
+  nilai_investasi      Decimal  @default(0) @db.Decimal(15,2)
+  luas_area            Decimal  @default(0) @db.Decimal(10,2)
+  dampak_lingkungan    String   @db.Text
+  upaya_pengelolaan    String   @db.Text
+  upaya_pemantauan     String   @db.Text
+  komitmen_lingkungan  String   @db.Text
+  persyaratan_terpenuhi Boolean @default(false)
+  catatan              String?  @db.Text
+  dokumen_pendukung    Json?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@map("iplc")
+}
+
+model Sppl {
+  id                        String   @id @default(cuid())
+  nomor_surat              String   @unique
+  pemohon                  String
+  nama_kegiatan            String
+  jenis_usaha              String
+  lokasi                   String
+  tanggal_pengajuan        DateTime
+  tanggal_terbit           DateTime?
+  masa_berlaku             DateTime?
+  status                   String   @default("pending")
+  nilai_investasi          Decimal  @default(0) @db.Decimal(15,2)
+  luas_area                Decimal? @db.Decimal(10,2)
+  kategori_dampak          String
+  upaya_pengelolaan_sppl   String   @db.Text
+  persyaratan_terpenuhi    Boolean  @default(false)
+  catatan                  String?  @db.Text
+  dokumen_pendukung        Json?
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@map("sppl")
+}
+
+model UklUpl {
+  id                      String   @id @default(cuid())
+  nomor_surat            String   @unique
+  pemohon                String
+  nama_kegiatan          String
+  jenis_usaha            String
+  lokasi                 String
+  tanggal_pengajuan      DateTime
+  tanggal_terbit         DateTime?
+  masa_berlaku           DateTime?
+  status                 String   @default("pending")
+  nilai_investasi        Decimal  @default(0) @db.Decimal(15,2)
+  luas_area              Decimal  @default(0) @db.Decimal(10,2)
+  skala_usaha            String
+  upaya_pengelolaan_ukl  String   @db.Text
+  upaya_pemantauan_upl   String   @db.Text
+  dokumen_lengkap        Boolean  @default(false)
+  catatan                String?  @db.Text
+  dokumen_pendukung      Json?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@map("ukl_upl")
+}
+
+model PageContent {
+  id          String   @id @default(cuid())
+  page        String   // 'amdal', 'iplc', 'sppl', 'ukl-upl'
+  section     String   // 'about', 'legal_basis', 'procedure', 'cost_time', 'contact'
+  title       String
+  content     String   @db.Text
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([page, section])
+  @@map("page_contents")
 }

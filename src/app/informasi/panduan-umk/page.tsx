@@ -1,71 +1,129 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
+
+interface PanduanItem {
+  id: string;
+  title: string;
+  description: string;
+  content?: string;
+  order: number;
+}
+
+interface PanduanCategory {
+  [category: string]: PanduanItem[];
+}
 
 const PanduanUMKPage = () => {
-  const panduanCategories = [
-    {
-      title: "Dasar-dasar UMK",
-      items: [
-        {
-          name: "Pengertian UMK",
-          description: "Penjelasan mengenai konsep dasar Upaya Manajemen Keselamatan",
-          link: "#pengertian-umk"
-        },
-        {
-          name: "Tujuan dan Manfaat",
-          description: "Tujuan penerapan UMK dan manfaatnya bagi lingkungan",
-          link: "#tujuan-manfaat"
-        },
-        {
-          name: "Landasan Hukum",
-          description: "Peraturan dan regulasi terkait UMK",
-          link: "#landasan-hukum"
+  const [panduanData, setPanduanData] = useState<PanduanCategory>({});
+  const [loading, setLoading] = useState(true);
+
+  // Fallback hardcoded data
+  const fallbackData: PanduanCategory = {
+    "Dasar-dasar UMK": [
+      {
+        id: "pengertian-umk",
+        title: "Pengertian UMK",
+        description: "Penjelasan mengenai konsep dasar Upaya Manajemen Keselamatan",
+        order: 1
+      },
+      {
+        id: "tujuan-manfaat",
+        title: "Tujuan dan Manfaat",
+        description: "Tujuan penerapan UMK dan manfaatnya bagi lingkungan",
+        order: 2
+      },
+      {
+        id: "landasan-hukum",
+        title: "Landasan Hukum",
+        description: "Peraturan dan regulasi terkait UMK",
+        order: 3
+      }
+    ],
+    "Implementasi UMK": [
+      {
+        id: "identifikasi-risiko",
+        title: "Identifikasi Risiko",
+        description: "Cara mengidentifikasi potensi bahaya lingkungan",
+        order: 4
+      },
+      {
+        id: "penilaian-dampak",
+        title: "Penilaian Dampak",
+        description: "Metode penilaian dampak lingkungan",
+        order: 5
+      },
+      {
+        id: "rencana-pengendalian",
+        title: "Rencana Pengendalian",
+        description: "Penyusunan rencana pengendalian dampak lingkungan",
+        order: 6
+      }
+    ],
+    "Monitoring dan Evaluasi": [
+      {
+        id: "program-pemantauan",
+        title: "Program Pemantauan",
+        description: "Panduan pemantauan implementasi UMK",
+        order: 7
+      },
+      {
+        id: "evaluasi-kinerja",
+        title: "Evaluasi Kinerja",
+        description: "Metode evaluasi efektivitas UMK",
+        order: 8
+      },
+      {
+        id: "pelaporan",
+        title: "Pelaporan",
+        description: "Format dan prosedur pelaporan UMK",
+        order: 9
+      }
+    ]
+  };
+
+  useEffect(() => {
+    fetchPanduanData();
+  }, []);
+
+  const fetchPanduanData = async () => {
+    try {
+      const response = await fetch('/api/panduan-umk');
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && Object.keys(result.data).length > 0) {
+          setPanduanData(result.data);
+        } else {
+          // Use fallback data if API returns empty
+          setPanduanData(fallbackData);
         }
-      ]
-    },
-    {
-      title: "Implementasi UMK",
-      items: [
-        {
-          name: "Identifikasi Risiko",
-          description: "Cara mengidentifikasi potensi bahaya lingkungan",
-          link: "#identifikasi-risiko"
-        },
-        {
-          name: "Penilaian Dampak",
-          description: "Metode penilaian dampak lingkungan",
-          link: "#penilaian-dampak"
-        },
-        {
-          name: "Rencana Pengendalian",
-          description: "Penyusunan rencana pengendalian dampak lingkungan",
-          link: "#rencana-pengendalian"
-        }
-      ]
-    },
-    {
-      title: "Monitoring dan Evaluasi",
-      items: [
-        {
-          name: "Program Pemantauan",
-          description: "Panduan pemantauan implementasi UMK",
-          link: "#program-pemantauan"
-        },
-        {
-          name: "Evaluasi Kinerja",
-          description: "Metode evaluasi efektivitas UMK",
-          link: "#evaluasi-kinerja"
-        },
-        {
-          name: "Pelaporan",
-          description: "Format dan prosedur pelaporan UMK",
-          link: "#pelaporan"
-        }
-      ]
+      } else {
+        // Use fallback data if API fails
+        setPanduanData(fallbackData);
+      }
+    } catch (error) {
+      console.error('Error fetching panduan data:', error);
+      // Use fallback data on error
+      setPanduanData(fallbackData);
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+          <p className="text-gray-600 dark:text-gray-300">
+            Memuat panduan UMK...
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -106,28 +164,28 @@ const PanduanUMKPage = () => {
         </section>
 
         {/* Categories */}
-        {panduanCategories.map((category, index) => (
-          <section key={index} className="max-w-6xl mx-auto mb-12">
+        {Object.entries(panduanData).map(([category, items]) => (
+          <section key={category} className="max-w-6xl mx-auto mb-12">
             <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-8">
-              {category.title}
+              {category}
             </h2>
             <div className="grid gap-6">
-              {category.items.map((item, itemIndex) => (
+              {items.map((item) => (
                 <div
-                  key={itemIndex}
+                  key={item.id}
                   className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-6 hover:shadow-2xl transition-shadow"
                 >
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
                       <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
-                        {item.name}
+                        {item.title}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-300">
                         {item.description}
                       </p>
                     </div>
                     <Link
-                      href={item.link}
+                      href={`#${item.id}`}
                       className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                     >
                       Baca Selengkapnya

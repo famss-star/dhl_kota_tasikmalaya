@@ -52,6 +52,24 @@ export default function Pelayanan() {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-6xl mx-auto">
+          {/* Quick Status Check */}
+          <section className="bg-gradient-to-r from-blue-100 to-green-100 dark:from-blue-900 dark:to-green-900 rounded-xl shadow-lg p-8 mb-12 border border-blue-200 dark:border-blue-700">
+            <div className="text-center">
+              <h2 className="text-2xl font-bold text-blue-900 dark:text-blue-200 mb-4">
+                🔍 Cek Status Pengajuan Anda
+              </h2>
+              <p className="text-blue-800 dark:text-blue-300 mb-6">
+                Pantau perkembangan pengajuan perizinan lingkungan yang sudah Anda kirim
+              </p>
+              <a
+                href="/perizinan/status"
+                className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+              >
+                Cek Status Pengajuan
+              </a>
+            </div>
+          </section>
+
           <section className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 border border-gray-200 dark:border-gray-700">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-8 text-center">
               Daftar Perizinan Publik DLH

@@ -1,7 +1,142 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { CalendarDays, Newspaper, FileText, BarChart2, Megaphone, BookOpen } from 'lucide-react';
+import { CalendarDays, Newspaper, FileText, BarChart2, Megaphone, BookOpen, Loader2 } from 'lucide-react';
+
+interface InformasiPage {
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  link: string;
+  color: string;
+  order: number;
+}
 
 export default function Informasi() {
+  const [informasiPages, setInformasiPages] = useState<InformasiPage[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fallback hardcoded data
+  const fallbackPages: InformasiPage[] = [
+    {
+      id: 'agenda',
+      title: 'Agenda Kegiatan',
+      description: 'Lihat jadwal kegiatan dan acara DLH Kota Tasikmalaya',
+      icon: 'CalendarDays',
+      link: '/informasi/agenda',
+      color: 'green',
+      order: 1
+    },
+    {
+      id: 'berita',
+      title: 'Berita Terbaru',
+      description: 'Update berita dan informasi lingkungan hidup terkini',
+      icon: 'Newspaper',
+      link: '/informasi/berita',
+      color: 'blue',
+      order: 2
+    },
+    {
+      id: 'artikel',
+      title: 'Artikel',
+      description: 'Artikel edukatif tentang lingkungan hidup',
+      icon: 'FileText',
+      link: '/informasi/artikel',
+      color: 'yellow',
+      order: 3
+    },
+    {
+      id: 'panduan-umk',
+      title: 'Panduan UMK',
+      description: 'Panduan lengkap untuk memahami dan menerapkan Upaya Manajemen Keselamatan dalam pengelolaan lingkungan hidup',
+      icon: 'BookOpen',
+      link: '/informasi/panduan-umk',
+      color: 'teal',
+      order: 4
+    }
+  ];
+
+  useEffect(() => {
+    fetchInformasiPages();
+  }, []);
+
+  const fetchInformasiPages = async () => {
+    try {
+      const response = await fetch('/api/informasi-pages');
+      if (response.ok) {
+        const result = await response.json();
+        if (result.success && result.data.length > 0) {
+          setInformasiPages(result.data);
+        } else {
+          setInformasiPages(fallbackPages);
+        }
+      } else {
+        setInformasiPages(fallbackPages);
+      }
+    } catch (error) {
+      console.error('Error fetching informasi pages:', error);
+      setInformasiPages(fallbackPages);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getIconComponent = (iconName: string) => {
+    const icons: { [key: string]: any } = {
+      CalendarDays,
+      Newspaper,
+      FileText,
+      BookOpen,
+      BarChart2,
+      Megaphone
+    };
+    return icons[iconName] || CalendarDays;
+  };
+
+  const getColorClasses = (color: string) => {
+    const colorMap: { [key: string]: any } = {
+      green: {
+        bg: 'bg-green-100 dark:bg-green-900',
+        text: 'text-green-600 dark:text-green-400',
+        hover: 'group-hover:text-green-600 dark:group-hover:text-green-400',
+        button: 'bg-green-600 hover:bg-green-700'
+      },
+      blue: {
+        bg: 'bg-blue-100 dark:bg-blue-900',
+        text: 'text-blue-600 dark:text-blue-400',
+        hover: 'group-hover:text-blue-600 dark:group-hover:text-blue-400',
+        button: 'bg-blue-600 hover:bg-blue-700'
+      },
+      yellow: {
+        bg: 'bg-yellow-100 dark:bg-yellow-900',
+        text: 'text-yellow-600 dark:text-yellow-400',
+        hover: 'group-hover:text-yellow-600 dark:group-hover:text-yellow-400',
+        button: 'bg-yellow-600 hover:bg-yellow-700'
+      },
+      teal: {
+        bg: 'bg-teal-100 dark:bg-teal-900',
+        text: 'text-teal-600 dark:text-teal-400',
+        hover: 'group-hover:text-teal-600 dark:group-hover:text-teal-400',
+        button: 'bg-teal-600 hover:bg-teal-700'
+      }
+    };
+    return colorMap[color] || colorMap.blue;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+          <p className="text-gray-600 dark:text-gray-300">
+            Memuat halaman informasi...
+          </p>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
@@ -27,81 +162,31 @@ export default function Informasi() {
           {/* Available Features */}
           <section className="mb-12">
             <div className="grid md:grid-cols-2 gap-8">
-              <Link href="/informasi/agenda" className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                  <div className="bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                    <CalendarDays className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-green-600 dark:group-hover:text-green-400">
-                    Agenda Kegiatan
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                    Lihat jadwal kegiatan dan acara DLH Kota Tasikmalaya
-                  </p>
-                  <div className="text-center mt-auto">
-                    <span className="inline-block bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                      Lihat Agenda
-                    </span>
-                  </div>
-                </div>
-              </Link>
-
-              <Link href="/informasi/berita" className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                  <div className="bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                    <Newspaper className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                    Berita Terbaru
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                    Update berita dan informasi lingkungan hidup terkini
-                  </p>
-                  <div className="text-center mt-auto">
-                    <span className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                      Lihat Berita
-                    </span>
-                  </div>
-                </div>
-              </Link>
-
-              <Link href="/informasi/artikel" className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                  <div className="bg-yellow-100 dark:bg-yellow-900 text-yellow-600 dark:text-yellow-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                    <FileText className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-yellow-600 dark:group-hover:text-yellow-400">
-                    Artikel
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                    Artikel edukatif tentang lingkungan hidup
-                  </p>
-                  <div className="text-center mt-auto">
-                    <span className="inline-block bg-yellow-600 hover:bg-yellow-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                      Lihat Artikel
-                    </span>
-                  </div>
-                </div>
-              </Link>
-
-              <Link href="/informasi/panduan-umk" className="group">
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
-                  <div className="bg-teal-100 dark:bg-teal-900 text-teal-600 dark:text-teal-400 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                    <BookOpen className="w-8 h-8" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center group-hover:text-teal-600 dark:group-hover:text-teal-400">
-                    Panduan UMK
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
-                    Panduan lengkap untuk memahami dan menerapkan Upaya Manajemen Keselamatan dalam pengelolaan lingkungan hidup
-                  </p>
-                  <div className="text-center mt-auto">
-                    <span className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-6 rounded-lg transition duration-300">
-                      Lihat Panduan
-                    </span>
-                  </div>
-                </div>
-              </Link>
+              {informasiPages.map((page) => {
+                const IconComponent = getIconComponent(page.icon);
+                const colors = getColorClasses(page.color);
+                
+                return (
+                  <Link key={page.id} href={page.link} className="group">
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 group-hover:shadow-2xl transition duration-300 transform group-hover:scale-105 min-h-[320px] flex flex-col justify-between">
+                      <div className={`${colors.bg} ${colors.text} rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6`}>
+                        <IconComponent className="w-8 h-8" />
+                      </div>
+                      <h3 className={`text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center ${colors.hover}`}>
+                        {page.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300 text-center mb-6">
+                        {page.description}
+                      </p>
+                      <div className="text-center mt-auto">
+                        <span className={`inline-block ${colors.button} text-white font-semibold py-2 px-6 rounded-lg transition duration-300`}>
+                          Lihat {page.title}
+                        </span>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </section>
 

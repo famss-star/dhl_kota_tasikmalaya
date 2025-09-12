@@ -726,33 +726,35 @@ function ContactTab() {
     { value: "social", label: "Media Sosial", icon: ExternalLink },
   ];
 
-  // Mock data
+  // Fetch contact data from API
   useEffect(() => {
-    const mockContactInfos: ContactInfo[] = [
-      {
-        id: "1",
-        type: "phone",
-        label: "Telepon Utama",
-        value: "(0265) 123456",
-        description: "Nomor telepon kantor pusat DLH",
-        isPublic: true,
-        isPrimary: true,
-        order: 1,
-        icon: "phone",
-      },
-      {
-        id: "2",
-        type: "email",
-        label: "Email Resmi",
-        value: "info@dlh.tasikmalayakota.go.id",
-        description: "Email resmi untuk komunikasi umum",
-        isPublic: true,
-        isPrimary: true,
-        order: 3,
-        icon: "mail",
-      },
-    ];
+    const fetchContactData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch('/api/contact-settings');
+        if (response.ok) {
+          const data = await response.json();
+          const contactInfos: ContactInfo[] = data.map((item: any) => ({
+            id: item.id,
+            type: item.type,
+            label: item.label,
+            value: item.value,
+            description: item.description || '',
+            isPublic: item.isPublic,
+            isPrimary: item.isPrimary,
+            order: item.order,
+            icon: item.icon || item.type,
+          }));
+          setContactInfos(contactInfos);
+        }
+      } catch (error) {
+        console.error('Error fetching contact data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    // Initialize office locations with mock data (will be replaced with API later)
     const mockOfficeLocations: OfficeLocation[] = [
       {
         id: "1",
@@ -770,9 +772,9 @@ function ContactTab() {
         isActive: true,
       },
     ];
-
-    setContactInfos(mockContactInfos);
     setOfficeLocations(mockOfficeLocations);
+
+    fetchContactData();
   }, []);
 
   const handleEdit = (item: any, type: "contact" | "location") => {
@@ -844,22 +846,75 @@ function ContactTab() {
     setLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       if (editingType === "contact") {
-        const newContact: ContactInfo = {
-          id: editingItem?.id || Date.now().toString(),
-          ...contactFormData,
+        const contactData = {
+          type: contactFormData.type,
+          label: contactFormData.label,
+          value: contactFormData.value,
+          order: contactFormData.order,
+          isActive: contactFormData.isPublic,
+          ...(contactFormData.icon && { icon: contactFormData.icon }),
         };
 
         if (editingItem) {
-          setContactInfos((prev) =>
-            prev.map((c) => (c.id === editingItem.id ? newContact : c))
-          );
+          // Update existing contact
+          const response = await fetch(`/api/contact-settings/${editingItem.id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(contactData),
+          });
+
+          if (response.ok) {
+            const updatedContact = await response.json();
+            setContactInfos((prev) =>
+              prev.map((c) => c.id === editingItem.id ? {
+                id: updatedContact.data.id,
+                type: updatedContact.data.type as ContactInfo["type"],
+                label: updatedContact.data.label,
+                value: updatedContact.data.value,
+                description: '',
+                isPublic: updatedContact.data.isActive,
+                isPrimary: false,
+                order: updatedContact.data.order,
+                icon: updatedContact.data.icon || updatedContact.data.type,
+              } : c)
+            );
+          } else {
+            throw new Error('Failed to update contact');
+          }
         } else {
-          setContactInfos((prev) => [...prev, newContact]);
+          // Create new contact
+          const newContactData = {
+            ...contactData,
+            id: `contact-${Date.now()}`,
+          };
+          
+          const response = await fetch('/api/contact-settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newContactData),
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            const newContact = result.data;
+            setContactInfos((prev) => [...prev, {
+              id: newContact.id,
+              type: newContact.type as ContactInfo["type"],
+              label: newContact.label,
+              value: newContact.value,
+              description: '',
+              isPublic: newContact.isActive,
+              isPrimary: false,
+              order: newContact.order,
+              icon: newContact.icon || newContact.type,
+            }]);
+          } else {
+            throw new Error('Failed to create contact');
+          }
         }
       } else if (editingType === "location") {
+        // Keep location logic as mock for now since we only have contact settings API
         const newLocation: OfficeLocation = {
           id: editingItem?.id || Date.now().toString(),
           ...locationFormData,
@@ -883,6 +938,7 @@ function ContactTab() {
       alert("Data berhasil disimpan!");
     } catch (error) {
       console.error("Error saving data:", error);
+      alert("Terjadi kesalahan saat menyimpan data");
     } finally {
       setLoading(false);
     }
@@ -893,15 +949,25 @@ function ContactTab() {
 
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
       if (type === "contact") {
-        setContactInfos((prev) => prev.filter((c) => c.id !== id));
+        const response = await fetch(`/api/contact-settings/${id}`, {
+          method: 'DELETE',
+        });
+
+        if (response.ok) {
+          setContactInfos((prev) => prev.filter((c) => c.id !== id));
+          alert("Kontak berhasil dihapus!");
+        } else {
+          alert("Terjadi kesalahan saat menghapus kontak");
+        }
       } else if (type === "location") {
+        // Keep location as mock for now
+        await new Promise((resolve) => setTimeout(resolve, 500));
         setOfficeLocations((prev) => prev.filter((l) => l.id !== id));
       }
     } catch (error) {
       console.error("Error deleting item:", error);
+      alert("Terjadi kesalahan saat menghapus data");
     } finally {
       setLoading(false);
     }

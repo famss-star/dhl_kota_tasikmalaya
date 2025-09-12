@@ -2,55 +2,52 @@
 'use client';
 
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 import StatisticsSection, { StatisticsItem } from "@/components/StatisticsSection";
 import { useLanguage } from "../../context/LanguageContext";
-import { Network, Trees, Trash2, Factory, Landmark } from 'lucide-react';
+import { Network, Trees, Trash2, Factory, Landmark, Loader2 } from 'lucide-react';
+
+interface BidangData {
+  id: string;
+  slug: string;
+  name: string;
+  aboutTitle: string;
+  aboutDescription: string;
+  tugasPokokTitle: string;
+  tugasPokok: string;
+  fungsiTitle: string;
+  fungsi: string;
+  isActive: boolean;
+}
 
 export default function Bidang() {
   const { t } = useLanguage();
-  const bidangData = [
-    {
-      id: 1,
-      name: 'Bidang Tata Lingkungan',
-      description: 'Bidang Tata Lingkungan mempunyai tugas pokok menyelenggarakan perumusan kebijakan teknis dan pengoordinasian penyelenggaraan kebijakan perencanaan lingkungan hidup, pengelolaan keanekaragaman hayati dan pengelolaan ruang terbuka hijau (RTH).',
-      icon: <Trees size={40} className="text-green-600 dark:text-green-400" />,
-      color: 'green',
-      features: [
-        'Penyusunan dan penetapan RPPLH dan dokumen daya dukung dan daya tampung',
-        'Penyusunan Kajian Lingkungan Hidup Strategis (KLHS)',
-        'Pemeriksaan UKL-UPL dan fasilitasi penilaian AMDAL',
-        'Pengelolaan keanekaragaman hayati dan ruang terbuka hijau',
-        'Pengelolaan sarana prasarana keanekaragaman hayati dan RTH',
-        'Pengembangan kapasitas kelembagaan dan SDM'
-      ]
-    },
-    {
-      id: 2,
-      name: 'Bidang Pengendalian Pencemaran',
-      description: 'Mengawasi dan mengendalikan pencemaran air, udara, dan tanah',
-      icon: <Factory size={40} className="text-red-600 dark:text-red-400" />,
-      color: 'red',
-      features: [
-        'Monitoring Kualitas Air',
-        'Pengawasan Emisi Gas Buang',
-        'Pengendalian Limbah B3',
-        'Pengujian Kualitas Udara'
-      ]
-    },
-    {
-      id: 3,
-      name: 'Bidang Pengelolaan Sampah',
-      description: 'Mengelola sistem persampahan kota secara terintegrasi',
-      icon: <Trash2 size={40} className="text-teal-600 dark:text-teal-400" />,
-      color: 'teal',
-      features: [
-        'Pengumpulan dan Pengangkutan Sampah',
-        'Pengelolaan TPA Regional',
-        'Program 3R (Reduce, Reuse, Recycle)',
-        'Bank Sampah dan Komposter'
-      ]
+  const [bidangData, setBidangData] = useState<BidangData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetchBidangData();
+  }, []);
+
+  const fetchBidangData = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/bidang');
+      const result = await response.json();
+
+      if (result.success) {
+        setBidangData(result.data);
+      } else {
+        setError('Gagal memuat data bidang');
+      }
+    } catch (error) {
+      console.error('Error fetching bidang data:', error);
+      setError('Terjadi kesalahan saat memuat data');
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
 
   const items: StatisticsItem[] = [
     { value: "95%", label: "Pelayanan Perizinan" },
@@ -58,6 +55,24 @@ export default function Bidang() {
     { value: "80%", label: "Cakupan Sampah" },
     { value: "50+", label: "Penegakan Hukum" },
   ];
+
+  const getIconForBidang = (slug: string) => {
+    const iconMap = {
+      'tata-lingkungan': <Trees size={40} className="text-green-600 dark:text-green-400" />,
+      'pengendalian-pencemaran': <Factory size={40} className="text-red-600 dark:text-red-400" />,
+      'pengelolaan-sampah': <Trash2 size={40} className="text-teal-600 dark:text-teal-400" />
+    };
+    return iconMap[slug as keyof typeof iconMap] || <Network size={40} className="text-blue-600 dark:text-blue-400" />;
+  };
+
+  const getColorForBidang = (slug: string) => {
+    const colorMap = {
+      'tata-lingkungan': 'green',
+      'pengendalian-pencemaran': 'red',
+      'pengelolaan-sampah': 'teal'
+    };
+    return colorMap[slug as keyof typeof colorMap] || 'blue';
+  };
 
   const getColorClasses = (color: string) => {
     const colorMap = {
@@ -78,10 +93,50 @@ export default function Bidang() {
         text: 'text-teal-600 dark:text-teal-400',
         hover: 'hover:border-teal-300 dark:hover:border-teal-600',
         button: 'bg-teal-600 hover:bg-teal-700'
+      },
+      blue: {
+        bg: 'bg-blue-100 dark:bg-blue-900',
+        text: 'text-blue-600 dark:text-blue-400',
+        hover: 'hover:border-blue-300 dark:hover:border-blue-600',
+        button: 'bg-blue-600 hover:bg-blue-700'
       }
     };
     return colorMap[color as keyof typeof colorMap];
   };
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="flex flex-col items-center gap-4">
+          <Loader2 className="h-8 w-8 animate-spin text-green-600" />
+          <p className="text-gray-600 dark:text-gray-300">
+            Memuat data bidang...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-red-600 mb-4">
+            Gagal Memuat Data
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors"
+          >
+            Coba Lagi
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -120,30 +175,47 @@ export default function Bidang() {
           <section className="mb-12">
             <div className="grid md:grid-cols-3 gap-8">
               {bidangData.map((bidang) => {
-                const colors = getColorClasses(bidang.color);
+                const color = getColorForBidang(bidang.slug);
+                const colors = getColorClasses(color);
+                const icon = getIconForBidang(bidang.slug);
+                const tugasPokok = JSON.parse(bidang.tugasPokok);
+                
                 return (
                   <div 
                     key={bidang.id}
                     className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 ${colors.hover} transition duration-300 transform hover:scale-105 flex flex-col`}
                   >
                     <div className="text-center mb-6 flex-1">
-                      <div className={`${colors.bg} ${colors.text} rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4 text-3xl`}>
-                        {bidang.icon}
+                      <div className={`${colors.bg} ${colors.text} rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-4`}>
+                        {icon}
                       </div>
                       <h3 className={`text-2xl font-bold ${colors.text} mb-3`}>
                         {bidang.name}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-300">
-                        {bidang.description}
+                      <p className="text-gray-600 dark:text-gray-300 mb-4">
+                        {bidang.aboutDescription}
                       </p>
+                      
+                      {/* Features List */}
+                      <div className="text-left">
+                        <h4 className="font-semibold text-gray-800 dark:text-white mb-2">Tugas Pokok:</h4>
+                        <ul className="text-sm text-gray-600 dark:text-gray-300 space-y-1">
+                          {tugasPokok.slice(0, 4).map((tugas: string, index: number) => (
+                            <li key={index} className="flex items-start">
+                              <span className="mr-2">•</span>
+                              <span>{tugas}</span>
+                            </li>
+                          ))}
+                          {tugasPokok.length > 4 && (
+                            <li className="text-gray-500 dark:text-gray-400 italic">
+                              +{tugasPokok.length - 4} tugas lainnya
+                            </li>
+                          )}
+                        </ul>
+                      </div>
                     </div>
                     <div className="text-center mt-auto">
-                      <Link href={
-                        bidang.name === 'Bidang Tata Lingkungan' ? '/bidang/tata-lingkungan'
-                        : bidang.name === 'Bidang Pengendalian Pencemaran' ? '/bidang/pengendalian-pencemaran'
-                        : bidang.name === 'Bidang Pengelolaan Sampah' ? '/bidang/pengelolaan-sampah'
-                        : '#'
-                      }>
+                      <Link href={`/bidang/${bidang.slug}`}>
                         <button className={`${colors.button} items-end text-white px-6 py-3 rounded-lg font-semibold transition duration-300 transform hover:scale-105`}>
                           {t('button.learn_more')}
                         </button>

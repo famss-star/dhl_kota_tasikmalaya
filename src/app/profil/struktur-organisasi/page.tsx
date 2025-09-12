@@ -21,6 +21,7 @@ interface Bidang {
   slug: string;
   name: string;
   aboutDescription: string;
+  seksi?: string; // JSON string of seksi array
   isActive: boolean;
 }
 
@@ -223,33 +224,60 @@ const StrukturOrganisasi: React.FC = () => {
               {/* Static Bidang sections if no kabids are published */}
               {getKabids().length === 0 && (
                 <div className="grid md:grid-cols-3 gap-4 mb-8">
-                  <div className="bg-gradient-to-r from-green-600 to-green-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
-                    <Trees size={26} className="mb-1 text-green-200 bg-green-700 rounded-full p-0.5" />
-                    <h4 className="font-semibold mb-2">BIDANG</h4>
-                    <p className="text-sm mb-2">Tata Lingkungan</p>
-                    <div className="text-xs space-y-1">
-                      <div className="bg-green-800 bg-opacity-50 rounded p-1">Seksi Tata Ruang</div>
-                      <div className="bg-green-800 bg-opacity-50 rounded p-1">Seksi AMDAL</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-r from-red-600 to-red-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
-                    <Factory size={26} className="mb-1 text-red-200 bg-red-700 rounded-full p-0.5" />
-                    <h4 className="font-semibold mb-2">BIDANG</h4>
-                    <p className="text-sm mb-2">Pengendalian Pencemaran</p>
-                    <div className="text-xs space-y-1">
-                      <div className="bg-red-800 bg-opacity-50 rounded p-1">Seksi Air & Tanah</div>
-                      <div className="bg-red-800 bg-opacity-50 rounded p-1">Seksi Udara & B3</div>
-                    </div>
-                  </div>
-                  <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center">
-                    <Trash2 size={26} className="mb-1 text-teal-100 bg-teal-700 rounded-full p-0.5" />
-                    <h4 className="font-semibold mb-2">BIDANG</h4>
-                    <p className="text-sm mb-2">Pengelolaan Sampah</p>
-                    <div className="text-xs space-y-1">
-                      <div className="bg-teal-800 bg-opacity-50 rounded p-1">Seksi Pengurangan</div>
-                      <div className="bg-teal-800 bg-opacity-50 rounded p-1">Seksi Penanganan</div>
-                    </div>
-                  </div>
+                  {bidangList.map((bidang, index) => {
+                    const colors = [
+                      { bg: 'from-green-600 to-green-700', iconBg: 'bg-green-700', textBg: 'bg-green-800', icon: Trees },
+                      { bg: 'from-red-600 to-red-700', iconBg: 'bg-red-700', textBg: 'bg-red-800', icon: Factory },
+                      { bg: 'from-teal-600 to-teal-700', iconBg: 'bg-teal-700', textBg: 'bg-teal-800', icon: Trash2 }
+                    ];
+                    const colorScheme = colors[index % colors.length] || colors[0];
+                    const IconComponent = colorScheme.icon;
+                    
+                    // Parse seksi data if available
+                    let seksiList = [];
+                    try {
+                      if (bidang.seksi) {
+                        seksiList = JSON.parse(bidang.seksi);
+                      }
+                    } catch (e) {
+                      console.error('Error parsing seksi data:', e);
+                    }
+
+                    // Fallback seksi data if not available from database
+                    if (seksiList.length === 0) {
+                      if (bidang.slug === 'tata-lingkungan') {
+                        seksiList = [
+                          { name: 'Seksi Tata Ruang' },
+                          { name: 'Seksi AMDAL' }
+                        ];
+                      } else if (bidang.slug === 'pengendalian-pencemaran') {
+                        seksiList = [
+                          { name: 'Seksi Air & Tanah' },
+                          { name: 'Seksi Udara & B3' }
+                        ];
+                      } else if (bidang.slug === 'pengelolaan-sampah') {
+                        seksiList = [
+                          { name: 'Seksi Pengurangan' },
+                          { name: 'Seksi Penanganan' }
+                        ];
+                      }
+                    }
+                    
+                    return (
+                      <div key={bidang.id} className={`bg-gradient-to-r ${colorScheme.bg} text-white rounded-lg p-4 text-center shadow-lg flex flex-col items-center`}>
+                        <IconComponent size={26} className={`mb-1 text-white ${colorScheme.iconBg} rounded-full p-0.5`} />
+                        <h4 className="font-semibold mb-2">BIDANG</h4>
+                        <p className="text-sm mb-2">{bidang.name.replace('Bidang ', '')}</p>
+                        <div className="text-xs space-y-1">
+                          {seksiList.slice(0, 2).map((seksi: any, seksiIndex: number) => (
+                            <div key={seksiIndex} className={`${colorScheme.textBg} bg-opacity-50 rounded p-1`}>
+                              {seksi.name}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               )}
             </div>
