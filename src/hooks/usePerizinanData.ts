@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { 
   AMDALData, 
   IPLCData, 
@@ -14,7 +14,7 @@ export function usePerizinanData<T>(endpoint: string) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -32,11 +32,11 @@ export function usePerizinanData<T>(endpoint: string) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [endpoint]);
 
   useEffect(() => {
     fetchData();
-  }, [endpoint]);
+  }, [endpoint, fetchData]);
 
   const handleDelete = async (id: string) => {
     if (!confirm("Apakah Anda yakin ingin menghapus data ini?")) {
@@ -49,7 +49,7 @@ export function usePerizinanData<T>(endpoint: string) {
       });
 
       if (response.ok) {
-        setData(prevData => prevData.filter((item: any) => item.id !== id));
+        setData(prevData => prevData.filter(item => (item as { id: string }).id !== id));
         return true;
       } else {
         throw new Error("Failed to delete");
@@ -110,7 +110,7 @@ export function useFilteredPerizinanData<T extends { status: string }>(
       searchTerm, 
       statusFilter, 
       additionalFilter
-    );
+    ) as T[];
     setFilteredData(filtered);
     setStats(calculateStats(data));
   }, [data, searchTerm, statusFilter, additionalFilter]);

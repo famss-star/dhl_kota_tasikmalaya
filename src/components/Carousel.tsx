@@ -37,7 +37,7 @@ const bannerImages = [
 export default function Carousel() {
   const [current, setCurrent] = React.useState<number>(0);
   const [splideIndex, setSplideIndex] = React.useState<number>(0);
-  const splideRef = React.useRef<{ index: number } | null>(null);
+  const splideRef = React.useRef<any>(null);
 
   // Background carousel - independent auto transition
   React.useEffect(() => {
@@ -49,7 +49,7 @@ export default function Carousel() {
   }, []);
 
   // Banner splide movement handler
-  const handleBannerMove = (splide: { index: number }) => {
+  const handleBannerMove = (splide: any) => {
     setSplideIndex(splide.index);
   };
 

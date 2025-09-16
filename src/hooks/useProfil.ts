@@ -7,7 +7,7 @@ interface ProfilData {
   misi: string;
   tentangKami: string;
   totalStaff: number;
-  employeeStatistics: Record<string, any[]>;
+  employeeStatistics: Record<string, Array<Record<string, unknown>>>;
   summary: {
     bidangUtama: number;
     seksiOperasional: number;

@@ -102,7 +102,7 @@ export const getSkalaUsahaBadgeConfig = (skala: string) => {
 };
 
 // Fungsi untuk menghitung statistik
-export const calculateStats = (data: any[]) => {
+export const calculateStats = (data: Array<{ status: string }>) => {
   return {
     total: data.length,
     approved: data.filter((item) => item.status === "approved").length,
@@ -113,9 +113,18 @@ export const calculateStats = (data: any[]) => {
   };
 };
 
+interface PerizinanItem {
+  pemohon?: string;
+  nomor_surat?: string;
+  nama_kegiatan?: string;
+  jenis_usaha?: string;
+  status: string;
+  [key: string]: unknown;
+}
+
 // Fungsi filtering data
 export const filterPerizinanData = (
-  data: any[],
+  data: PerizinanItem[],
   searchTerm: string,
   statusFilter: string,
   additionalFilter?: { key: string; value: string }

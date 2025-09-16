@@ -1,21 +1,21 @@
 import { NextResponse } from 'next/server';
 
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   data?: T;
   message?: string;
   error?: string;
 }
 
-export const handleApiError = (error: any, defaultMessage: string = "Internal server error") => {
+export const handleApiError = (error: Error | unknown, defaultMessage: string = "Internal server error") => {
   console.error("API Error:", error);
   
   return NextResponse.json(
     {
       success: false,
-      error: error.message || defaultMessage,
+      error: error instanceof Error ? error.message : defaultMessage,
     } as ApiResponse,
-    { status: error.status || 500 }
+    { status: (error as { status?: number })?.status || 500 }
   );
 };
 
@@ -27,8 +27,8 @@ export const handleApiSuccess = <T>(data: T, message?: string) => {
   } as ApiResponse<T>);
 };
 
-export const validateRequiredFields = (data: Record<string, any>, requiredFields: string[]) => {
-  const missingFields = requiredFields.filter(field => !data[field] || data[field].toString().trim() === '');
+export const validateRequiredFields = (data: Record<string, unknown>, requiredFields: string[]) => {
+  const missingFields = requiredFields.filter(field => !data[field] || String(data[field]).trim() === '');
   
   if (missingFields.length > 0) {
     throw {

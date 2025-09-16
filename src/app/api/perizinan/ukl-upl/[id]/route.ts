@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Mock data untuk UKL-UPL (same as in route.ts)
-let uklUplData = [
+const uklUplData = [
   {
     id: '1',
     nomor_surat: 'UKL-UPL/001/2025',
@@ -50,10 +50,11 @@ let uklUplData = [
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const uklUpl = uklUplData.find(item => item.id === params.id);
+    const { id } = await params;
+    const uklUpl = uklUplData.find(item => item.id === id);
     
     if (!uklUpl) {
       return NextResponse.json({
@@ -77,11 +78,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const uklUplIndex = uklUplData.findIndex(item => item.id === params.id);
+    const uklUplIndex = uklUplData.findIndex(item => item.id === id);
     
     if (uklUplIndex === -1) {
       return NextResponse.json({
@@ -93,7 +95,7 @@ export async function PUT(
     uklUplData[uklUplIndex] = {
       ...uklUplData[uklUplIndex],
       ...body,
-      id: params.id,
+      id: id,
       updatedAt: new Date().toISOString()
     };
 
@@ -113,10 +115,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const uklUplIndex = uklUplData.findIndex(item => item.id === params.id);
+    const { id } = await params;
+    const uklUplIndex = uklUplData.findIndex(item => item.id === id);
     
     if (uklUplIndex === -1) {
       return NextResponse.json({

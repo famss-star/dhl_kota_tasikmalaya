@@ -49,9 +49,9 @@ const mockIplcData = [
 ];
 
 // GET /api/perizinan/iplc/[id] - Get specific IPLC by ID
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const iplc = mockIplcData.find(item => item.id === id);
 
     if (!iplc) {
@@ -77,9 +77,9 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PUT /api/perizinan/iplc/[id] - Update specific IPLC
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const body = await request.json();
 
     const iplcIndex = mockIplcData.findIndex(item => item.id === id);
@@ -133,9 +133,9 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE /api/perizinan/iplc/[id] - Delete specific IPLC
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     
     const iplcIndex = mockIplcData.findIndex(item => item.id === id);
     if (iplcIndex === -1) {

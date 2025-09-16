@@ -22,7 +22,7 @@ const SpplSubmissionForm = () => {
   const [submitResult, setSubmitResult] = useState<{
     success: boolean;
     message: string;
-    data?: any;
+    data?: Record<string, unknown>;
   } | null>(null);
 
   const [formData, setFormData] = useState<SpplFormData>({
@@ -112,10 +112,10 @@ const SpplSubmissionForm = () => {
           {submitResult.data && (
             <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                <strong>Nomor Referensi:</strong> {submitResult.data.nomor_surat}
+                <strong>Nomor Referensi:</strong> {String(submitResult.data.nomor_surat)}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                <strong>Tanggal Pengajuan:</strong> {submitResult.data.tanggal_pengajuan}
+                <strong>Tanggal Pengajuan:</strong> {String(submitResult.data.tanggal_pengajuan)}
               </p>
               <p className="text-sm text-gray-600 dark:text-gray-300">
                 <strong>Status:</strong> <span className="text-yellow-600 font-medium">Pending Review</span>

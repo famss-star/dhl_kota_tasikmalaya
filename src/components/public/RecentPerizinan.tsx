@@ -43,7 +43,7 @@ const RecentPerizinan: React.FC<RecentPerizinanProps> = ({ type, title, descript
         } else {
           setError(result.error || 'Gagal mengambil data');
         }
-      } catch (err) {
+      } catch {
         setError('Terjadi kesalahan saat mengambil data');
       } finally {
         setLoading(false);

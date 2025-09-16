@@ -4,10 +4,10 @@ import prisma from '@/lib/prisma';
 // GET - Get page content by page type
 export async function GET(
   request: NextRequest,
-  { params }: { params: { page: string } }
+  { params }: { params: Promise<{ page: string }> }
 ) {
   try {
-    const { page } = params;
+    const { page } = await params;
 
     const pageContents = await prisma.pageContent.findMany({
       where: {

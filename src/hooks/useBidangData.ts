@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-export interface BidangData {
+interface BidangData {
   id: number;
   slug: string;
   name: string;
@@ -20,7 +20,7 @@ export function useBidangData(slug: string) {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchBidangData = async () => {
+  const fetchBidangData = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
@@ -43,7 +43,7 @@ export function useBidangData(slug: string) {
       if (typeof tugasPokok === 'string') {
         try {
           tugasPokok = JSON.parse(tugasPokok);
-        } catch (e) {
+        } catch {
           tugasPokok = [];
         }
       }
@@ -54,7 +54,7 @@ export function useBidangData(slug: string) {
       if (typeof fungsi === 'string') {
         try {
           fungsi = JSON.parse(fungsi);
-        } catch (e) {
+        } catch {
           fungsi = [];
         }
       }
@@ -75,7 +75,7 @@ export function useBidangData(slug: string) {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [slug]);
 
   const updateBidangData = async (updatedData: Partial<BidangData>) => {
     try {
@@ -110,7 +110,7 @@ export function useBidangData(slug: string) {
       if (typeof tugasPokok === 'string') {
         try {
           tugasPokok = JSON.parse(tugasPokok);
-        } catch (e) {
+        } catch {
           tugasPokok = [];
         }
       }
@@ -121,7 +121,7 @@ export function useBidangData(slug: string) {
       if (typeof fungsi === 'string') {
         try {
           fungsi = JSON.parse(fungsi);
-        } catch (e) {
+        } catch {
           fungsi = [];
         }
       }
@@ -147,7 +147,7 @@ export function useBidangData(slug: string) {
     if (slug) {
       fetchBidangData();
     }
-  }, [slug]);
+  }, [slug, fetchBidangData]);
 
   return {
     bidangData,

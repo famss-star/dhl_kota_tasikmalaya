@@ -30,7 +30,7 @@ export function useLogoSettings() {
       const data = await response.json();
 
       if (data.success) {
-        const settingsMap = data.data.reduce((acc: any, setting: any) => {
+        const settingsMap = data.data.reduce((acc: Record<string, string>, setting: { key: string; value: string }) => {
           acc[setting.key] = setting.value;
           return acc;
         }, {});

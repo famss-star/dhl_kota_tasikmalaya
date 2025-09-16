@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 // Mock data untuk SPPL (same as in route.ts)
-let spplData = [
+const spplData = [
   {
     id: '1',
     nomor_surat: 'SPPL/001/2025',
@@ -48,10 +48,11 @@ let spplData = [
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const sppl = spplData.find(item => item.id === params.id);
+    const { id } = await params;
+    const sppl = spplData.find(item => item.id === id);
     
     if (!sppl) {
       return NextResponse.json({
@@ -75,11 +76,12 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
-    const spplIndex = spplData.findIndex(item => item.id === params.id);
+    const spplIndex = spplData.findIndex(item => item.id === id);
     
     if (spplIndex === -1) {
       return NextResponse.json({
@@ -91,7 +93,7 @@ export async function PUT(
     spplData[spplIndex] = {
       ...spplData[spplIndex],
       ...body,
-      id: params.id,
+      id: id,
       updatedAt: new Date().toISOString()
     };
 
@@ -111,10 +113,11 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const spplIndex = spplData.findIndex(item => item.id === params.id);
+    const { id } = await params;
+    const spplIndex = spplData.findIndex(item => item.id === id);
     
     if (spplIndex === -1) {
       return NextResponse.json({

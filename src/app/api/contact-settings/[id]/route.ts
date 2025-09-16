@@ -4,11 +4,12 @@ import prisma from '@/lib/prisma';
 // GET - Fetch specific contact setting
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const contactSetting = await prisma.contactSetting.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!contactSetting) {
@@ -35,13 +36,14 @@ export async function GET(
 // PUT - Update specific contact setting
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     
     const updatedContactSetting = await prisma.contactSetting.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         ...body,
         updatedAt: new Date()
@@ -65,11 +67,12 @@ export async function PUT(
 // DELETE - Delete specific contact setting
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.contactSetting.delete({
-      where: { id: params.id }
+      where: { id }
     });
 
     return NextResponse.json({

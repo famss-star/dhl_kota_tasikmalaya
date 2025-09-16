@@ -583,8 +583,8 @@ Gunakan Enter untuk membuat paragraf baru."
                     />
                     <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                       Tips: Tekan Enter untuk membuat paragraf baru. Paragraf
-                      pertama akan secara otomatis ditambahkan prefix "Dinas
-                      Lingkungan Hidup Kota Tasikmalaya".
+                      pertama akan secara otomatis ditambahkan prefix &quot;Dinas
+                      Lingkungan Hidup Kota Tasikmalaya&quot;.
                     </p>
                   </div>
 

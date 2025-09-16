@@ -4,12 +4,13 @@ import prisma from '@/lib/prisma';
 // GET /api/perizinan/amdal/[id] - Get AMDAL by ID
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const amdal = await prisma.amdal.findUnique({
       where: {
-        id: params.id
+        id
       }
     });
 
@@ -47,14 +48,15 @@ export async function GET(
 // PUT /api/perizinan/amdal/[id] - Update AMDAL
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     const body = await request.json();
 
     // Check if AMDAL exists
     const existingAmdal = await prisma.amdal.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!existingAmdal) {
@@ -66,7 +68,7 @@ export async function PUT(
 
     const updatedAmdal = await prisma.amdal.update({
       where: {
-        id: params.id
+        id
       },
       data: {
         nomor_surat: body.nomor_surat,
@@ -128,12 +130,13 @@ export async function PUT(
 // DELETE /api/perizinan/amdal/[id] - Delete AMDAL
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   try {
     // Check if AMDAL exists
     const existingAmdal = await prisma.amdal.findUnique({
-      where: { id: params.id }
+      where: { id }
     });
 
     if (!existingAmdal) {
@@ -145,7 +148,7 @@ export async function DELETE(
 
     await prisma.amdal.delete({
       where: {
-        id: params.id
+        id
       }
     });
 
